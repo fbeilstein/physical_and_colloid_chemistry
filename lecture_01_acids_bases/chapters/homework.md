@@ -29,7 +29,7 @@ FINALE
 
 <!-- hidden:start password="inga" -->
 
-# **Problem 1.**
+# Problem 1.
 
 What is the conjugate base of $\ce{HClO4}$, $\ce{H2S}$, $\ce{PH4+}$, $\ce{HCO3-}$ ?
 
@@ -45,7 +45,7 @@ If we remove a proton from $\ce{HClO4}$, we obtain $\ce{ClO4-}$, which is its co
 
 ---
 
-# **Problem 2.**
+# Problem 2.
 
 **SAMPLE EXERCISE 16.8**   **Calculating the pH of a Strong Acid**
 
