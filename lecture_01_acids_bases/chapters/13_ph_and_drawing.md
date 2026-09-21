@@ -1,3 +1,12 @@
+
+:::titlepage
+[[title]]
+pH in Everyday Life
+[[subcaption]]
+Thermal Printing & Erasure
+:::
+
+---
 # Thermal Paper
 
 When the print head applies heat (around 100°C), a chemical called a "sensitizer" melts. 
@@ -28,6 +37,5 @@ White thermal paper exposed to hydrogen chloride vapor darkens and turns reddish
 # Friction-Erasable Pen
 
 ![](lecture_01_acids_bases/images/friction_erasable_pen.jpeg){width=80% center}
-
 
 

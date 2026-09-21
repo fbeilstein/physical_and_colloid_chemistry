@@ -204,7 +204,7 @@ Definition is valid not only in liquid phase (though that is the most interestin
 
 # Arbitrary Acid or Base
 
-> 🔴 For any acid and any base
+> For any acid and any base
 $$
 {\ce{AH + B <=> BH+ + A-}}
 $$
@@ -250,7 +250,7 @@ $$
 The concentration of **water** remains essentially **constant** (at $55.56 \text{mol}/\text{dm}^3$) with **dilute** solutions. 
 Thus we define the **acidity constant**.
 [[2,0:2]]
-> 🔴 $\text{p}K\_{\text{a}} = -\log K\_{\text{a}}$
+> $\text{p}K\_{\text{a}} = -\log K\_{\text{a}}$
 Because of the minus sign in this definition, the lower the $\text{p}K\_{\text{a}}$, the larger the equilibrium constant, $K\_{\text{a}}$, is and hence the stronger the acid. 
 *The $pK\_a$ of the acid is the pH where it is exactly half dissociated.* 
 At pHs above the $\text{p}K\_{\text{a}}$, the acid $\ce{HA}$ exists as $\ce{A-}$ in water; 
@@ -309,7 +309,10 @@ $$
 
 ![](./lecture_01_acids_bases/images/slide_18_img_38.png)
 
-> 🔴 The strongest base in aqueous solution is $\ce{OH-}$ and the strongest acid in aqueous solution is $\ce{H3O+}$. 
+
+:::matrix{cols=60/40 gap=40px}
+[[0,0]]
+> The strongest base in aqueous solution is $\ce{OH-}$ and the strongest acid in aqueous solution is $\ce{H3O+}$. 
 >
 > Remember that:
 >* Addition of stronger bases than $\ce{OH-}$ just gives more $\ce{OH-}$ by the deprotonation of water
@@ -319,11 +322,13 @@ $$
 >* The pH of pure water at $25~^\circ\text{C}$ is $7.00$ (not the $\text{p}K_{\text{a}}$)
 >* The $\text{p}K_{\text{a}}$ of $\ce{H2O}$ is $15.74$
 >* The $\text{p}K_{\text{a}}$ of $\ce{H3O+}$ is $-1.74$
-
+[[0,1]]
 **Reminder:**
 * Strong acid $\rightarrow$ negligible conjugate base;
 * Weak acid $\rightarrow$ weak conjugate base;
 * Negligible acidity $\rightarrow$ strong conjugate base;
+
+:::
 
 ---
 
@@ -382,7 +387,7 @@ Find $pH$ of $0.1\text{ M}$ solution of formic acid.
 
 ## Solution
 
-![](./lecture_01_acids_bases/images/slide_22_img_42.png)
+![](./lecture_01_acids_bases/images/slide_22_img_42.png){width=35%}
 
 Here we do not know how many molecules dissociated. 
 Let's write what we know.
@@ -458,8 +463,8 @@ $$
 
 **Note:** equation is still true if $\ce{A-}$ is a common ion.
 :::
----
 
+---
 # Titration of Weak Acid with Strong Base / Creating Buffer
 
 
@@ -470,9 +475,7 @@ $pH = pK_a + \log \textcolor{#7EA6FF}{\rule[-0.2em]{2em}{1.2em}} / \textcolor{#F
 
 **Note:** we can get the final situation by mixing weak acid and salt, say CH3COONa
 
-
 ---
-
 # Buffers in Action
 
 :::matrix{cols="70/30"}
