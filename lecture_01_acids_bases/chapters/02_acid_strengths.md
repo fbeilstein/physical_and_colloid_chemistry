@@ -25,11 +25,46 @@ The Chemistry of Loosing a Proton
 
 **Example:** The pKa of ammonia $\ce{NH3}$ is much greater than the pKa of water $\ce{H2O}$ (about $33$ compared with $15.74$). This is because oxygen is more electronegative than nitrogen and so can stabilize the negative charge better.
 
-
 ![](./lecture_01_acids_bases/images/slide_31_img_53.png) {width=90}
 
----
 
+:::react{4.2 76.8 11.4 22.7 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{H2O}$": "./lecture_01_acids_bases/bundles/H2O.zip",
+"$\\ce{HO-}$": "./lecture_01_acids_bases/bundles/HO-.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{20.0 72.5 14.2 27.5 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3COOH}$": "./lecture_01_acids_bases/bundles/CH3COOH.zip",
+"$\\ce{CH3COO-}$": "./lecture_01_acids_bases/bundles/CH3COO-.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{39.9 75.1 11 25 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{NH3}$": "./lecture_01_acids_bases/bundles/NH3.zip",
+"$\\ce{NH2-}$": "./lecture_01_acids_bases/bundles/NH2-.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{56.8 65.4 14.3 34.4 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3CONH2}$": "./lecture_01_acids_bases/bundles/CH3CONH2.zip",
+"$\\ce{CH3CONH-}$": "./lecture_01_acids_bases/bundles/CH3CONH-.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{73.9 57.9 22.6 42.1 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"Phthalimide": "./lecture_01_acids_bases/bundles/phthalimide.zip",
+"Phthalimide ion": "./lecture_01_acids_bases/bundles/phthalimide-.zip"
+}, { espScale: "-250,250" });
+:::
+
+
+---
 # Delocalization of the "-" charge stabilizes the conjugate base
 
 :::matrix{cols="60/37"}
