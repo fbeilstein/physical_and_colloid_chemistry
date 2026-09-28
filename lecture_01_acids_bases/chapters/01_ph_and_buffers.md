@@ -531,7 +531,6 @@ Here’s a plot of $\ln\left(\frac{1-x}{1+x}\right)$ to get the idea of possible
    * Crucial for pH regulation during gas transport in blood.
 
 ---
-
 # Mixing Two Acids
 
 :::matrix{cols="50/50"}
@@ -570,7 +569,46 @@ $$
 ![rect](-2 40 100 20){color=red width=4px}
 :::
 
+---
+# Titration Curve Analytics (Weak Acid with a Strong Base)
 
+:::matrix{cols="50/50"}
+[[0,0]]
+For chemical reactions
+$$
+\ce{HA + H2O <=> H3O+ + A-}, \quad K_a = \frac{[\ce{H3O+}][\ce{A-}]}{[\ce{HA}]}
+$$
+$$
+\ce{2H2O <=> H3O+ + OH-}, \quad K_w = [\ce{H3O+}][\ce{OH-}]
+$$
+$$
+\ce{NaOH -> Na+ + OH-}
+$$
+**mass balance** (initial acid is $C_a$ at volume $V_a$, added base is $C_b$ at volume $V_b$)
+$$
+[\ce{HA}] + [\ce{A-}] = \frac{C_a V_a}{V_a + V_b}; \qquad [\ce{Na+}] = \frac{C_b V_b}{V_a + V_b}
+$$
+**charge balance** (including autodissociation of water and titrant cation)
+$$
+[\ce{H3O+}] + [\ce{Na+}] = [\ce{A-}] + [\ce{OH-}]
+$$
+Express
+$$
+[\ce{HA}] = \frac{[\ce{H3O+}][\ce{A-}]}{K_a} \rightarrow [\ce{A-}] \left( \frac{[\ce{H3O+}]}{K_a} + 1 \right) = \frac{C_a V_a}{V_a + V_b}
+$$
 
+[[0,1]]
+Same for $[\ce{OH-}]$ and $[\ce{Na+}]$, substituting into the charge balance:
+$$
+[\ce{OH-}] = \frac{K_w}{[\ce{H3O+}]}; \qquad [\ce{Na+}] = \frac{C_b V_b}{V_a + V_b}
+$$
+$$
+[\ce{H3O+}] + \frac{C_b V_b}{V_a + V_b} = \left( \frac{C_a V_a}{V_a + V_b} \cdot \frac{K_a}{[\ce{H3O+}] + K_a} \right) + \frac{K_w}{[\ce{H3O+}]}
+$$
 
+**Another aspect:** isolate $V_b$ to express titrant volume as a continuous function of $[\ce{H3O+}]$ (where $[\ce{H3O+}] = 10^{-pH}$)
+$$
+V_b = V_a \frac{C_a \cfrac{K_a}{[\ce{H3O+}] + K_a} - [\ce{H3O+}] + \cfrac{K_w}{[\ce{H3O+}]}}{C_b + [\ce{H3O+}] - \cfrac{K_w}{[\ce{H3O+}]}}
+$$
+:::
 
