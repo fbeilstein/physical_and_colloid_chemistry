@@ -65,7 +65,7 @@ el.onclick = () => window.openMoleculePopup({
 
 
 ---
-# Delocalization of the "-" charge stabilizes the conjugate base
+# Delocalization of the "$-$" charge stabilizes the conjugate base
 
 :::matrix{cols="60/37"}
 [[0,0]]
@@ -82,6 +82,59 @@ ethanol (pKa, $15.9$), acetic acid ($4.8$), and methane sulfonic acid ($-1.9$)
 ![](./lecture_01_acids_bases/images/slide_32_img_54.png)
 ![](./lecture_01_acids_bases/images/slide_32_img_57.png)
 :::
+
+:::react{11.0 45.4 37.2 16.6 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{HClO}$": "./lecture_01_acids_bases/bundles/ClOH.zip",
+"$\\ce{ClO-}$": "./lecture_01_acids_bases/bundles/ClO-.zip",
+"$\\ce{HClO2}$": "./lecture_01_acids_bases/bundles/ClOOH.zip",
+"$\\ce{ClO2-}$": "./lecture_01_acids_bases/bundles/ClOO-.zip",
+"$\\ce{HClO3}$": "./lecture_01_acids_bases/bundles/ClO2OH.zip",
+"$\\ce{ClO3-}$": "./lecture_01_acids_bases/bundles/ClO2O-.zip",
+"$\\ce{HClO4}$": "./lecture_01_acids_bases/bundles/ClO3OH.zip",
+"$\\ce{ClO4-}$": "./lecture_01_acids_bases/bundles/ClO3O-.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{11.7 68.5 9 14.3 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{C2H5OH}$": "./lecture_01_acids_bases/bundles/C2H5OH.zip",
+"$\\ce{C2H5O-}$": "./lecture_01_acids_bases/bundles/C2H5O-.zip"
+}, { espScale: "-250,250" });
+:::
+
+
+:::react{24.3 68.0 24.3 15.4 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3COOH}$": "./lecture_01_acids_bases/bundles/CH3COOH.zip",
+"$\\ce{CH3COO-}$": "./lecture_01_acids_bases/bundles/CH3COO-.zip"
+}, { espScale: "-250,250" });
+:::
+
+
+:::react{12.2 84.4 36 15.4 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3SO3H}$": "./lecture_01_acids_bases/bundles/CH3SO3H.zip",
+"$\\ce{CH3SO3-}$": "./lecture_01_acids_bases/bundles/CH3SO3-.zip"
+}, { espScale: "-250,250" });
+:::
+
+
+:::react{71.8 72.1 25.4 27.5 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{ArOH}$": "./lecture_01_acids_bases/bundles/ArOH.zip",
+"$\\ce{ArO-}$": "./lecture_01_acids_bases/bundles/ArO-.zip"
+}, { espScale: "-250,250" });
+:::
+
+
+:::react{60.0 72.3 11.7 15.7 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"cyclohexanol": "./lecture_01_acids_bases/bundles/C6H11OH.zip",
+"cyclohexanol ion": "./lecture_01_acids_bases/bundles/C6H11O-.zip"
+}, { espScale: "-250,250" });
+:::
+
 
 ---
 
