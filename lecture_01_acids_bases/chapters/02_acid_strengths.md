@@ -103,14 +103,12 @@ el.onclick = () => window.openMoleculePopup({
 }, { espScale: "-250,250" });
 :::
 
-
 :::react{24.3 68.0 24.3 15.4 hover=yellow opacity=0.5}
 el.onclick = () => window.openMoleculePopup({
 "$\\ce{CH3COOH}$": "./lecture_01_acids_bases/bundles/CH3COOH.zip",
 "$\\ce{CH3COO-}$": "./lecture_01_acids_bases/bundles/CH3COO-.zip"
 }, { espScale: "-250,250" });
 :::
-
 
 :::react{12.2 84.4 36 15.4 hover=yellow opacity=0.5}
 el.onclick = () => window.openMoleculePopup({
@@ -119,14 +117,12 @@ el.onclick = () => window.openMoleculePopup({
 }, { espScale: "-250,250" });
 :::
 
-
 :::react{71.8 72.1 25.4 27.5 hover=yellow opacity=0.5}
 el.onclick = () => window.openMoleculePopup({
 "$\\ce{ArOH}$": "./lecture_01_acids_bases/bundles/ArOH.zip",
 "$\\ce{ArO-}$": "./lecture_01_acids_bases/bundles/ArO-.zip"
 }, { espScale: "-250,250" });
 :::
-
 
 :::react{60.0 72.3 11.7 15.7 hover=yellow opacity=0.5}
 el.onclick = () => window.openMoleculePopup({
@@ -135,9 +131,7 @@ el.onclick = () => window.openMoleculePopup({
 }, { espScale: "-250,250" });
 :::
 
-
 ---
-
 # Electron-withdrawing groups stabilize the conjugate base
 
 It **isn't necessary** for a group to be conjugated in order to spread the negative charge: **any group that withdraws electrons** will help to stabilize the conjugate base and therefore increase the strength of the acid. Some examples are shown below for both oxygen and carbon acids.
@@ -147,8 +141,8 @@ It **isn't necessary** for a group to be conjugated in order to spread the negat
 Such inductive effects become less significant as the electron-withdrawing group gets further away from the negative charge
 
 ![](./lecture_01_acids_bases/images/slide_33_img_60.png){width=70}
----
 
+---
 # Hybridization can also affect the pKa
 
 :::matrix{cols="50/50"}
@@ -163,13 +157,11 @@ More remote hybridization is also important   The more s character an orbital ha
 :::
 
 ---
-
 # Aromaticity can stabilize the anion
 
 ![](./lecture_01_acids_bases/images/slide_35_img_63.png) {width=100}
 
 ---
-
 # Electron-donating groups decrease acidity
 
 
@@ -190,7 +182,6 @@ Resonance delocalization in ester $\rightarrow$ Thus "etoxide part" is electron-
 ![](./lecture_01_acids_bases/images/slide_36_img_66.png){width=80}
 
 ---
-
 # Basicity
 
 How to quantify? we simply look up the pKa value for the neutral conjugate acid.
@@ -217,7 +208,6 @@ To what extent can the resultant positive charge formed be stabilized either by 
 :::
 
 ---
-
 # Effects that Decrease the Electron Density on Nitrogen
 
 The lone pair on nitrogen will be *less* available for protonation, and the amine *less* basic, if:

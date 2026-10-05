@@ -6,7 +6,6 @@ Titration
 :::
 
 ---
-
 # Titration of Strong Acid and Strong Base 
 
 
@@ -18,7 +17,6 @@ Titration of strong acid ($\ce{HCl}$) with strong base ($\ce{NaOH}$) and strong 
 :::
 
 ---
-
 # Titration of Weak Acid with Strong Base 
 
 

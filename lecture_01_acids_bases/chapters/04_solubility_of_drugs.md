@@ -6,7 +6,6 @@ Solubility of drugs
 :::
 
 ---
-
 # Solubility and pH
 
 **At pHs above the pKa of the acid, it will also be more soluble in water**
