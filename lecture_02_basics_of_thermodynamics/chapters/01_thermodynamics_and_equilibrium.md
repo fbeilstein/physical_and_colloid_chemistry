@@ -15,7 +15,6 @@
 
 
 ---
-
 # Statistical mechanics
 
 :::matrix {cols="80/20"}
@@ -47,7 +46,6 @@ $$
 :::
 
 ---
-
 # Thermodynamics
 
 * largely phenomenological branch of science that ignores molecular (classical or quantum) composition of matter
@@ -79,7 +77,6 @@ S(T = 0 \text{ K}) = 0
 $$
 
 ---
-
 # State variables / state functions
 ## (macro coordinates of the system / properties that don’t depend on the path)
 
@@ -107,10 +104,9 @@ Ex:<br>
 $\mathbf{V, U, S, H, G, F}$ - extensive properties $\rightarrow$ $\mathbf{V^\circ, U^\circ, S^\circ, H^\circ, G^\circ, F^\circ}$
 [[2,2]]
 **Standard conditions** for Gibbs free energy are a temperature of $25^\circ$ C ($298$ K) and a pressure of $1$ atm (or $100$ kPa) for gases, with $1$ M concentration for all aqueous solutions. Designated with $^\circ$.
-
 :::
----
 
+---
 # Explanation of Thermodynamic Quantities: $\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ$
 
 | Term | Name | Explanation |
@@ -120,8 +116,7 @@ $\mathbf{V, U, S, H, G, F}$ - extensive properties $\rightarrow$ $\mathbf{V^\cir
 | $\color{#2B8CBE}{\Delta S^\circ}$ | <span style="color: #2B8CBE; font-weight: bold;">Entropy change</span> | The shift in the system's molecular disorder or randomness resulting from a reaction. A negative $\Delta S^\circ$ means the system becomes less random; a positive $\Delta S^\circ$ indicates an increase in molecular randomness. |
 
 ---
-
-# Enthalpy (H)
+# Enthalpy ($H$)
 
 ![text](20 10 <i>work that would be required to "make room" for the system if the pressure of the environment remained constant.</i>)
 ![arrow](20 12 -> 13 13)
@@ -194,13 +189,11 @@ $$
 :::
 
 ---
-
 # Strong endothermic reaction
 
 ![youtube](kb6-xzFr4nk){width=90}
 
 ---
-
 # Hess's law
 
 If a reaction is carried out in a series of steps, $\Delta H$ for the overall reaction equals the **sum** of the enthalpy changes for the **individual steps**. 
@@ -238,7 +231,6 @@ $$
 Hess's law provides a useful means of **calculating** energy changes that are difficult to **measure** directly.
 
 ---
-
 # Hess's law
 
 The formation of $\ce{CO2(g)}$ from its elements can be thought of as occurring in two steps, which sum to the overall reaction, as described by Hess's law. 
@@ -248,7 +240,6 @@ For an exothermic process, the products are at lower enthalpy than are the react
 ![](./lecture_02_basics_of_thermodynamics/images/slide_11_img_23.png)
 
 ---
-
 # Enthalpy and Alkenes
 
 :::matrix {cols="40/60"}
@@ -267,7 +258,6 @@ These effects stabilize increasingly alkyl-substituted alkenes and help explain 
 :::
 
 ---
-
 # Problem
 
 Using Hess's Law find enthalpy of Chlorine monofluoride reacting with fluorine to form chlorine trifluoride:
@@ -292,8 +282,8 @@ $$
 \ce{ClF(g) + F2 -> ClF3(g)} & \Delta H = -139.2 \text{ kJ}
 \end{array}
 $$
----
 
+---
 # Entropy ($S$)
 
 :::matrix { cols="70/30" }
@@ -316,7 +306,6 @@ $$
 :::
 
 ---
-
 # Examples
 
 :::matrix{cols="80/20"}
@@ -375,8 +364,8 @@ $$
 $$
 **The entropy of the universe increases in any spontaneous process.**
 :::
----
 
+---
 # Gibbs free energy ($G$)
 
 * $G = H - TS$
@@ -395,8 +384,8 @@ $$
 * If $\Delta G < 0$, the reaction is spontaneous in the forward direction.
 * If $\Delta G = 0$, the reaction is at equilibrium.
 * If $\Delta G > 0$, the reaction in the forward direction is nonspontaneous (work must be done to make it occur) but the reverse reaction is spontaneous.
----
 
+---
 # Equilibrium
 
 :::matrix{ cols="70/30" }
@@ -408,9 +397,7 @@ $$
 dG = \underline{dU + PdV} + VdP - \underline{TdS} - SdT
 $$
 $$
-dG = VdP - SdT
-$$
-$$
+dG = VdP - SdT; \qquad
 dG\_{\text{mol}} = V\_{\text{mol}}dP - S_{\text{mol}}dT
 $$
 $$
@@ -458,7 +445,6 @@ $$
 :::
 
 ---
-
 # Reaction Equilibrium
 
 :::matrix {cols="70/30"}
@@ -487,8 +473,8 @@ $$
 ![](./lecture_02_basics_of_thermodynamics/images/slide_18_img_47.png){ width=80 }
 ![](./lecture_02_basics_of_thermodynamics/images/slide_18_img_51.png){ width=80 }
 :::
----
 
+---
 # Dynamic Equilibrium
 
 :::matrix{cols="70/30"}
@@ -531,13 +517,11 @@ $$
 ![rect](40 32 60 25){color=red width=4px}
 
 ---
-
 # Dynamic Equilibrium Model
 
 ![youtube](bDtkv8q-YGQ){width=90}
 
 ---
-
 # Predicting Reaction Spontaneity
 
 | $\Delta H$ | $\Delta S$ | $-T\Delta S$ | $\Delta G = \Delta H - T\Delta S$ | Reaction Characteristics | Example |
@@ -563,7 +547,6 @@ As a result, $\Delta G$ becomes less negative (or more positive) with increasing
 Thus, the driving force for the production of $\ce{NH3}$ becomes smaller with increasing temperature.
 
 ---
-
 # Le Châtelier’s principle
 
 ## (Le Chatelier–Braun principle, equilibrium law)
@@ -594,28 +577,25 @@ T {\color{#4CAF50}\Large\uparrow} \quad K {\color{#F44336}\Large\downarrow} \qua
 \end{array}
 $$
 :::
----
 
+---
 # Concentration and Le Châtelier's Principle.
  
 ![](./lecture_02_basics_of_thermodynamics/images/slide_23_img_60.png) {width=80}
 ![](./lecture_02_basics_of_thermodynamics/images/slide_23_img_59.png) {width=60}
 
 ---
-
 # Removing Products and Le Châtelier's Principle
 
 ![](./lecture_02_basics_of_thermodynamics/images/slide_24_img_61.png) {width=80}
 
 ---
-
 # Temperature and Le Châtelier's principle
 
 ![](./lecture_02_basics_of_thermodynamics/images/slide_25_img_63.png) {width=80}
 ![](./lecture_02_basics_of_thermodynamics/images/slide_25_img_62.png) {width=50}
 
 ---
-
 # Previously, in Lecture 3:
 
 ![](./lecture_02_basics_of_thermodynamics/images/slide_26_img_64.png) {width=80}
@@ -624,13 +604,11 @@ $$
 ![arrow](80 12 -> 60 25)
 
 ---
-
 # Temperature and Le Châtelier's principle
 
 ![youtube](z_iLK7gm_fo){width=90}
 
 ---
-
 # Pressure and Le Châtelier's principle
 
 ![](./lecture_02_basics_of_thermodynamics/images/slide_28_img_66.png) {width=90}

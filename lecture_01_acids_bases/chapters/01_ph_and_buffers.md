@@ -145,15 +145,15 @@ $$
 This is a constant in aqueous solutions, albeit a very, very small one. 
 This means that, if we know the hydronium ion concentration, we also know the hydroxide concentration and vice versa since the product of the two concentrations always equals $10^{-14}$.
 
+[[0,1]]
+![](./lecture_01_acids_bases/images/slide_11_img_20.png)
+
 **NOTE:**<br> 
 $\text{p}K\_{\text{w}} = -\log(K\_{\text{w}}) = \text{pH} + \text{pOH}$<br>
 $\text{pH} + \text{pOH} = 14$
-
-[[0,1]]
-![](./lecture_01_acids_bases/images/slide_11_img_20.png)
 :::
----
 
+---
 # Water Dissociation and Temperature
 
 
