@@ -259,14 +259,13 @@ at pHs below the $\text{p}K_{\text{a}}$, it exists as undissociated $\ce{HA}$.
 
 
 ---
-
 # Wilhelm Ostwald's Laws of dilution
 
 $$
 \ce{AH (aq) + H2O (l) <=> H3O+ (aq) + A- (aq)}
 $$
 
-:::matrix{cols="20/20/60"}
+:::matrix{cols="20/25/55"}
 [[0,0]]
 For weak **acids**:
 $$
@@ -292,7 +291,7 @@ $$
 {\color{red}[\ce{OH-}] = \sqrt{K_b[\ce{B}]}}
 $$
 [[2,0: 2]]
-![](./lecture_01_acids_bases/images/slide_17_img_37.png)
+![](./lecture_01_acids_bases/images/slide_17_img_37.png){width=95}
 [[0:3,2]]
 ![](./lecture_01_acids_bases/images/slide_19_img_39.png)
 :::

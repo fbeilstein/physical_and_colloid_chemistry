@@ -142,6 +142,98 @@ Such inductive effects become less significant as the electron-withdrawing group
 
 ![](./lecture_01_acids_bases/images/slide_33_img_60.png){width=70}
 
+
+:::react{15 27 9 16 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3COOH}$": "./lecture_01_acids_bases/bundles/CH3COOH.zip",
+"$\\ce{CH3COO-}$": "./lecture_01_acids_bases/bundles/CH3COO-.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{25 27 13 15 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{NO2CH2COOH}$": "./lecture_01_acids_bases/bundles/nitroacetic_acid.zip",
+"$\\ce{NO2CH2COO-}$": "./lecture_01_acids_bases/bundles/nitroacetic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{40 27 15 16 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{Me3N^+CH2COOH}$": "./lecture_01_acids_bases/bundles/carboxymethyl_trimethylammonium.zip",
+"$\\ce{Me3N^+CH2COOH-}$": "./lecture_01_acids_bases/bundles/carboxymethyl_trimethylammonium_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{57 26 13 16 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{NCCH2COOH}$": "./lecture_01_acids_bases/bundles/cyanoacetic_acid.zip",
+"$\\ce{NCCH2COO-}$": "./lecture_01_acids_bases/bundles/cyanoacetic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{71 26 14 17 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3COCH2COOH}$": "./lecture_01_acids_bases/bundles/acetoacetic_acid.zip",
+"$\\ce{CH3COCH2COO-}$": "./lecture_01_acids_bases/bundles/acetoacetic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{23 49 9 13 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3OH}$": "./lecture_01_acids_bases/bundles/methanol.zip",
+"$\\ce{CH3O-}$": "./lecture_01_acids_bases/bundles/methanol_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{37 48 11 14 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{F3C-CH2-OH}$": "./lecture_01_acids_bases/bundles/2,2,2-trifluoroethanol.zip",
+"$\\ce{F3C-CH2-O-}$": "./lecture_01_acids_bases/bundles/2,2,2-trifluoroethanol_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{52 44 10 16 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{(F3C)2CH-OH}$": "./lecture_01_acids_bases/bundles/1,1,1,3,3,3-hexafluoro-2-propanol.zip",
+"$\\ce{(F3C)2CH-O-}$": "./lecture_01_acids_bases/bundles/1,1,1,3,3,3-hexafluoro-2-propanol_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{66 45 11 16 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{(F3C)3C-OH}$": "./lecture_01_acids_bases/bundles/perfluoro-tert-butanol.zip",
+"$\\ce{(F3C)3C-O-}$": "./lecture_01_acids_bases/bundles/perfluoro-tert-butanol_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{15 68 17 25 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3-CH2-CH2-COOH}$": "./lecture_01_acids_bases/bundles/butanoic_acid.zip",
+"$\\ce{CH3-CH2-CH2-COO-}$": "./lecture_01_acids_bases/bundles/butanoic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{34 68 16 26 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH2Cl-CH2-CH2-COOH}$": "./lecture_01_acids_bases/bundles/4-chlorobutanoic_acid.zip",
+"$\\ce{CH2Cl-CH2-CH2-COO-}$": "./lecture_01_acids_bases/bundles/4-chlorobutanoic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{52 69 15 24 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3-CHCl-CH2-COOH}$": "./lecture_01_acids_bases/bundles/3-chlorobutanoic_acid.zip",
+"$\\ce{CH3-CHCl-CH2-COO-}$": "./lecture_01_acids_bases/bundles/3-chlorobutanoic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
+:::react{69 69 16 24 hover=yellow opacity=0.5}
+el.onclick = () => window.openMoleculePopup({
+"$\\ce{CH3-CH2-CHCl-COOH}$": "./lecture_01_acids_bases/bundles/2-chlorobutanoic_acid.zip",
+"$\\ce{CH3-CH2-CHCl-COO-}$": "./lecture_01_acids_bases/bundles/2-chlorobutanoic_acid_ion.zip"
+}, { espScale: "-250,250" });
+:::
+
 ---
 # Hybridization can also affect the pKa
 
@@ -151,7 +243,7 @@ Such inductive effects become less significant as the electron-withdrawing group
 [[0,1]] <br><br>
 Since s orbitals are held closer to the nucleus than are p orbitals, the electrons in them are lower in energy, that is, more stable. Consequently, the more s character an orbital has, the more tightly held are the electrons in it.
 [[1,0]] <br><br>
-More remote hybridization is also important   The more s character an orbital has, the more it holds on to the electrons in it. This makes an sp hybridized carbon less electron-donating than an sp$^2$ one, which in turn is less electron-donating than an sp$^3$ carbon. This is reflected in the p$K_\text{a}$s of the compounds shown here.
+More remote hybridization is also important. The more s character an orbital has, the more it holds on to the electrons in it. This makes an sp hybridized carbon less electron-donating than an sp$^2$ one, which in turn is less electron-donating than an sp$^3$ carbon. This is reflected in the p$K_\text{a}$s of the compounds shown here.
 [[1,1]]
 ![](./lecture_01_acids_bases/images/slide_34_img_62.png){width=100}
 :::
