@@ -25,25 +25,116 @@
 
 **Maxwell–Boltzmann distribution:**
 $$
-f(\mathbf{v}) \equiv \left[ \frac{2\pi k_{\text{B}} T}{m} \right]^{-3/2} \exp\left(-\frac{1}{2} \frac{m\mathbf{v}^2}{k_{\text{B}}T}\right).
-$$
-$$
-\mathbb{E}[v] = \sqrt{\frac{8k_B T}{\pi m}} \qquad \mathbb{E}[v^2] = \frac{3k_B T}{m}
+\begin{array}{ll}
+\text{Maxwell–Boltzmann distribution of speeds} &
+  f(v) = 4\pi \left( \dfrac{M}{2\pi RT} \right)^{3/2} v^{2} \mathrm{e}^{-Mv^{2}/2RT} \cr
+\text{Root-mean-square speed} &
+  v_{\mathrm{rms}} = \left( 3RT/M \right)^{1/2} \cr
+\text{Mean speed} &
+  v_{\mathrm{mean}} = \left( 8RT/\pi M \right)^{1/2} \cr
+\text{Most probable speed} &
+  v_{\mathrm{mp}} = \left( 2RT/M \right)^{1/2} \cr
+\text{Mean relative speed} &
+  v_{\mathrm{rel}} = \left( 8kT/\pi\mu \right)^{1/2}, \quad \mu = m_{\mathrm{A}} m_{\mathrm{B}} / (m_{\mathrm{A}} + m_{\mathrm{B}}) \cr
+  \text{Collision frequency} &
+  z=\sigma v_{\text{rel}} \\,  p/kT \cr
+  \text{Mean free path} & 
+  \lambda = kT/\sigma p
+\end{array}
 $$
 
-**Brownian motion:**
-$$
-\rho(x,t) = \frac{N}{\sqrt{4\pi Dt}} \exp\left(-\frac{x^2}{4Dt}\right).
-$$
-$$
-\mathbb{E}[x^2] = 2Dt.
-$$
-**Other results**: blackbody radiation, Fermi-Dirac statistics, Bose-Einstein statistics, Debye-Einstein heat capacity, etc.
+
 [[0,1]]
-![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_1.png)
-![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_2.png) {width="70%"}
-![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_4.png) {width="70%"}
+![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_1.png){width=150%}
+![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_2.png) {width="150%"}
 :::
+
+---
+<iframe src="./lecture_02_basics_of_thermodynamics/demos/maxwell-speeds.html" width="100%" height="850px" style="border:1px solid #ccc; border-radius: 8px;"></iframe>
+
+---
+# Experimental verification of the Maxwell speed distribution
+**Stern (1920)** A beam of silver atoms, evaporated from a heated platinum wire, was deposited on a rotating cylinder. Slower atoms were displaced further by the rotation, and the shift of the deposit gave the mean speed. The result agreed with kinetic theory, but the precision was too low to test the shape of the distribution.
+
+**Lammert (1929)** Lammert worked in Stern's lab (Hamburg). The first mechanical velocity selector: two toothed discs on a common shaft, offset by a small angle, transmitted only atoms with a given speed. Varying the rotation rate, Lammert measured the speed distribution of a mercury beam and found qualitative agreement with Maxwell's law.
+
+**Zartman and Ko (1930–1931)** Zartman (at Berkeley) used a technique similar to Stern's, but with higher resolution and with bismuth atoms.
+
+**Miller and Kusch (1955)** A rotating cylinder with helical grooves acted as a high-resolution velocity selector. Measurements on potassium and thallium beams confirmed the Maxwell distribution to within about $1\\%$.
+
+:::matrix{cols=25/25/25/25}
+[[0, 0]] 
+![](/lecture_02_basics_of_thermodynamics/images/stern_experiment.png){width=100%}
+[[0, 1]] 
+![](/lecture_02_basics_of_thermodynamics/images/lammert.png){width=100%}
+[[0, 2]]
+![](/lecture_02_basics_of_thermodynamics/images/miller_kusch.png){width=100%}
+[[0, 3]]
+![](/lecture_02_basics_of_thermodynamics/images/miller_kusch_result.png){width=100%}
+
+:::
+
+
+---
+# Fundamental equation of the kinetic theory of gases $pV=\frac{1}{3}nRv_{\text{rms}}^2$
+**Assumptions**
+
+- The gas consists of a large number of identical molecules in random motion.
+- The molecules are point particles: their own volume is negligible compared with the volume of the container.
+- There are no forces between molecules except during collisions.
+- Collisions with the walls and with each other are perfectly elastic.
+- The motion is isotropic: no direction is preferred.
+- Classical mechanics applies.
+
+**Derivation**
+
+A molecule of mass $m$ hitting a wall perpendicular to the $x$-axis transfers momentum $2mv_x$. In a cube of side $L$ it returns to the same wall after time $2L/v_x$, so the average force it exerts is $F=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$.
+![](/lecture_02_basics_of_thermodynamics/images/gas_pressure.png){float: right; width: 450px; margin: 0 0 10px 15px;}
+
+Summing over $N$ molecules and dividing by the wall area $L^2$:
+$$
+p = \frac{Nm\langle v_x^2 \rangle}{V}.
+$$
+By isotropy, $\langle v_x^2 \rangle=\frac{1}{3}\langle v^2 \rangle=\frac{1}{3}v_{\text{rms}}^2$, hence
+$$
+pV=\frac{1}{3}Nm\\, v_{\text{rms}}^2=\frac{1}{3}nR\\, v_{\text{rms}}^2,
+$$
+since the total mass is $Nm = nM$ ($M$ - molar mass, $n$ - amount of substance in moles).
+ 
+---
+# Brownian motion
+
+![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_4.png){float: right; width: 250px; margin: 0 0 10px 15px;}
+     
+**1827, Robert Brown.** Observed the incessant irregular motion of small particles from pollen grains suspended in water. He found the same motion with inorganic particles, showing that it is not a property of living matter. Jan Ingenhousz had seen similar motion earlier (1785, coal dust on alcohol).
+
+**1860s–1880s.** Several authors (Wiener, Delsaulx, Carbonelle) attributed the motion to collisions with liquid molecules. Gouy (1888) showed that it does not depend on external influences and grows with temperature and with decreasing viscosity.
+
+
+**1905, Einstein.** Gave the quantitative theory: the mean square displacement grows linearly in time,
+$$
+\langle x^{2} \rangle = 2Dt, \qquad D = \frac{RT}{N_{A}}\\,\frac{1}{6\pi\eta a},
+$$
+where $a$ is the particle radius and $\eta$ the viscosity. Observing the motion thus gives a way to measure Avogadro's number $N_{A}$.
+
+
+**1908, Langevin.** Wrote the stochastic equation of motion with a random force,
+$$
+m\ddot{x} = -6\pi\eta a\\,\dot{x} + F(t),
+$$
+the starting point of the theory of stochastic differential equations.
+
+**1908–1909, Perrin.** Confirmed Einstein's theory experimentally with gamboge particles and determined $N_{A}$, convincing the remaining sceptics of the reality of atoms. Nobel Prize, 1926.
+
+**1923, Wiener.** Gave the rigorous mathematical construction of Brownian motion as a stochastic process (the Wiener process).
+
+**2010, Raizen's group.** Measured the instantaneous velocity of a Brownian particle (a glass bead in an optical trap) and verified the Maxwell velocity distribution for it, a measurement Einstein had considered practically impossible.
+
+
+---
+# Pollen Grains in Water - Brownian Motion
+
+![youtube](R5t-oA796to) {width="80%" left="10%" start=13}
 
 ---
 # Thermodynamics
@@ -75,6 +166,7 @@ $$
 $$
 S(T = 0 \text{ K}) = 0
 $$
+
 
 ---
 # State variables / state functions

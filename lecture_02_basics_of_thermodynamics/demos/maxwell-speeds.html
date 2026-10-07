@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>[hidden]{display:none!important} body{margin:0}</style>
+<title>Maxwell Speed Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+<style>
+/* Layout: lab instrument — chart as the main panel, controls as a narrow rack beside it, readout table beneath. */
+:root {
+  --bg: #f5f7f8;
+  --panel: #ffffff;
+  --ink: #17212b;
+  --muted: #5d6b78;
+  --line: #d8dfe5;
+  --grid: #e9eef2;
+  --curve: #1f4e79;
+  --curve-fill: rgba(31, 78, 121, 0.10);
+  --ref: #8a96a2;
+  --mp: #c2410c;
+  --mean: #0f766e;
+  --rms: #7c3aed;
+  --rel: #b4236b;
+  --accent: #1f4e79;
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161b; --panel: #182028; --ink: #e4eaef; --muted: #93a1ad; --line: #2b3640; --grid: #212b34;
+    --curve: #7fb2e5; --curve-fill: rgba(127, 178, 229, 0.13); --ref: #6b7784;
+    --mp: #fb923c; --mean: #2dd4bf; --rms: #b39dfa; --rel: #f472b6; --accent: #7fb2e5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161b; --panel: #182028; --ink: #e4eaef; --muted: #93a1ad; --line: #2b3640; --grid: #212b34;
+  --curve: #7fb2e5; --curve-fill: rgba(127, 178, 229, 0.13); --ref: #6b7784;
+  --mp: #fb923c; --mean: #2dd4bf; --rms: #b39dfa; --rel: #f472b6; --accent: #7fb2e5;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding: 0 16px; padding-block: 28px 40px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 20px; }
+header h1 {
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin: 0; text-wrap: balance; letter-spacing: -0.01em;
+}
+header p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
+
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
+@media (max-width: 860px) { .main { grid-template-columns: minmax(0, 1fr); } }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.chart-panel { padding: 14px 14px 10px; min-width: 0; }
+.chart-box { position: relative; width: 100%; aspect-ratio: 16 / 10; max-width: 100%; }
+@media (max-width: 520px) { .chart-box { aspect-ratio: 4 / 3.6; } }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.hover {
+  position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 6px 9px; font-family: var(--font-mono); font-size: 12px; line-height: 1.45;
+  color: var(--ink); white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 8px 4px 2px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; height: 0; border-top: 2px solid; display: inline-block; }
+.sw.dash { border-top-style: dashed; }
+
+.controls { padding: 16px; display: grid; gap: 18px; }
+.ctl { display: grid; gap: 6px; }
+.ctl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ctl label { font-weight: 600; font-size: 14px; }
+.val { font-family: var(--font-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.hint { font-size: 12px; color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; }
+input[type="range"]:disabled { opacity: 0.4; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font: 500 13px var(--font-body); padding: 4px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: transparent; color: var(--ink);
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--panel); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; cursor: pointer; }
+.check input { margin-top: 3px; accent-color: var(--accent); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn {
+  font: 500 13px var(--font-body); padding: 7px 12px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+.btn:hover { border-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sep { border: 0; border-top: 1px solid var(--line); margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+.table-panel { padding: 6px 0; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 560px; }
+th, td { padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+th.num { text-align: right; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+.name { white-space: nowrap; }
+.note { font-size: 13px; color: var(--muted); max-width: 80ch; margin: 0; }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Maxwell distribution of speeds</h1>
+    <p>Change the temperature and molar mass of the gas and watch how the curve $f(v)$ and the characteristic speeds shift. Hover over the plot to read $f(v)$ and the fraction of molecules faster than a given speed.</p>
+  </header>
+
+  <div class="main">
+    <section class="panel chart-panel" aria-label="Distribution plot">
+      <div class="chart-box" id="chartBox">
+        <canvas id="chart"></canvas>
+        <div class="hover" id="hover" hidden></div>
+      </div>
+      <div class="legend" id="legend">
+        <span><i class="sw" style="border-color:var(--curve)"></i>$f(v)$</span>
+        <span id="lgRel" hidden><i class="sw dash" style="border-color:var(--rel)"></i>distribution of relative speed</span>
+        <span id="lgRef" hidden><i class="sw dash" style="border-color:var(--ref)"></i>saved curve</span>
+      </div>
+    </section>
+
+    <aside class="panel controls" aria-label="Parameters">
+      <div class="ctl">
+        <div class="ctl-head"><label for="T">Temperature $T$</label><span class="val" id="Tval"></span></div>
+        <input type="range" id="T" min="10" max="2000" step="1" value="300">
+      </div>
+
+      <div class="ctl">
+        <div class="ctl-head"><label for="M">Molar mass $M_{\mathrm{A}}$</label><span class="val" id="Mval"></span></div>
+        <input type="range" id="M" min="0" max="1000" step="1">
+        <div class="chips" id="gases" role="group" aria-label="Gases"></div>
+      </div>
+
+      <hr class="sep">
+
+      <div class="ctl">
+        <span class="eyebrow">Collision partner B for $v_{\mathrm{rel}}$</span>
+        <label class="check"><input type="checkbox" id="same" checked> Same gas ($m_{\mathrm{B}} = m_{\mathrm{A}}$)</label>
+        <div class="ctl-head"><label for="MB">Molar mass $M_{\mathrm{B}}$</label><span class="val" id="MBval"></span></div>
+        <input type="range" id="MB" min="0" max="1000" step="1" disabled>
+        <span class="hint" id="muval"></span>
+      </div>
+
+      <hr class="sep">
+
+      <div class="ctl">
+        <label class="check"><input type="checkbox" id="showRel"> Show the distribution of relative speeds</label>
+        <label class="check"><input type="checkbox" id="auto"> Auto-scale axes</label>
+        <div class="btns">
+          <button class="btn" id="fit" type="button">Fit axes</button>
+          <button class="btn" id="hold" type="button">Save curve</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+
+</div>
+
+<script>
+(() => {
+  const R = 8.314462618;
+  const GASES = [
+    ['H₂', 2.016], ['He', 4.003], ['N₂', 28.014], ['O₂', 31.998],
+    ['Ar', 39.948], ['CO₂', 44.009], ['Xe', 131.29]
+  ];
+  const MMIN = 1, MMAX = 300;
+  const toM = s => MMIN * Math.pow(MMAX / MMIN, s / 1000);
+  const toS = m => Math.round(1000 * Math.log(m / MMIN) / Math.log(MMAX / MMIN));
+
+  const $ = id => document.getElementById(id);
+  const elT = $('T'), elM = $('M'), elMB = $('MB'), elSame = $('same'),
+        elRel = $('showRel'), elAuto = $('auto'), canvas = $('chart'), hover = $('hover');
+
+  const state = { T: 300, M: 28.014, MB: 28.014, ref: null, axes: null, cursor: null };
+
+  // ---------- physics ----------
+  function speeds(T, Mg, MBg) {
+    const M = Mg / 1000, mu = (Mg * MBg / (Mg + MBg)) / 1000;
+    return {
+      mp: Math.sqrt(2 * R * T / M),
+      mean: Math.sqrt(8 * R * T / (Math.PI * M)),
+      rms: Math.sqrt(3 * R * T / M),
+      rel: Math.sqrt(8 * R * T / (Math.PI * mu)),
+      relMp: Math.sqrt(2 * R * T / mu),
+      muG: Mg * MBg / (Mg + MBg)
+    };
+  }
+  // f(v) written through v_mp: f = 4/√π · v²/vp³ · exp(−v²/vp²)
+  const fv = (v, vp) => 4 / Math.sqrt(Math.PI) * v * v / (vp * vp * vp) * Math.exp(-(v * v) / (vp * vp));
+  const peak = vp => fv(vp, vp);
+  function erfc(x) { // Numerical Recipes, |err| < 1.2e-7
+    const z = Math.abs(x), t = 1 / (1 + 0.5 * z);
+    const r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 + t * (0.37409196 + t * (0.09678418 +
+      t * (-0.18628806 + t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 + t * (-0.82215223 + t * 0.17087277)))))))));
+    return x >= 0 ? r : 2 - r;
+  }
+  const fracAbove = (v, vp) => { const u = v / vp; return erfc(u) + 2 * u / Math.sqrt(Math.PI) * Math.exp(-u * u); };
+
+  // ---------- axes ----------
+  function niceStep(range, target) {
+    const raw = range / target, p = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / p;
+    return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * p;
+  }
+  function fitAxes(spread) {
+    const s = speeds(state.T, state.M, state.MB);
+    let xmax = Math.max(3.2 * s.mp, elRel.checked ? 3.2 * s.relMp : 0, 1.15 * s.rel);
+    let ymax = peak(s.mp);
+    if (elRel.checked) ymax = Math.max(ymax, peak(s.relMp));
+    if (state.ref) { xmax = Math.max(xmax, 3.2 * state.ref.mp); ymax = Math.max(ymax, peak(state.ref.mp)); }
+    xmax *= spread; ymax *= 1.18;
+    const xs = niceStep(xmax, 6); xmax = Math.ceil(xmax / xs) * xs;
+    state.axes = { xmax, ymax };
+  }
+
+  // ---------- drawing ----------
+  let W = 0, H = 0, dpr = 1;
+  const ctx = canvas.getContext('2d');
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const pad = { l: 58, r: 16, t: 92, b: 44 };
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    dpr = window.devicePixelRatio || 1;
+    W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    pad.l = W < 460 ? 46 : 58;
+    draw();
+  }
+
+  function subLabel(text, sub, x, y, color, align) {
+    ctx.fillStyle = color;
+    ctx.font = `italic 600 14px ${css('--font-display') || 'serif'}`;
+    const w1 = ctx.measureText(text).width;
+    ctx.font = `500 10.5px ${css('--font-body') || 'sans-serif'}`;
+    const w2 = ctx.measureText(sub).width;
+    let x0 = align === 'left' ? x : align === 'right' ? x - (w1 + w2 + 1) : x - (w1 + w2 + 1) / 2;
+    ctx.font = `italic 600 14px ${css('--font-display') || 'serif'}`;
+    ctx.fillText(text, x0, y);
+    ctx.font = `500 10.5px ${css('--font-body') || 'sans-serif'}`;
+    ctx.fillText(sub, x0 + w1 + 1, y + 4);
+    return w1 + w2 + 1;
+  }
+
+  function draw() {
+    if (!W) return;
+    if (elAuto.checked || !state.axes) fitAxes(elAuto.checked ? 1 : 1.5);
+    const { xmax, ymax } = state.axes;
+    const s = speeds(state.T, state.M, state.MB);
+    const pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
+    const X = v => pad.l + v / xmax * pw, Y = f => pad.t + ph - f / ymax * ph;
+    const font = css('--font-body') || 'sans-serif', mono = css('--font-mono') || 'monospace';
+    const C = { ink: css('--ink'), muted: css('--muted'), grid: css('--grid'), line: css('--line'),
+                curve: css('--curve'), fill: css('--curve-fill'), ref: css('--ref'),
+                mp: css('--mp'), mean: css('--mean'), rms: css('--rms'), rel: css('--rel') };
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    // grid + ticks
+    const yScale = 1e3; // show f in 10^-3 s/m
+    const xs = niceStep(xmax, W < 460 ? 4 : 7), ys = niceStep(ymax * yScale, 5) / yScale;
+    ctx.lineWidth = 1; ctx.font = `12px ${mono}`; ctx.fillStyle = C.muted;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let v = 0; v <= xmax + 1e-9; v += xs) {
+      const x = Math.round(X(v)) + 0.5;
+      ctx.strokeStyle = C.grid; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + ph); ctx.stroke();
+      ctx.fillText(Math.round(v).toString(), x, pad.t + ph + 6);
+    }
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let f = 0; f <= ymax + 1e-15; f += ys) {
+      const y = Math.round(Y(f)) + 0.5;
+      ctx.strokeStyle = C.grid; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + pw, y); ctx.stroke();
+      const lab = +(f * yScale).toPrecision(3);
+      ctx.fillText(String(lab), pad.l - 6, y);
+    }
+    ctx.strokeStyle = C.line;
+    ctx.beginPath(); ctx.moveTo(pad.l + 0.5, pad.t); ctx.lineTo(pad.l + 0.5, pad.t + ph + 0.5); ctx.lineTo(pad.l + pw, pad.t + ph + 0.5); ctx.stroke();
+    ctx.font = `12px ${font}`; ctx.fillStyle = C.muted;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    ctx.fillText('v, m/s', pad.l + pw, pad.t + ph + 40);
+    ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+    ctx.fillText('f(v), 10⁻³ s/m', pad.l - (W < 460 ? 40 : 52), pad.t - 74);
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(pad.l, pad.t - 2, pw + 1, ph + 3); ctx.clip();
+    const N = Math.max(200, Math.round(pw));
+    const path = vp => { ctx.beginPath(); for (let i = 0; i <= N; i++) { const v = xmax * i / N; const x = X(v), y = Y(fv(v, vp)); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } };
+
+    if (state.ref) { path(state.ref.mp); ctx.setLineDash([6, 5]); ctx.strokeStyle = C.ref; ctx.lineWidth = 1.6; ctx.stroke(); ctx.setLineDash([]); }
+    if (elRel.checked) { path(s.relMp); ctx.setLineDash([7, 5]); ctx.strokeStyle = C.rel; ctx.lineWidth = 1.8; ctx.stroke(); ctx.setLineDash([]); }
+
+    path(s.mp);
+    ctx.lineTo(X(xmax), Y(0)); ctx.lineTo(X(0), Y(0)); ctx.closePath();
+    ctx.fillStyle = C.fill; ctx.fill();
+    path(s.mp); ctx.strokeStyle = C.curve; ctx.lineWidth = 2.4; ctx.stroke();
+    ctx.restore();
+
+    // markers: label rows stacked above the plot so close speeds never collide
+    const marks = [
+      { key: 'mp', sub: 'mp', v: s.mp, c: C.mp, vp: s.mp },
+      { key: 'mean', sub: 'mean', v: s.mean, c: C.mean, vp: s.mp },
+      { key: 'rms', sub: 'rms', v: s.rms, c: C.rms, vp: s.mp },
+      { key: 'rel', sub: 'rel', v: s.rel, c: C.rel, vp: elRel.checked ? s.relMp : s.mp }
+    ];
+    marks.forEach((m, i) => {
+      if (m.v > xmax) return;
+      const x = X(m.v), yLab = pad.t - 70 + i * 18 + 8;
+      const yCurve = Y(Math.min(fv(m.v, m.vp), ymax));
+      ctx.strokeStyle = m.c; ctx.lineWidth = 1.4; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(x, yLab + 7); ctx.lineTo(x, pad.t + ph); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = m.c; ctx.beginPath(); ctx.arc(x, yCurve, 4, 0, 2 * Math.PI); ctx.fill();
+      ctx.strokeStyle = css('--panel'); ctx.lineWidth = 1.5; ctx.stroke();
+      // label: to the right of the line, or left near the right edge
+      ctx.textBaseline = 'middle';
+      const right = x < pad.l + pw - 130;
+      const w = subLabel('v', m.sub, right ? x + 5 : x - 5, yLab, m.c, right ? 'left' : 'right');
+      ctx.font = `12px ${mono}`; ctx.fillStyle = C.muted; ctx.textAlign = right ? 'left' : 'right';
+      const txt = Math.round(m.v) + ' m/s';
+      ctx.fillText(txt, right ? x + 5 + w + 6 : x - 5 - w - 6, yLab);
+      ctx.textAlign = 'left';
+    });
+
+    // cursor
+    if (state.cursor != null && state.cursor <= xmax) {
+      const v = state.cursor, x = X(v), f = fv(v, s.mp);
+      ctx.strokeStyle = C.muted; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + ph); ctx.stroke();
+      ctx.fillStyle = C.curve; ctx.beginPath(); ctx.arc(x, Y(Math.min(f, ymax)), 4.5, 0, 2 * Math.PI); ctx.fill();
+      hover.hidden = false;
+      hover.innerHTML = `v = ${Math.round(v)} m/s<br>f(v) = ${(f * 1e3).toFixed(3)}·10⁻³ s/m<br>faster: ${(fracAbove(v, s.mp) * 100).toFixed(1)}%`;
+      const hb = hover.getBoundingClientRect();
+      let hx = x + 12; if (hx + hb.width > W - 4) hx = x - 12 - hb.width;
+      hover.style.left = hx + 'px'; hover.style.top = (pad.t + 8) + 'px';
+    } else hover.hidden = true;
+  }
+
+  // ---------- UI ----------
+  const gasBox = $('gases');
+  GASES.forEach(([name, m]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = name; b.dataset.m = m;
+    b.addEventListener('click', () => { state.M = m; elM.value = toS(m); if (elSame.checked) state.MB = m; sync(); });
+    gasBox.appendChild(b);
+  });
+
+  function gasName(m) { const g = GASES.find(g => Math.abs(g[1] - m) < 1e-6); return g ? g[0] : null; }
+
+  function sync() {
+    if (elSame.checked) { state.MB = state.M; elMB.value = toS(state.M); }
+    const s = speeds(state.T, state.M, state.MB);
+    $('Tval').textContent = `${state.T} K`;
+    const gn = gasName(state.M);
+    $('Mval').textContent = `${state.M.toFixed(state.M < 10 ? 2 : 1)} g/mol${gn ? ' · ' + gn : ''}`;
+    const gnB = gasName(state.MB);
+    $('MBval').textContent = `${state.MB.toFixed(state.MB < 10 ? 2 : 1)} g/mol${gnB ? ' · ' + gnB : ''}`;
+    $('muval').textContent = `Reduced mass μ = ${s.muG.toFixed(s.muG < 10 ? 3 : 2)} g/mol`;
+    gasBox.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', String(Math.abs(+b.dataset.m - state.M) < 1e-6)));
+    $('lgRel').hidden = !elRel.checked;
+    $('lgRef').hidden = !state.ref;
+    $('hold').textContent = state.ref ? 'Clear saved curve' : 'Save curve';
+
+    const rows = [
+      ['mp', 'Most probable', 'v_{\\mathrm{mp}} = \\left(2RT/M\\right)^{1/2}', s.mp],
+      ['mean', 'Mean', 'v_{\\mathrm{mean}} = \\left(8RT/\\pi M\\right)^{1/2}', s.mean],
+      ['rms', 'Root-mean-square', 'v_{\\mathrm{rms}} = \\left(3RT/M\\right)^{1/2}', s.rms],
+      ['rel', 'Mean relative', 'v_{\\mathrm{rel}} = \\left(8kT/\\pi\\mu\\right)^{1/2}', s.rel]
+    ];
+    const tb = $('rows');
+    if (tb && !tb.dataset.built) {
+      tb.innerHTML = rows.map(r => `<tr><td class="name"><i class="dot" style="background:var(--${r[0]})"></i>${r[1]}</td><td>$${r[2]}$</td><td class="num" id="v_${r[0]}"></td><td class="num" id="r_${r[0]}"></td></tr>`).join('');
+      tb.dataset.built = '1';
+      typeset(tb);
+    }
+    if (tb) rows.forEach(r => {
+      $('v_' + r[0]).textContent = r[3].toFixed(1);
+      $('r_' + r[0]).textContent = (r[3] / s.mp).toFixed(3);
+    });
+    draw();
+  }
+
+  function typeset(el) {
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise(el ? [el] : undefined).catch(() => {});
+  }
+
+  elT.addEventListener('input', () => { state.T = +elT.value; sync(); });
+  elM.addEventListener('input', () => { state.M = +toM(+elM.value).toPrecision(4); sync(); });
+  elMB.addEventListener('input', () => { state.MB = +toM(+elMB.value).toPrecision(4); sync(); });
+  elSame.addEventListener('change', () => { elMB.disabled = elSame.checked; sync(); });
+  elRel.addEventListener('change', sync);
+  elAuto.addEventListener('change', () => { if (!elAuto.checked) fitAxes(1.5); sync(); });
+  $('fit').addEventListener('click', () => { fitAxes(elAuto.checked ? 1 : 1.15); draw(); });
+  $('hold').addEventListener('click', () => {
+    state.ref = state.ref ? null : { mp: speeds(state.T, state.M, state.MB).mp };
+    sync();
+  });
+
+  function setCursor(e) {
+    const r = canvas.getBoundingClientRect(), x = e.clientX - r.left;
+    const pw = W - pad.l - pad.r;
+    state.cursor = (x < pad.l || x > pad.l + pw) ? null : (x - pad.l) / pw * state.axes.xmax;
+    draw();
+  }
+  canvas.addEventListener('pointermove', setCursor);
+  canvas.addEventListener('pointerdown', setCursor);
+  canvas.addEventListener('pointerleave', () => { state.cursor = null; draw(); });
+
+  new ResizeObserver(resize).observe($('chartBox'));
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts) document.fonts.ready.then(draw);
+
+  elM.value = toS(state.M); elMB.value = toS(state.MB);
+  sync();
+})();
+</script>
+
+</body>
+</html>
