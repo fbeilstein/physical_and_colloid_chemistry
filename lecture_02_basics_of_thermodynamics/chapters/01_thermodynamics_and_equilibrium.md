@@ -15,7 +15,7 @@
 
 
 ---
-# Statistical mechanics
+# Statistical mechanics and kinetic theory
 
 :::matrix {cols="80/20"}
 [[0,0]]
@@ -29,9 +29,9 @@ $$
 \text{Maxwell–Boltzmann distribution of speeds} &
   f(v) = 4\pi \left( \dfrac{M}{2\pi RT} \right)^{3/2} v^{2} \mathrm{e}^{-Mv^{2}/2RT} \cr
 \text{Root-mean-square speed} &
-  v_{\mathrm{rms}} = \left( 3RT/M \right)^{1/2} \cr
+  v_{\mathrm{rms}} = \sqrt{\langle v^2 \rangle} =  \left( 3RT/M \right)^{1/2} \cr
 \text{Mean speed} &
-  v_{\mathrm{mean}} = \left( 8RT/\pi M \right)^{1/2} \cr
+  v_{\mathrm{mean}} = \langle v \rangle = \left( 8RT/\pi M \right)^{1/2} \cr
 \text{Most probable speed} &
   v_{\mathrm{mp}} = \left( 2RT/M \right)^{1/2} \cr
 \text{Mean relative speed} &
@@ -43,6 +43,7 @@ $$
 \end{array}
 $$
 
+Under normal conditions, a typical gas molecule moves at about $500\\,\text{m/s}$ and undergoes about $10^{9}$–$10^{10}$ collisions per second, so its mean free path is of the order of $10^{-7}\\,\text{m}$ ($\sim 0.1\\,\mu\text{m}$).
 
 [[0,1]]
 ![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_1.png){width=150%}
@@ -74,9 +75,57 @@ $$
 
 :::
 
+---
+# Boltzmann distribution
+
+The Boltzmann distribution gives the probability that a system in thermal equilibrium with a heat bath at temperature $T$ occupies a microstate $i$ with energy $\epsilon_i$:
+$$
+p_i=\frac{1}{Z}e^{-\epsilon_i/kT}=\frac{e^{-\epsilon_i/kT}}{\sum_{j=1}^M e^{-\epsilon_j/kT}}
+$$
+where $Z$ - canonical partition function. 
+
+**Properties**
+- Lower-energy states are exponentially favored. The relative population of two states depends only on their energy difference:
+$$
+\frac{N_i}{N_j}=\frac{p_i}{p_j}=e^{-(\epsilon_i-\epsilon_j)/kT}
+$$
+- For a classical ideal gas it yields the Maxwell–Boltzmann velocity distribution, and in a gravitational field it yields the barometric formula.
+- As $T → 0$ only the ground state is occupied. As $T → ∞$ all accessible states become equally likely.
+- Maximizes the entropy $S = −k \sum p_i \ln{p_i}$ subject to normalization and a fixed mean energy $\langle E\rangle$.
+- Underlies Arrhenius reaction rates, population ratios in spectroscopy and lasers, semiconductor carrier statistics in the non-degenerate regime.
 
 ---
-# Fundamental equation of the kinetic theory of gases $pV=\frac{1}{3}nRv_{\text{rms}}^2$
+<iframe src="./lecture_02_basics_of_thermodynamics/demos/boltzmann.html" width="100%" height="850px" style="border:1px solid #ccc; border-radius: 8px;"></iframe>
+
+
+---
+# Experimental verification of the Boltzmann distribution
+:::matrix{cols="85/15"}
+[[0, 0]]
+**Perrin (1908–1909).** A suspension of Brownian particles behaves like a gas in a gravitational field, so at equilibrium the particle concentration falls off with height as
+$$
+n(h) = n_0 \exp{\left(-\frac{m'gh}{kT}\right)}, \qquad m' = \frac{4}{3}\pi a^3 (\rho-\rho')
+$$
+where $m'$ is the buoyancy-corrected mass. Because the particles are about $10^{9}$ times heavier than gas molecules, this "atmosphere" is only about $0.1\\,\text{mm}$ thick and can be observed under a microscope.
+
+**Method:** Perrin made uniform gamboge and mastic spheres by repeated fractional centrifugation. He measured their radius and density in several independent ways and counted particles at different depths with a microscope of shallow focus.
+
+Result: The concentration fell off geometrically with height. From the slope he obtained $N_{A} \approx 6.8 \times 10^{23}\\,\text{mol}^{-1}$. The same $N_{A}$ came out when he varied particle size, material, liquid viscosity and temperature. It also agreed with Brownian displacements ($\langle x^{2}\rangle = 2Dt$),
+
+**Svedberg's ultracentrifuge (1920s).** The same principle with centrifugal instead of gravitational force: at equilibrium 
+$$
+n(r) \propto \exp\\!\left(m^{*}\omega^{2}r^{2}/2kT\right).
+$$
+
+**Spectroscopy.** Line intensities follow the level populations $g_{J}\\,\mathrm{e}^{-E_{J}/kT}$. This tests the distribution over discrete levels directly.
+
+[[0, 1]]
+![](/lecture_02_basics_of_thermodynamics/images/perrin.png){width=100% center}
+
+
+---
+
+# Fundamental equation of the kinetic theory of gases $pV=\frac{1}{3}nR\\, v_{\text{rms}}^2$
 **Assumptions**
 
 - The gas consists of a large number of identical molecules in random motion.
@@ -139,10 +188,18 @@ the starting point of the theory of stochastic differential equations.
 ---
 # Thermodynamics
 
+
+
 * largely phenomenological branch of science that ignores molecular (classical or quantum) composition of matter
-* macrostates (thermodynamic states)
-* uses state functions aka potentials - quantities that depend on the macrostate and independent on the path
-* uses calculus to establish useful relations between the thermodynamic functions
+* the first results were obtained within the caloric theory (1824, Carnot), and the main results were formulated before the existence of atoms was established
+* proved to be remarkably universal, with applications ranging from physics and chemistry to biology:
+ >*It is the only physical theory of universal content concerning which I am convinced that, within the framework of the applicability of its basic concepts, it will never be overthrown. (Albert Einstein: Philosopher-Scientist, 1949)*
+>
+>*Nothing in life is certain except death, taxes and the second law of thermodynamics.(Seth Lloyd, Nature, 2004).*
+
+* uses macrostates (thermodynamic states) to describe the systems
+* uses state functions aka potentials - quantities that depend on the macrostate and independent on the path that led to it
+* uses multivariable calculus to establish useful relations between the thermodynamic functions
 * key concepts: isolated system, thermodynamic equilibrium, quasistatic process, reversible process
 
 ## 3 Laws of Thermodynamics
@@ -197,6 +254,129 @@ $\mathbf{V, U, S, H, G, F}$ - extensive properties $\rightarrow$ $\mathbf{V^\cir
 [[2,2]]
 **Standard conditions** for Gibbs free energy are a temperature of $25^\circ$ C ($298$ K) and a pressure of $1$ atm (or $100$ kPa) for gases, with $1$ M concentration for all aqueous solutions. Designated with $^\circ$.
 :::
+
+---
+
+# Zeroth Law of Thermodynamics 
+
+
+**If system $A$ is in thermal equilibrium with $C$, and $B$ is also in equilibrium with $C$, then $A$ and $B$ are in equilibrium with each other.**
+or as J.C. Maxwell has put it in his book *Theory Of Heat* (1909):
+![Pasted Image](/lecture_02_basics_of_thermodynamics/images/maxwell_temperature.png){width=50% center}
+
+It was formulated (named by R. Fowler, 1930s) after the first and second laws. It was then recognized as logically prior to them, since both implicitly assume that temperature exists.
+
+- The law states that thermal equilibrium is transitive, which makes it an equivalence relation.
+- Its equivalence classes (isotherms) are labeled by a state function, the empirical temperature $\theta$, with equilibrium $\iff$ $\theta_A = \theta_B$.
+- $\theta$ is defined only up to a monotonic reparametrization. The absolute scale $T$ comes from the Second Law of Thermodynamics.
+- The Zeroth Law underlies thermometry: two bodies can be compared in temperature by bringing each into thermal equilibrium with a third system — the thermometer — which serves as a reference.
+- The Law postulates the *thermodynamic* temperature as a state variable. 
+
+**Limitations.**
+
+The Zeroth Law fails for *non-additive systems* 
+$$
+E \neq E_A + E_B
+$$
+(long-range interactions, self-gravitating systems with negative heat capacity) and becomes ambiguous for small systems.
+
+---
+
+# First Law of Thermodynamics
+
+
+In thermodynamics, the total energy of a system is called its
+internal energy, $U$. The internal energy is the total kinetic and
+potential energy of the constituents (the atoms, ions, or molecules) of the system. It does not include the kinetic energy arising from the motion of the system as a whole, such as its kinetic energy as it accompanies the Earth on its orbit round the Sun.
+
+It has been found experimentally that:
+- the internal energy of a closed system may be changed either by doing work on the system or by heating it.
+- if a system is isolated from its surroundings, meaning that it can exchange neither matter nor energy with its surroundings, then no change in internal energy takes place. This is now known as the
+First Law of thermodynamics: **The internal energy of an isolated system is constant.**
+
+If $A$ is the work done *on a system* (acquisitive convention), $Q$ is the energy transferred as heat to a system, and $\Delta U$ is the resulting change in internal energy, then
+$$
+\Delta U = Q+A.
+$$
+This equation 
+- summarizes the equivalence of heat and work for
+bringing about changes in the internal energy of a closed system.
+- embodies the fact that in an isolated system, for which $Q = 0$ and $A = 0$, the internal energy is constant.
+- states that the change in internal energy of a closed system is equal to the energy that passes through its boundary as heat or work.
+The differential form:
+$$
+d U = \delta Q+\delta A.
+$$
+The notation emphasizes that $dU$ is an exact differential, since $U$ is a state function, whereas $\delta Q$ and $\delta A$ are inexact: heat and work are not state functions, and their integrals depend on the path, although their sum does not.
+
+---
+# Experiments that showed that heat and work are modes of energy transfer
+
+**Rumford’s cannon-boring experiments (1798)** Benjamin Thompson, Count Rumford, supervised the arsenal in Munich and noticed that boring cannon barrels produced large amounts of heat. In a test, a blunt borer driven by horses was turned inside a barrel immersed in water. After about two and a half hours the water boiled, with no fire involved. His key conclusion was that heat could be produced without limit as long as the mechanical work continued. If heat were a substance (caloric) stored in a finite amount in the metal, it should eventually run out. Heat therefore had to be a form of motion generated by work.
+
+**Mayer (1842).** Julius Robert Mayer, a ship’s physician, formulated the principle of energy conservation and was the first to calculate the mechanical equivalent of heat. He used the difference between the specific heats of a gas, $c_p - c_V$: when a gas is heated at constant pressure, part of the heat goes into the work of expansion. He performed no experiments himself, but obtained a value of about $3.6 \\, \text{J}/\text{cal}$.
+
+**Joule’s paddle-wheel experiment (1840s).** Falling weights, connected through pulleys, turned a paddle wheel in a water-filled calorimeter, and the friction of the paddles warmed the water. Joule measured the work done and the temperature rise. He found about  $4.15 \\, \text{J}/\text{cal}$ (the modern value is $4.184$). Crucially, he showed that the same ratio holds for different ways of converting work into heat: friction in water and mercury, compression of gases, and electric current in a conductor. This established the mechanical equivalent of heat, and the unit of energy is named after him.
+
+**Hirn’s steam-engine measurements (1850s–60s).** Gustave Adolphe Hirn tested the reverse direction. He measured that a steam engine delivers less heat to the condenser than it receives from the boiler, and the difference corresponds to the work done. Heat is therefore not simply carried through the engine, like water through a mill wheel, as Carnot had assumed within the caloric theory. Part of it is consumed and converted into work.
+
+---
+:::matrix {cols="33/33/33" rows="50/50"}
+[[0,0]]
+![](/lecture_02_basics_of_thermodynamics/images/rumbord.png){width=60% center}
+[[0,1]]
+![](/lecture_02_basics_of_thermodynamics/images/mayer.png){width=80% center}
+[[0,2]]
+From the $1842$ paper *Remarks on the Forces of Inanimate Nature*  by J.R. Mayer in the *Annalen der Chemie und Pharmacie*:
+ - “forces” (energy) are indestructible and can be converted into one another (causa aequat effectum, “the cause equals the effect”);
+- motion, the fall of a body, and heat are different forms of one and the same thing;
+- an estimate of the mechanical equivalent of heat from $c_p - c_V$: a weight falling from a height of about $365 \text{m}$ corresponds to heating the same mass of water by $1 °\text{C}$.
+
+[[1,0]]
+![](/lecture_02_basics_of_thermodynamics/images/joule_paddle_scheme.png){width=60% center}
+[[1,1]]
+![](/lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
+
+
+---
+
+# Calorimetry
+
+Calorimetry is the study of the transfer of energy as heat during a physical or chemical process.
+
+:::matrix {cols="80/20"}
+[[0,0]]
+
+
+A **calorimeter** is a device for measuring energy transferred as heat. The most common device for measuring $q_V$ (and therefore $\Delta U$) is an adiabatic bomb calorimeter. The process to be studied which may be a chemical reaction is initiated inside a constant-volume container, the ‘bomb’. The bomb is immersed in a stirred water bath, and the whole device is the calorimeter.
+
+The calorimeter is also immersed in an outer water bath. The
+temperature of the water in the calorimeter and of the outer
+bath are both monitored and that of the outer bath is adjusted
+to keep it the same as the water in the calorimeter. This arrangement ensures that there is no net loss of heat from the
+calorimeter to the surroundings (the bath) and hence that the
+calorimeter is adiabatic.
+The change in temperature, $\Delta T$, of the calorimeter is commonly found to be proportional to the energy that the reaction releases or absorbs as heat:
+$$
+q = C \Delta T
+$$
+where $C$ - is the **calorimeter constant**. The value of this empirical constant can be found by measuring $\Delta T$ for a process of known heat output. One possibility is to use eletrical heating  and relation 
+$$
+q = It\Delta \phi
+$$
+where constant current $I$ from a source of known potential defference $\Delta \phi$, passes through a heater for a known period of time $t$.
+
+[[0,1]]
+
+![](/lecture_02_basics_of_thermodynamics/images/bomb_calorimeter.png){width: 350px; margin: 0 0 10px 15px;}
+![](/lecture_02_basics_of_thermodynamics/images/maxwell_calorimeter.png){width: 350px; margin: 0 0 10px 15px;}
+The Ice calorimeter described by J.C. Maxwell
+:::
+
+---
+# Bomb calorimetry 
+
+![youtube](RJXq92dzAWA) {width="80%" left="10%"}
 
 ---
 # Explanation of Thermodynamic Quantities: $\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ$

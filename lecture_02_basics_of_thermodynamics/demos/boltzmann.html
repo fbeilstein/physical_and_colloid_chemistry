@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boltzmann Ladder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: control strip on top, then a two-column instrument (level ladder | ln p and C_V plots), stacking on phones. */
+:root{
+  --bg:#f5f6f9; --panel:#ffffff; --fg:#1b2030; --muted:#5d6478; --line:#d9dce6;
+  --accent:#3346c4; --hot:#d9572b; --cold:#2f7fb8; --grid:#e8eaf1;
+  --f-display:"Literata", Georgia, serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12151d; --panel:#1a1e29; --fg:#e7e9f1; --muted:#9aa1b6; --line:#2c3242;
+  --accent:#8c9bff; --hot:#ff8a5c; --cold:#62b3ec; --grid:#232838; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151d; --panel:#1a1e29; --fg:#e7e9f1; --muted:#9aa1b6; --line:#2c3242;
+  --accent:#8c9bff; --hot:#ff8a5c; --cold:#62b3ec; --grid:#232838; color-scheme:dark}
+
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 40px;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-direction:column;gap:6px}
+h1{font-family:var(--f-display);font-weight:600;font-size:1.9rem;line-height:1.15;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:68ch}
+.formula{font-family:var(--f-mono);font-size:.9rem;color:var(--fg)}
+
+.main{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start}
+@media (max-width:760px){.main{grid-template-columns:minmax(0,1fr)}}
+.controls{display:flex;flex-direction:column;gap:20px;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.ctl{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:.78rem;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.ctl output{font-family:var(--f-mono);font-size:.95rem;color:var(--fg);text-transform:none;letter-spacing:0;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.toggles{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.toggles label{text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--fg);font-weight:500;display:flex;gap:6px;align-items:center;cursor:pointer}
+button{font:500 .85rem var(--f-body);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
+button:hover{border-color:var(--accent);color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stat{background:var(--panel);padding:10px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat span{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.stat b{font-family:var(--f-mono);font-weight:500;font-size:1.05rem;font-variant-numeric:tabular-nums}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:20px;min-width:0}
+figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 14px 10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+figcaption{display:flex;flex-direction:column;gap:2px}
+figcaption strong{font-family:var(--f-display);font-weight:500;font-size:1.05rem}
+figcaption small{color:var(--muted);font-size:.83rem}
+canvas{width:100%;display:block}
+#ladder{height:min(62vh,520px);min-height:320px}
+#lnp,#cv{height:220px}
+.notes{color:var(--muted);font-size:.88rem;max-width:80ch;margin:0}
+.notes code{font-family:var(--f-mono);color:var(--fg);font-size:.85rem}
+</style>
+
+<style>body{margin:0}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Boltzmann distribution on equally spaced energy levels</h1>
+    <p class="lede">Levels <span class="formula">E<sub>n</sub> = nΔE</span>, <span class="formula">n = 0 … N−1</span>. Each level is occupied with probability <span class="formula">p<sub>n</sub> = e<sup>−E<sub>n</sub>/k<sub>B</sub>T</sup> / Z</span>. Energies and temperatures are measured in units of ΔE (so <span class="formula">k<sub>B</sub>T = 1</span> means thermal energy equals one level spacing).</p>
+  </header>
+
+
+  <div class="main">
+  <figure>
+    <figcaption><strong>Level populations</strong><small>Bar height is p<sub>n</sub>. The dashed line marks ⟨E⟩; the shaded band shows ⟨E⟩ ± ΔE<sub>rms</sub>.</small></figcaption>
+    <canvas id="ladder" role="img" aria-label="Energy level ladder with occupation probabilities"></canvas>
+  </figure>
+  <section class="controls" aria-label="Parameters">
+    <div class="ctl">
+      <label for="nLev">Number of levels N <output id="nOut">8</output></label>
+      <input id="nLev" type="range" min="2" max="40" step="1" value="8">
+    </div>
+    <div class="ctl">
+      <label for="tSl">Temperature k<sub>B</sub>T / ΔE <output id="tOut">1.00</output></label>
+      <input id="tSl" type="range" min="0" max="1000" step="1" value="500">
+    </div>
+    <div class="ctl">
+      <label>Options</label>
+      <div class="toggles">
+        <label><input id="neg" type="checkbox"> Negative T</label>
+        <label><input id="logScale" type="checkbox"> Log bars</label>
+        <button id="sweep" type="button">Sweep T</button>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const nLev=$('nLev'), tSl=$('tSl'), neg=$('neg'), logScale=$('logScale'), sweepBtn=$('sweep');
+  const TMIN=-1.5, TSPAN=3; // T from 10^-1.5 ≈ 0.032 to 10^1.5 ≈ 31.6
+  const sliderToT = v => Math.pow(10, TMIN + TSPAN*v/1000);
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  function stats(N, T){ // T signed, in units of ΔE
+    const b = 1/T;
+    const x = []; let m = -Infinity;
+    for(let n=0;n<N;n++){ x.push(-b*n); if(x[n]>m) m=x[n]; }
+    let z=0; const w=x.map(v=>{const e=Math.exp(v-m); z+=e; return e;});
+    const p=w.map(e=>e/z);
+    let E=0,E2=0,S=0;
+    p.forEach((pn,n)=>{E+=pn*n;E2+=pn*n*n; if(pn>0) S-=pn*Math.log(pn);});
+    const lnZ = Math.log(z)+m;
+    return {p,lnZ,E,var:E2-E*E,S,C:b*b*(E2-E*E)};
+  }
+  const fmt = (v,d=3) => {
+    if(!isFinite(v)) return '∞';
+    const a=Math.abs(v);
+    if(a!==0 && (a<1e-3 || a>=1e5)){
+      const [m,e]=v.toExponential(2).split('e');
+      const sup=String(+e).replace('-','⁻').replace(/\d/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
+      return m+'×10'+sup;
+    }
+    return v.toFixed(d);
+  };
+
+  function setupCanvas(c){
+    const dpr=window.devicePixelRatio||1, r=c.getBoundingClientRect();
+    c.width=Math.round(r.width*dpr); c.height=Math.round(r.height*dpr);
+    const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx,w:r.width,h:r.height};
+  }
+  function mix(a,b,t){ // hex mix
+    const pa=parseInt(a.slice(1),16), pb=parseInt(b.slice(1),16);
+    const c=[16,8,0].map(s=>Math.round(((pa>>s)&255)*(1-t)+((pb>>s)&255)*t));
+    return 'rgb('+c.join(',')+')';
+  }
+
+  function drawLadder(N,T,s){
+    const {ctx,w,h}=setupCanvas($('ladder'));
+    const fg=css('--fg'), muted=css('--muted'), line=css('--line'), grid=css('--grid'), acc=css('--accent'), hot=css('--hot'), cold=css('--cold');
+    ctx.clearRect(0,0,w,h);
+    const useLog=logScale.checked, FLOOR=-12;
+    const pad={l:56,r:14,t:N<=16?26:14,b:44};
+    const pw=w-pad.l-pad.r, ph=h-pad.t-pad.b;
+    const X=e=>pad.l+pw*(e+0.5)/N;
+    const pmax=Math.max(...s.p);
+    let ymax, Y, yticks, ylab;
+    if(useLog){
+      Y=p=>{const l=Math.max(FLOOR,Math.log10(Math.max(p,1e-300)));return pad.t+ph*(-l)/(-FLOOR);};
+      yticks=[]; for(let k=0;k>=FLOOR;k-=2) yticks.push(Math.pow(10,k));
+      ylab=v=>{const k=Math.round(Math.log10(v));return k===0?'1':'10'+String(k).replace('-','⁻').replace(/\d/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);};
+    } else {
+      yticks=niceTicks(0,pmax*1.05,5); ymax=Math.max(pmax*1.05,yticks[yticks.length-1]);
+      Y=p=>pad.t+ph*(1-p/ymax);
+      ylab=v=>+v.toFixed(3)+'';
+    }
+    ctx.font='11px '+css('--f-mono'); ctx.lineWidth=1;
+    yticks.forEach(v=>{ctx.strokeStyle=grid;ctx.beginPath();ctx.moveTo(pad.l,Y(v));ctx.lineTo(w-pad.r,Y(v));ctx.stroke();
+      ctx.fillStyle=muted;ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText(ylab(v),pad.l-6,Y(v));});
+    // <E> ± sigma band
+    const sd=Math.sqrt(Math.max(s.var,0));
+    const xa=X(Math.max(-0.5,s.E-sd)), xb=X(Math.min(N-0.5,s.E+sd));
+    ctx.fillStyle=acc; ctx.globalAlpha=0.08; ctx.fillRect(xa,pad.t,xb-xa,ph); ctx.globalAlpha=1;
+    // bars
+    const bw=Math.max(2,Math.min(48,pw/N*0.62));
+    const base=pad.t+ph;
+    for(let n=0;n<N;n++){
+      const p=s.p[n], y=Y(p);
+      ctx.fillStyle=mix(cold,hot,N>1?n/(N-1):0);
+      ctx.fillRect(X(n)-bw/2,y,bw,Math.max(base-y,p>0?1:0));
+    }
+    // baseline
+    ctx.strokeStyle=line; ctx.beginPath(); ctx.moveTo(pad.l,base+0.5); ctx.lineTo(w-pad.r,base+0.5); ctx.stroke();
+    // x ticks
+    const every=N>30?5:N>15?2:1;
+    ctx.fillStyle=muted; ctx.textAlign='center'; ctx.textBaseline='top';
+    for(let n=0;n<N;n++) if(n%every===0||n===N-1) ctx.fillText(n,X(n),base+6);
+    // values on top of bars (only when they fit)
+    if(N<=16){
+      ctx.fillStyle=fg; ctx.textBaseline='bottom';
+      ctx.font=(N>10?'10px ':'11px ')+css('--f-mono');
+      for(let n=0;n<N;n++){const p=s.p[n];
+        const txt=p>=0.0005?(100*p).toFixed(p>=0.1?1:2)+'%':fmt(p,1);
+        ctx.fillText(txt,X(n),Math.max(Y(p)-4,pad.t+2));}
+    }
+    // mean line
+    const xE=X(s.E);
+    ctx.setLineDash([5,4]); ctx.strokeStyle=acc; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(xE,pad.t); ctx.lineTo(xE,base); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=acc; ctx.font='600 11px '+css('--f-mono'); ctx.textAlign=xE>w-60?'right':'left'; ctx.textBaseline='top';
+    ctx.fillText('⟨E⟩ = '+s.E.toFixed(2), xE+(xE>w-60?-5:5), pad.t+(N<=16?16:4));
+    // axis labels
+    ctx.fillStyle=muted; ctx.font='11px '+css('--f-body');
+    ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('E / ΔE', pad.l+pw/2, h-2);
+    ctx.save(); ctx.translate(12,pad.t+ph/2); ctx.rotate(-Math.PI/2); ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(useLog?'p (log scale)':'p', 0,0); ctx.restore();
+  }
+
+  function axes(ctx,w,h,pad,xr,yr,xl,yl,xticks,yticks,xfmt,yfmt){
+    const grid=css('--grid'), muted=css('--muted'), line=css('--line');
+    const X=v=>pad.l+(w-pad.l-pad.r)*(xfmt.map?xfmt.map(v):(v-xr[0])/(xr[1]-xr[0]));
+    const Y=v=>h-pad.b-(h-pad.t-pad.b)*(v-yr[0])/(yr[1]-yr[0]);
+    ctx.font='11px '+css('--f-mono'); ctx.lineWidth=1;
+    yticks.forEach(v=>{ctx.strokeStyle=grid;ctx.beginPath();ctx.moveTo(pad.l,Y(v));ctx.lineTo(w-pad.r,Y(v));ctx.stroke();
+      ctx.fillStyle=muted;ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText(yfmt(v),pad.l-6,Y(v));});
+    xticks.forEach(v=>{ctx.strokeStyle=grid;ctx.beginPath();ctx.moveTo(X(v),pad.t);ctx.lineTo(X(v),h-pad.b);ctx.stroke();
+      ctx.fillStyle=muted;ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(xfmt.f?xfmt.f(v):v,X(v),h-pad.b+5);});
+    ctx.strokeStyle=line; ctx.strokeRect(pad.l+0.5,pad.t+0.5,w-pad.l-pad.r-1,h-pad.t-pad.b-1);
+    ctx.font='11px '+css('--f-body'); ctx.fillStyle=muted;
+    ctx.textAlign='right'; ctx.textBaseline='alphabetic'; ctx.fillText(xl,w-pad.r,h-3);
+    ctx.save(); ctx.translate(11,pad.t); ctx.rotate(-Math.PI/2); ctx.textAlign='right'; ctx.fillText(yl,0,0); ctx.restore();
+    return {X,Y};
+  }
+  function niceTicks(a,b,count){
+    const span=b-a, raw=span/count, mag=Math.pow(10,Math.floor(Math.log10(raw)));
+    const step=[1,2,5,10].map(k=>k*mag).find(s=>span/s<=count)||10*mag;
+    const out=[]; for(let v=Math.ceil(a/step)*step; v<=b+1e-9; v+=step) out.push(+v.toFixed(10)); return out;
+  }
+
+  function drawLnp(N,T,s){
+    const {ctx,w,h}=setupCanvas($('lnp'));
+    ctx.clearRect(0,0,w,h);
+    const lp=s.p.map(p=>Math.log(p));
+    let lo=Math.min(...lp), hi=Math.max(...lp);
+    if(hi-lo<1){ const c=(hi+lo)/2; lo=c-0.5; hi=c+0.5; }
+    const padY=(hi-lo)*0.08; lo-=padY; hi+=padY;
+    const pad={l:48,r:14,t:10,b:30};
+    const xr=[-0.5, N-0.5];
+    const {X,Y}=axes(ctx,w,h,pad,xr,[lo,hi],'E / ΔE','ln p',niceTicks(0,N-1,Math.min(8,N)),niceTicks(lo,hi,5),{},v=>Math.abs(v)>=100?v.toFixed(0):+v.toFixed(2)+'');
+    ctx.strokeStyle=css('--accent'); ctx.lineWidth=1.5; ctx.globalAlpha=0.55;
+    ctx.beginPath(); ctx.moveTo(X(0),Y(lp[0])); ctx.lineTo(X(N-1),Y(lp[N-1])); ctx.stroke(); ctx.globalAlpha=1;
+    const hot=css('--hot'), cold=css('--cold');
+    lp.forEach((v,n)=>{ctx.fillStyle=mix(cold,hot,N>1?n/(N-1):0);ctx.beginPath();ctx.arc(X(n),Y(v),N>25?2.5:3.5,0,7);ctx.fill();});
+    ctx.fillStyle=css('--fg'); ctx.font='600 11px '+css('--f-mono'); ctx.textAlign='right'; ctx.textBaseline='top';
+    ctx.fillText('slope = −1/T = '+fmt(-1/T,3), w-pad.r-6, pad.t+6);
+  }
+
+  let cvCache={N:null,data:null};
+  function drawCv(N,T,s){
+    const {ctx,w,h}=setupCanvas($('cv'));
+    ctx.clearRect(0,0,w,h);
+    if(cvCache.N!==N){
+      const data=[]; for(let i=0;i<=240;i++){const lt=TMIN+TSPAN*i/240, t=Math.pow(10,lt), q=stats(N,t); data.push([lt,q.C,q.E/(N-1)]);}
+      cvCache={N,data};
+    }
+    const data=cvCache.data;
+    const cmax=Math.max(1.05,...data.map(d=>d[1]))*1.08;
+    const pad={l:40,r:44,t:10,b:30};
+    const xr=[TMIN,TMIN+TSPAN];
+    const xt=[0.03,0.1,0.3,1,3,10,30].map(Math.log10);
+    const {X,Y}=axes(ctx,w,h,pad,xr,[0,cmax],'|k_BT| / ΔE (log)','C_V / k_B',xt,niceTicks(0,cmax,4),{f:v=>{const t=Math.pow(10,v);return t<1?t.toFixed(t<0.1?2:1):t.toFixed(0);}},v=>v.toFixed(1));
+    // right axis for <E>/(N-1)
+    const Y2=v=>h-pad.b-(h-pad.t-pad.b)*v/0.5; // map 0..0.5 to full height
+    const muted=css('--muted');
+    ctx.font='11px '+css('--f-mono'); ctx.fillStyle=muted; ctx.textAlign='left'; ctx.textBaseline='middle';
+    [0,0.25,0.5].forEach(v=>ctx.fillText(v.toFixed(2),w-pad.r+6,Y2(v)));
+    ctx.save(); ctx.translate(w-3,pad.t); ctx.rotate(-Math.PI/2); ctx.textAlign='right'; ctx.textBaseline='alphabetic'; ctx.font='11px '+css('--f-body'); ctx.fillText('⟨E⟩/E_max',0,0); ctx.restore();
+    // E curve
+    ctx.strokeStyle=css('--cold'); ctx.lineWidth=1.5; ctx.setLineDash([4,3]); ctx.beginPath();
+    data.forEach((d,i)=>{const x=X(d[0]),y=Y2(d[2]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}); ctx.stroke(); ctx.setLineDash([]);
+    // C curve
+    ctx.strokeStyle=css('--accent'); ctx.lineWidth=2; ctx.beginPath();
+    data.forEach((d,i)=>{const x=X(d[0]),y=Y(d[1]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}); ctx.stroke();
+    // marker
+    const lt=Math.log10(Math.abs(T)), x=X(lt);
+    ctx.strokeStyle=css('--hot'); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x,pad.t); ctx.lineTo(x,h-pad.b); ctx.stroke();
+    ctx.fillStyle=css('--hot'); ctx.beginPath(); ctx.arc(x,Y(s.C),4.5,0,7); ctx.fill();
+    const eAbs = T>0 ? s.E/(N-1) : 1-s.E/(N-1);
+    ctx.fillStyle=css('--cold'); ctx.beginPath(); ctx.arc(x,Y2(eAbs),3.5,0,7); ctx.fill();
+    // legend
+    ctx.font='11px '+css('--f-body'); ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillStyle=css('--accent'); ctx.fillRect(pad.l+8,pad.t+10,14,2); ctx.fillStyle=css('--fg'); ctx.fillText('C_V',pad.l+26,pad.t+11);
+    ctx.fillStyle=css('--cold'); ctx.fillRect(pad.l+60,pad.t+10,4,2); ctx.fillRect(pad.l+67,pad.t+10,4,2); ctx.fillStyle=css('--fg'); ctx.fillText('⟨E⟩/E_max'+(T<0?' (mirrored for T<0)':''),pad.l+76,pad.t+11);
+  }
+
+  function render(){
+    const N=+nLev.value;
+    let T=sliderToT(+tSl.value); if(neg.checked) T=-T;
+    $('nOut').textContent=N;
+    $('tOut').textContent=(T<0?'−':'')+fmt(Math.abs(T),Math.abs(T)<0.1?3:2);
+    const s=stats(N,T);
+    drawLadder(N,T,s);
+  }
+
+  let raf=null, dir=1;
+  sweepBtn.addEventListener('click',()=>{
+    if(raf){cancelAnimationFrame(raf);raf=null;sweepBtn.textContent='Sweep T';return;}
+    sweepBtn.textContent='Stop';
+    const step=()=>{let v=+tSl.value+dir*3; if(v>=1000){v=1000;dir=-1;} if(v<=0){v=0;dir=1;} tSl.value=v; render(); raf=requestAnimationFrame(step);};
+    raf=requestAnimationFrame(step);
+  });
+  [nLev,tSl,neg,logScale].forEach(el=>el.addEventListener('input',render));
+  window.addEventListener('resize',render);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',render);
+  new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(render);
+  render();
+})();
+</script>
+
+</body>
+</html>
