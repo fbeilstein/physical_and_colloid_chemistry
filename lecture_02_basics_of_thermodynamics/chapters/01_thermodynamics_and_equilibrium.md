@@ -65,13 +65,13 @@ Under normal conditions, a typical gas molecule moves at about $500\\,\text{m/s}
 
 :::matrix{cols=25/25/25/25}
 [[0, 0]] 
-![](/lecture_02_basics_of_thermodynamics/images/stern_experiment.png){width=100%}
+![](./lecture_02_basics_of_thermodynamics/images/stern_experiment.png){width=100%}
 [[0, 1]] 
-![](/lecture_02_basics_of_thermodynamics/images/lammert.png){width=100%}
+![](./lecture_02_basics_of_thermodynamics/images/lammert.png){width=100%}
 [[0, 2]]
-![](/lecture_02_basics_of_thermodynamics/images/miller_kusch.png){width=100%}
+![](./lecture_02_basics_of_thermodynamics/images/miller_kusch.png){width=100%}
 [[0, 3]]
-![](/lecture_02_basics_of_thermodynamics/images/miller_kusch_result.png){width=100%}
+![](./lecture_02_basics_of_thermodynamics/images/miller_kusch_result.png){width=100%}
 
 :::
 
@@ -120,7 +120,7 @@ $$
 **Spectroscopy.** Line intensities follow the level populations $g_{J}\\,\mathrm{e}^{-E_{J}/kT}$. This tests the distribution over discrete levels directly.
 
 [[0, 1]]
-![](/lecture_02_basics_of_thermodynamics/images/perrin.png){width=100% center}
+![](./lecture_02_basics_of_thermodynamics/images/perrin.png){width=100% center}
 
 
 ---
@@ -138,7 +138,7 @@ $$
 **Derivation**
 
 A molecule of mass $m$ hitting a wall perpendicular to the $x$-axis transfers momentum $2mv_x$. In a cube of side $L$ it returns to the same wall after time $2L/v_x$, so the average force it exerts is $F=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$.
-![](/lecture_02_basics_of_thermodynamics/images/gas_pressure.png){float: right; width: 450px; margin: 0 0 10px 15px;}
+![](./lecture_02_basics_of_thermodynamics/images/gas_pressure.png){float: right; width: 450px; margin: 0 0 10px 15px;}
 
 Summing over $N$ molecules and dividing by the wall area $L^2$:
 $$
@@ -262,7 +262,7 @@ $\mathbf{V, U, S, H, G, F}$ - extensive properties $\rightarrow$ $\mathbf{V^\cir
 
 **If system $A$ is in thermal equilibrium with $C$, and $B$ is also in equilibrium with $C$, then $A$ and $B$ are in equilibrium with each other.**
 or as J.C. Maxwell has put it in his book *Theory Of Heat* (1909):
-![Pasted Image](/lecture_02_basics_of_thermodynamics/images/maxwell_temperature.png){width=50% center}
+![](./lecture_02_basics_of_thermodynamics/images/maxwell_temperature.png){width=50% center}
 
 It was formulated (named by R. Fowler, 1930s) after the first and second laws. It was then recognized as logically prior to them, since both implicitly assume that temperature exists.
 
@@ -323,9 +323,9 @@ The notation emphasizes that $dU$ is an exact differential, since $U$ is a state
 ---
 :::matrix {cols="33/33/33" rows="50/50"}
 [[0,0]]
-![](/lecture_02_basics_of_thermodynamics/images/rumbord.png){width=60% center}
+![](./lecture_02_basics_of_thermodynamics/images/rumbord.png){width=60% center}
 [[0,1]]
-![](/lecture_02_basics_of_thermodynamics/images/mayer.png){width=80% center}
+![](./lecture_02_basics_of_thermodynamics/images/mayer.png){width=80% center}
 [[0,2]]
 From the $1842$ paper *Remarks on the Forces of Inanimate Nature*  by J.R. Mayer in the *Annalen der Chemie und Pharmacie*:
  - “forces” (energy) are indestructible and can be converted into one another (causa aequat effectum, “the cause equals the effect”);
@@ -333,9 +333,9 @@ From the $1842$ paper *Remarks on the Forces of Inanimate Nature*  by J.R. Mayer
 - an estimate of the mechanical equivalent of heat from $c_p - c_V$: a weight falling from a height of about $365 \text{m}$ corresponds to heating the same mass of water by $1 °\text{C}$.
 
 [[1,0]]
-![](/lecture_02_basics_of_thermodynamics/images/joule_paddle_scheme.png){width=60% center}
+![](./lecture_02_basics_of_thermodynamics/images/joule_paddle_scheme.png){width=60% center}
 [[1,1]]
-![](/lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
+![](./lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
 
 
 ---
@@ -368,8 +368,8 @@ where constant current $I$ from a source of known potential defference $\Delta \
 
 [[0,1]]
 
-![](/lecture_02_basics_of_thermodynamics/images/bomb_calorimeter.png){width: 350px; margin: 0 0 10px 15px;}
-![](/lecture_02_basics_of_thermodynamics/images/maxwell_calorimeter.png){width: 350px; margin: 0 0 10px 15px;}
+![](./lecture_02_basics_of_thermodynamics/images/bomb_calorimeter.png){width: 350px; margin: 0 0 10px 15px;}
+![](./lecture_02_basics_of_thermodynamics/images/maxwell_calorimeter.png){width: 350px; margin: 0 0 10px 15px;}
 The Ice calorimeter described by J.C. Maxwell
 :::
 
