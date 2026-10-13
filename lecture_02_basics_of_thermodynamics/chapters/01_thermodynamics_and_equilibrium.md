@@ -233,12 +233,12 @@ $$
 [[0,1::3]]
 ![](./lecture_02_basics_of_thermodynamics/images/slide_5_img_13.png)
 [[0,0:2]]
-- $\mathbf{P}$, $\mathbf{T}$, $\mathbf{V}$ --- pressure, temperature, volume
-- $\mathbf{U}$ --- internal energy
-- $\mathbf{S}$ --- entropy
-- $\mathbf{H}$ --- enthalpy
-- $\mathbf{G}$ --- Gibbs free energy
-- $\mathbf{F}$ --- Helmholtz free energy
+- $\mathbf{P}$, $\mathbf{T}$, $\mathbf{V}$ - pressure, temperature, volume
+- $\mathbf{U}$ - internal energy
+- $\mathbf{S}$ - entropy
+- $\mathbf{H}$ - enthalpy
+- $\mathbf{G}$ - Gibbs free energy
+- $\mathbf{F}$ - Helmholtz free energy
 
 $ \color{red}{\xcancel{\color{black}{Q}}}$ Heat is not a state function (no *heat fluid*)
 [[1,0:3]]
@@ -256,7 +256,90 @@ $\mathbf{V, U, S, H, G, F}$ - extensive properties $\rightarrow$ $\mathbf{V^\cir
 :::
 
 ---
+# Systems
+In thermodynamics, the universe is divided into two parts:
+the system (reaction vessel, an engine, an electrochemical cell, a biological cell) and its surroundings.
 
+**Classification of thermodynamic systems by the permeability of the boundary to matter and energy.**
+- An **open** system has a boundary through which matter
+can be transferred.
+
+- A **closed** system has a boundary through which matter
+cannot be transferred.
+
+- An **isolated** system can exchange neither energy nor
+matter with its surroundings.
+
+| System type | Matter transfer | Energy transfer |
+|-------------|-----------------|-----------------|
+| Open        | Yes             | Yes             |
+| Closed      | No              | Yes             |
+| Isolated    | No              | No              |
+
+![](./lecture_02_basics_of_thermodynamics/images/systems_class.png){width=40% center}
+
+---
+**Classification of thermodynamic systems by the number of phases.**
+- A **homogeneous system** consists of a single phase. Its intensive properties (density, composition, etc.) are uniform throughout, or vary continuously, with no internal boundaries.
+-  A **heterogeneous system** consists of two or more phases separated by phase boundaries (interfaces), across which properties change abruptly. Example: ice in water.
+| System type   | Number of phases | Internal phase boundaries |
+|---------------|------------------|---------------------------|
+| Homogeneous   | One              | No                        |
+| Heterogeneous | Two or more      | Yes                       |
+
+
+**Classification of thermodynamic systems by the number of independent components.**
+- A **one-component (single-component) system** contains only one independent chemical species. Example: pure water, even as ice + liquid + vapour.
+- A **multicomponent system** contains two or more independent chemical species. Example: a salt solution. The number of components is the minimum number of independent species needed to specify the composition of every phase. It can be smaller than the number of species present when they are linked by chemical reactions.
+  
+| System type     | Number of components | Example                  |
+|-----------------|----------------------|--------------------------|
+| One-component   | One                  | Pure water (ice + liquid)|
+| Multicomponent  | Two or more          | Aqueous salt solution    |
+
+---
+
+**Classification of thermodynamic systems by their state with respect to equilibrium.**
+- A system is in **thermodynamic equilibrium** when its macroscopic properties do not change with time and there are no net flows of matter or energy within it or across its boundary. This means it is simultaneously in thermal, mechanical, and chemical (material) equilibrium.
+- A **non-equilibrium system** has macroscopic properties that change with time, or sustains internal gradients and flows. Examples: a gas expanding into a vacuum, a rod with a temperature gradient.
+| System type     | State variables         | Net fluxes / gradients | Example                          |
+|-----------------|-------------------------|------------------------|----------------------------------|
+| Equilibrium     | Constant in time        | None                   | Gas in a sealed vessel at rest   |
+| Non-equilibrium | Change in time, or not  | Present                | Rod with a temperature gradient  |
+
+![](./lecture_02_basics_of_thermodynamics/images/non_equilibrium.png){float: right; width=18%; margin: 0 0 10px 15px;}
+
+<br><br><br><br>
+
+**Non-equilibrium thermodynamics** is a branch of thermodynamics that deals with physical systems that are not in thermodynamic equilibrium but can be described in terms of macroscopic quantities (non-equilibrium state variables) that represent an extrapolation of the variables used to specify the system in thermodynamic equilibrium. Non-equilibrium thermodynamics is concerned with **transport processes** and with **the rates of chemical reactions**.
+
+
+---
+# Walls
+**Thermal contact (heat)**
+
+- A **diathermal (diathermic) wall** allows heat to flow through it. Two systems separated by a diathermal wall eventually reach the same temperature.
+- An **adiabatic wall** does not allow heat to flow. Energy can cross it only as work.
+
+**Mechanical contact (work)**
+
+- A **movable (flexible) wall** can be displaced, so the system can do or receive work of expansion/compression, p dV.
+- A **rigid (fixed) wall** cannot be displaced, so no $p \\, dV$ work is exchanged.
+
+**Material contact (matter)**
+
+- A **permeable wall** allows all chemical species to pass.
+- An **impermeable** wall allows no matter to pass.
+- A **semipermeable** wall allows only certain species to pass. Example: an osmotic membrane passing water but not solute.
+
+:::matrix{cols="50/50"}
+[[0, 0]]
+![](./lecture_02_basics_of_thermodynamics/images/vacuum_flask.png){width=25% center}
+[[0, 1]]
+![](/lecture_02_basics_of_thermodynamics/images/palladium.png){width=80% center}
+:::
+
+---
 # Zeroth Law of Thermodynamics 
 
 
@@ -287,12 +370,13 @@ $$
 
 In thermodynamics, the total energy of a system is called its
 internal energy, $U$. The internal energy is the total kinetic and
-potential energy of the constituents (the atoms, ions, or molecules) of the system. It does not include the kinetic energy arising from the motion of the system as a whole, such as its kinetic energy as it accompanies the Earth on its orbit round the Sun.
+potential energy of the constituents (the atoms, ions, or molecules) of the system. It does not include the kinetic energy arising from the motion of the system as a whole, such as its kinetic energy as it accompanies the Earth on its orbit around the Sun.
 
 It has been found experimentally that:
 - the internal energy of a closed system may be changed either by doing work on the system or by heating it.
 - if a system is isolated from its surroundings, meaning that it can exchange neither matter nor energy with its surroundings, then no change in internal energy takes place. This is now known as the
-First Law of thermodynamics: **The internal energy of an isolated system is constant.**
+First Law of thermodynamics:
+ **The internal energy of an isolated system is constant.**
 
 If $A$ is the work done *on a system* (acquisitive convention), $Q$ is the energy transferred as heat to a system, and $\Delta U$ is the resulting change in internal energy, then
 $$
@@ -312,9 +396,9 @@ The notation emphasizes that $dU$ is an exact differential, since $U$ is a state
 ---
 # Experiments that showed that heat and work are modes of energy transfer
 
-**Rumford’s cannon-boring experiments (1798)** Benjamin Thompson, Count Rumford, supervised the arsenal in Munich and noticed that boring cannon barrels produced large amounts of heat. In a test, a blunt borer driven by horses was turned inside a barrel immersed in water. After about two and a half hours the water boiled, with no fire involved. His key conclusion was that heat could be produced without limit as long as the mechanical work continued. If heat were a substance (caloric) stored in a finite amount in the metal, it should eventually run out. Heat therefore had to be a form of motion generated by work.
+**Rumford’s cannon-boring experiments (1798)** Benjamin Thompson, Count Rumford, supervised the arsenal in Munich and noticed that boring cannon barrels produced large amounts of heat. In a test, a blunt borer driven by horses was turned inside a barrel immersed in water. After about two and a half hours the water boiled, with no fire involved. His key conclusion was that heat could be produced without limit as long as the mechanical work continued. If heat were a substance (caloric) stored in a finite amount in the metal, it should eventually run out. Heat, therefore, had to be a form of motion generated by work.
 
-**Mayer (1842).** Julius Robert Mayer, a ship’s physician, formulated the principle of energy conservation and was the first to calculate the mechanical equivalent of heat. He used the difference between the specific heats of a gas, $c_p - c_V$: when a gas is heated at constant pressure, part of the heat goes into the work of expansion. He performed no experiments himself, but obtained a value of about $3.6 \\, \text{J}/\text{cal}$.
+**Mayer (1842).** Julius Robert Mayer, a ship’s physician, formulated the principle of energy conservation and was the first to calculate the mechanical equivalent of heat. He used the difference between the specific heats of a gas, $c_P - c_V$: when a gas is heated at constant pressure, part of the heat goes into the work of expansion. He performed no experiments himself, but obtained a value of about $3.6 \\, \text{J}/\text{cal}$.
 
 **Joule’s paddle-wheel experiment (1840s).** Falling weights, connected through pulleys, turned a paddle wheel in a water-filled calorimeter, and the friction of the paddles warmed the water. Joule measured the work done and the temperature rise. He found about  $4.15 \\, \text{J}/\text{cal}$ (the modern value is $4.184$). Crucially, he showed that the same ratio holds for different ways of converting work into heat: friction in water and mercury, compression of gases, and electric current in a conductor. This established the mechanical equivalent of heat, and the unit of energy is named after him.
 
@@ -327,15 +411,17 @@ The notation emphasizes that $dU$ is an exact differential, since $U$ is a state
 [[0,1]]
 ![](./lecture_02_basics_of_thermodynamics/images/mayer.png){width=80% center}
 [[0,2]]
-From the $1842$ paper *Remarks on the Forces of Inanimate Nature*  by J.R. Mayer in the *Annalen der Chemie und Pharmacie*:
+From the 1842 paper *Remarks on the Forces of Inanimate Nature*  by J.R. Mayer in the *Annalen der Chemie und Pharmacie*:
  - “forces” (energy) are indestructible and can be converted into one another (causa aequat effectum, “the cause equals the effect”);
-- motion, the fall of a body, and heat are different forms of one and the same thing;
-- an estimate of the mechanical equivalent of heat from $c_p - c_V$: a weight falling from a height of about $365 \text{m}$ corresponds to heating the same mass of water by $1 °\text{C}$.
+- an estimate of the mechanical equivalent of heat from $c_P - c_V$: a weight falling from a height of about $365 \\, \text{m}$ corresponds to heating the same mass of water by $1 °\text{C}$.
 
 [[1,0]]
 ![](./lecture_02_basics_of_thermodynamics/images/joule_paddle_scheme.png){width=60% center}
 [[1,1]]
-![](./lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
+![](/lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
+[[1,2]]
+![](./lecture_02_basics_of_thermodynamics/images/joules_tombstone.png){width=55% center}
+foot-pounds ($1.36 \\, \text{J}$) to raise the temperature of pound of water by $1 \text{F}$ (BTU)
 
 
 ---
@@ -350,9 +436,7 @@ Calorimetry is the study of the transfer of energy as heat during a physical or 
 
 A **calorimeter** is a device for measuring energy transferred as heat. The most common device for measuring $q_V$ (and therefore $\Delta U$) is an adiabatic bomb calorimeter. The process to be studied which may be a chemical reaction is initiated inside a constant-volume container, the ‘bomb’. The bomb is immersed in a stirred water bath, and the whole device is the calorimeter.
 
-The calorimeter is also immersed in an outer water bath. The
-temperature of the water in the calorimeter and of the outer
-bath are both monitored and that of the outer bath is adjusted
+The calorimeter is also immersed in an outer water bath. The temperature of the water in the calorimeter and of the outer bath are both monitored and that of the outer bath is adjusted
 to keep it the same as the water in the calorimeter. This arrangement ensures that there is no net loss of heat from the
 calorimeter to the surroundings (the bath) and hence that the
 calorimeter is adiabatic.
@@ -360,7 +444,7 @@ The change in temperature, $\Delta T$, of the calorimeter is commonly found to b
 $$
 q = C \Delta T
 $$
-where $C$ - is the **calorimeter constant**. The value of this empirical constant can be found by measuring $\Delta T$ for a process of known heat output. One possibility is to use eletrical heating  and relation 
+where $C$ - is the **calorimeter constant**. The value of this empirical constant can be found by measuring $\Delta T$ for a process of known heat output. One possibility is to use electrical heating  and relation 
 $$
 q = It\Delta \phi
 $$
@@ -390,75 +474,174 @@ The Ice calorimeter described by J.C. Maxwell
 ---
 # Enthalpy ($H$)
 
-![text](20 10 <i>work that would be required to "make room" for the system if the pressure of the environment remained constant.</i>)
-![arrow](20 12 -> 13 13)
+The change in internal energy is not equal to the energy transferred as heat when the system is free to change its volume,
+such as when it is able to expand or contract under conditions
+of constant pressure. Under these circumstances, some of the
+energy supplied as heat to the system is returned to the surroundings as expansion work, so $dU$ is less than $\delta Q$.
+In this case, the energy supplied as heat at constant pressure is
+equal to the change in another thermodynamic property of the
+system, the **enthalpy**.
 
-:::matrix {cols="30/30/40"}
-[[0,0:2]]
-* $H = U + pV$
-* If the system is under constant pressure, $dp = 0$ the increase in enthalpy of the system is equal to the heat added
-[[1,0]]
+![](./lecture_02_basics_of_thermodynamics/images/entalpy.png)
+{float: right; width=18%; margin: 0 0 10px 15px;}
+
+$$
+H = U + PV
+$$
+
+If the system is under constant pressure, $dp = 0$, the increase in enthalpy of the system is equal to the heat added
 $$
 \begin{aligned}
-    dH &= dU + d(pV) \\\\
-    dH &= \underbrace{dU + pdV}\_{\delta Q} + Vdp \\\\
-    dH &= \delta Q + Vdp \\\\
-    dH &= \delta Q \quad \text{if} \quad p = \text{const}
+    dH &= dU + d(PV) \\\\
+    dH &= \underbrace{dU + PdV}\_{\delta Q} + VdP \\\\
+    dH &= \delta Q + VdP \\\\
+    dH &= \delta Q \quad \text{if} \quad P = \text{const}
 \end{aligned}
 $$
-[[1,1]]
+
+This equation states that, provided there is no additional (nonexpansion) work done, and the system and surroundings are in
+mechanical equilibrium, *the change in enthalpy is equal to the
+energy supplied as heat at constant pressure*.
+
+---
+# Heat capacity
+**Heat capacity** or **thermal capacity** is a physical property of matter, defined as the amount of heat that must be supplied to an object to produce a unit change in its temperature:
+
 $$
-\bbox[#F4E5F7, 20px, border-radius: 15px]{
-\begin{array}{l}
-\text{The First Law of} \\\\
-\text{Thermodynamics:} \\\\
-\\\\
-\delta Q = dU + pdV
-\end{array}
-}
+C=\lim_{\Delta T \to 0} \frac{Q}{\Delta T} = \frac{\delta Q}{dT}.
 $$
-[[0:3,2]]
+
+At constant volume $\delta Q = dU$, at constant pressure $\delta Q = dH$:
+
+$$
+C_V = \left(\frac{\partial U}{\partial T}\right)_V, \\qquad C_P=\left( \frac{\partial H}{\partial T}  \right)_P. 
+$$
+For $1$ mole ideal *monoatomic* gas ($3$ degrees of freedom):
+
 $$
 \begin{aligned}
-& \\\\
-\Delta H > 0 \quad &\textbf{endothermic} \text{ reaction} \\\\
-\Delta H < 0 \quad &\textbf{exothermic} \text{ reaction}
+U_m(T)  &= \frac{3}{2}RT \quad \longrightarrow \quad
+&&C_{V,m} = \frac{\partial}{\partial T} \left( \frac{3}{2} RT \right) = \frac{3}{2} R\\\\
+PV &= RT \quad \longrightarrow \quad
+&&C_{P,m} = \left( \frac{\partial (U+PV)}{\partial T}  \right)_P = \frac{3}{2}R+R .
 \end{aligned}
 $$
-![](./lecture_02_basics_of_thermodynamics/images/slide_8_img_16.png){width=85%}
-$$\ce{Ba(OH)2 * 8H2O + NH4SCN} \qquad  \ce{Fe2O3 + Al2O3} $$
-[[2,0:2]]
-We have an analog of "heat fluid" but at **constant pressure only**
 
-There are a lot of "different" enthalpies that refer to the enthalpy change in various processes:
+Relation between heat capacities:
+
 $$
-\Delta H = H\_\text{products} - H\_\text{reactants}
+\begin{aligned}
+C_{P,m} - C_{V,m} &= R \qquad \text{Mayer's relation}\\\\
+\frac{C_{P,m}}{C_{V,m}} &= \frac{5}{2}
+\end{aligned}
 $$
-[[3,0:3]]
-:::matrix{cols="20/20/20/20/20"}
-[[0,0]]
-* mean bond enthalpy
-* enthalpy of reaction
-* enthalpy of formation
-[[0,1]]
-* enthalpy of combustion
-* enthalpy of neutralisation
-* enthalpy of fusion 
-[[0,2]]
-* enthalpy of vaporisation 
-* enthalpy of sublimation
-* enthalpy of solution
-[[0,3]]
-* enthalpy of hydration
-* enthalpy of atomisation
-* lattice formation enthalpy
-[[0,4]]
-* lattice dissociation enthalpy
-* first ionisation energy
-* second ionisation energy
+
+---
+
+For more general homogeneous substances (not just ideal gases), the difference takes the form:
+
+$$
+C_{P,m} - C_{V,m} = V_m T \frac{\alpha_V^2}{\kappa_T}, \qquad \alpha_V=\frac{1}{V}\left( \frac{\partial V}{\partial T} \right)_P \qquad \kappa_T=-\frac{1}{V} \left( \frac{\partial V}{\partial P} \right)_T.
+$$
+
+where $V_m$ is the *molar volume*, $\alpha_V$
+is the *thermal expansion coefficient* and $\kappa_T$ is the *isothermal compressibility*.
+
+
+|              | $\alpha/(10^{-4}\,\mathrm{K}^{-1})$ | $\kappa_T/(10^{-6}\,\mathrm{bar}^{-1})$ |
+|:-------------|------:|------:|
+| *Liquids:*   |       |       |
+| Benzene      | 12.4  | 92.1  |
+| Water        | 2.1   | 49.6  |
+| *Solids:*    |       |       |
+| Diamond      | 0.030 | 0.187 |
+| Lead         | 0.861 | 2.21  |
+
+
+Since $\beta_T$  is positive for nearly all phases, and the square of thermal expansion coefficient $\alpha_V$ is always either a positive quantity or zero:
+
+$$
+C_{P,m} >C_{V,m}.
+$$
+
+Because expansion coefficients α of liquids and solids are small, it is tempting to deduce  that for them $C_P \approx C_V$.
+But this is not always so, because the compressibility $\kappa_T$ might
+also be small, so $\alpha_V^2/\kappa_T$ might be large (example: lead). That is, although pushing back the atmosphere requires only a little work, a great deal of work may have to be done to pull atoms apart from one another as the solid expands.
+
+---
+
+![](./lecture_02_basics_of_thermodynamics/entalpy_plot.png){float:left; width=40% center}
+<br><br><br>
+The enthalpy of a substance increases as its temperature is
+raised. The reason is the same as for the internal energy: molecules are excited to states of higher energy so their total energy increases.
+
+
+The constant-pressure heat capacity at a particular temperature is the slope of the tangent to a curve of the enthalpy 
+of a system plotted against temperature (at constant pressure). For most substances, at a given temperature the slope of enthalpy versus temperature is steeper than that of internal energy versus
+
+
+<br><br>
+![](./lecture_02_basics_of_thermodynamics/C_P_coeffs.png){float: right; width=30% center}
+
+The variation of heat capacity with temperature can sometimes be ignored if the temperature range is small; this is an excellent approximation for a monatomic perfect gas (for
+instance, one of the noble gases at low pressure). However, when it is necessary to take the variation into account for other substances, a convenient approximate empirical
+expression is:
+
+$$
+\begin{aligned}
+C_{P,m} &= a+b\\, T+\frac{c}{T^2}, \\\\
+\Delta H &= \int_{T_1}^{T_2} C_{P,m} \\, dT = \int_{T_1}^{T_2} a+b\\, T+\frac{c}{T^2} \\, dT = a (T_2-T_1)+\frac{1}{2}(T_2^2-T_1^2)-c\left(\frac{1}{T_2}-\frac{1}{T_1}\right).
+\end{aligned}
+$$
+
+
+
+---
+The heat capacity at constant pressure relates the change in
+enthalpy to a change in temperature. For infinitesimal changes
+of temperature
+
+$$
+dH = C_p \\, dT \quad \text{at constant pressure}.
+$$
+
+If the heat capacity is constant over the range of temperatures of
+interest, then for a measurable increase in temperature 
+
+$$
+\Delta H=\int_{T_1}^{T_2} C_P \\, dT = C_P \Delta T.
+$$
+
+Because a change in enthalpy can be equated to the energy
+supplied as heat at constant pressure, the practical form of this
+equation is
+
+$$
+Q_P = C_P \\, \Delta T.
+$$
+
+A process that releases energy as
+heat is called **exothermic**, and one that absorbs energy - **endothermic**. Because the release of energy as heat into the surroundings at constant pressure signifies a
+decrease in the enthalpy of a system, it follows that 
+- an exothermic process at constant pressure is one for which $ΔH < 0$; such
+a process is **exenthalpic**.
+- an absorption of
+heat from the surroundings at constant pressure results in an
+increase in enthalpy, an endothermic process at constant pressure has $\Delta H > 0$; such a process is **endenthalpic**.
+
+:::matrix {cols="30/30/30"}
+[[0:1]]
+$$
+\ce{Ba(OH)2 * 8H2O + NH4SCN}
+$$
+[[0:2]]
+![](./lecture_02_basics_of_thermodynamics/images/slide_8_img_16.png){width=95%}
+[[0:3]]
+$$
+\ce{Fe2O3 + Al2O3} 
+$$
 :::
 
-:::
 
 ---
 # Strong endothermic reaction
@@ -466,41 +649,187 @@ $$
 ![youtube](kb6-xzFr4nk){width=90}
 
 ---
+# Standard enthalpy of transition
+
+![](./lecture_02_basics_of_thermodynamics/plimsoll.png){float: right; width=20% center}
+
+Changes in enthalpy are normally reported for processes taking place under a set of standard conditions. The standard enthalpy change, $\Delta H^\ominus$ ($\ominus$ - Plimsoll line symbol) is the change in enthalpy for a process in which the initial and final substances are in their standard states:
+
+**The standard state of a substance at a specified temperature is its pure form at $1 \text{bar}$.**
+
+For example, the standard state of liquid ethanol at $298 \text{K}$ is pure liquid ethanol at $298 \text{K}$ and $1 \text{bar}$. 
+
+The standard enthalpy change for a reaction or a physical process is the diﬀerence in enthalpy between the products in their standard states and the reactants in their standard states, all at the same specified temperature.
+
+$$
+\Delta H^\ominus = H_{\text{products}}^\ominus-H_{\text{reactans}}^\ominus
+$$
+
+The standard molar enthalpy change that accompanies a change of physical state is called the standard enthalpy of transition and is denoted $\Delta_{\text{trs}}H^\ominus$. For example,
+
+- standard enthalpy of vaporization $\Delta_{\text{vap}}H^\ominus$. 
+
+$$
+\ce{H2O(l) \longrightarrow H2O(l)(g)} \qquad \Delta_{\text{vap}} H^\ominus (373 \text{K})=+40.66 \\, \text{kJ}\\,\text{mol}^{-1}
+$$
+
+- standard enthalpy of fusion $\Delta_{\text{fus}} H^\ominus$:
+
+$$
+\ce{H2O(s) \longrightarrow H2O(l)(g)} \qquad \Delta_{\text{fus}} H^\ominus (373 \text{K})=+6.01 \\, \text{kJ}\\,\text{mol}^{-1}
+$$
+
+The different types of enthalpy changes encountered in thermochemistry are summarized in the Table.
+
+---
+
+| Transition | Process | Symbol |
+|:--|:--|:--|
+| Transition | Phase $\alpha \to$ phase $\beta$ | $\Delta_{\text{trs}}H$ |
+| Fusion | $\text{s} \to \text{l}$ | $\Delta_{\text{fus}}H$ |
+| Vaporization | $\text{l} \to \text{g}$ | $\Delta_{\text{vap}}H$ |
+| Sublimation | $\text{s} \to \text{g}$ | $\Delta_{\text{sub}}H$ |
+| Mixing | Pure $\to$ mixture | $\Delta_{\text{mix}}H$ |
+| Solution | Solute $\to$ solution | $\Delta_{\text{sol}}H$ |
+| Hydration | $\text{X}^{\pm}(\text{g}) \to \text{X}^{\pm}(\text{aq})$ | $\Delta_{\text{hyd}}H$ |
+| Atomization | Species(s, l, g) $\to$ atoms(g) | $\Delta_{\text{at}}H$ |
+| Ionization | $\text{X}(\text{g}) \to \text{X}^{+}(\text{g}) + \text{e}^{-}(\text{g})$ | $\Delta_{\text{ion}}H$ |
+| Electron gain | $\text{X}(\text{g}) + \text{e}^{-}(\text{g}) \to \text{X}^{-}(\text{g})$ | $\Delta_{\text{eg}}H$ |
+| Reaction | Reactants $\to$ products | $\Delta_{\text{r}}H$ |
+| Combustion | Compound(s, l, g) $+ \text{O}_2(\text{g}) \to \text{CO}_2(\text{g}) + \text{H}_2\text{O}(\text{l, g})$ | $\Delta_{\text{c}}H$ |
+| Formation | Elements $\to$ compound | $\Delta_{\text{f}}H$ |
+| Activation | Reactants $\to$ activated complex | $\Delta^{\ddagger}H$ |
+
+---
+
+Because enthalpy is a state function, a change in enthalpy is independent of the path between the two states. This feature is of great importance in thermochemistry, because it implies that the same value of $H^\ominus$ will be obtained however the change is brought about between specified initial and final states. For example, the conversion of a solid to a vapour can be pictured either as occurring by sublimation (the direct conversion from solid to vapour)
+
+$$
+\ce{H2O(s)\longrightarrow H2O(g)} \qquad \Delta_{\text{sub}}H^\ominus
+$$
+
+or as occurring in two steps, first fusion (melting) and then vaporization of the resulting liquid:
+
+![](./lecture_02_basics_of_thermodynamics/entalpy_subl.png){float: right; width=25% center}
+
+$$
+\begin{aligned}
+\ce{H2O(s)\longrightarrow H2O(l)} & \qquad \Delta_{\text{fus}}H^\ominus \\\\
+\ce{H2O(l)\longrightarrow H2O(g)} & \qquad \Delta_{\text{vap}}H^\ominus \\\\
+\text{Overall: } \ce{H2O(s)\longrightarrow H2O(g)} & \qquad \Delta_{\text{fus}}H^\ominus+\Delta_{\text{vap}}H^\ominus.
+\end{aligned}
+$$
+
+
+
+Because the overall result of the indirect path is the same as that
+of the direct path, the overall enthalpy change is the same in each
+case, and (for processes occurring at the same temperature)
+
+$$
+\Delta_{\text{sub}}H^\ominus = \Delta_{\text{fus}}H^\ominus+\Delta_{\text{vap}}H^\ominus.
+$$
+
+It follows that, because all enthalpies of fusion are positive, the enthalpy of sublimation of a substance is greater than its enthalpy of vaporization (at a given temperature).
+
+![](./lecture_02_basics_of_thermodynamics/enthalpy_reverse.png){float: right; width=28% center}
+
+Another consequence of $H$ being a state function is that the
+standard enthalpy change of a forward process is the negative of
+its reverse
+
+$$
+\Delta H^\ominus (A \rightarrow B) = - \Delta H^\ominus (A \leftarrow B)
+$$
+
+For instance, because the enthalpy of vaporization of water is
+$+44 \\, \text{kJ} \\, \text{mol}^{−1}$ at $298 K$, the enthalpy of condensation of water vapour at that temperature is $−44 \\, \text{kJ} \\, \text{mol}^{−1}$.
+
+---
+
+There are two ways of reporting the change in enthalpy that
+accompanies a chemical reaction. One is to write the **thermochemical equation**, a combination of a chemical equation and
+the corresponding change in standard enthalpy:
+
+$$
+\ce{CH4(g) + 2O2(g)\longrightarrow CO2(g) + 2 H2O(l)} \qquad \Delta H^\ominus =-890 \\, \text{kJ}
+$$
+
+where $\Delta H^\ominus$ is the change in enthalpy when reactants in their standard states change to products in their standard states:
+
+$$
+\text{Pure, separate reactants in their standard states} \longrightarrow \text{pure, separate products in their standard states}.
+$$
+
+Except in the case of ionic reactions in solution, the enthalpy
+changes accompanying mixing and separation are insignifcant
+in comparison with the contribution from the reaction itself.
+For the combustion of methane, the standard value refers to the reaction in which $1 \\, \text{mol} \\, \ce{CH4}$ in the form of pure methane gas at $1 \\, \text{bar}$ reacts completely with $2\ \\, \text{mol} \\, \ce{O2}$ in the form of pure oxygen gas to produce $1 \\, \text{mol} \\, \ce{CO2}$ as pure carbon dioxide at $1 \\, \text{bar}$ and $2 \\, \text{mol} \\, \ce{H2O}$ as pure liquid water at $1 \\, \text{bar}$; the numerical value quoted is for the reaction at $298.15 \\, \text{K}$.
+
+Alternatively, the chemical equation is written and the **standard reaction enthalpy**, $\Delta_r H^\ominus$ (or ‘standard enthalpy of reaction’) reported. Thus, for the combustion of methane at $298 \\, \text{K}$, write
+
+$$
+\ce{CH4(g) + 2O2(g)\longrightarrow CO2(g) + 2 H2O(l)} \qquad \Delta_r H^\ominus =-890 \\, \text{kJ} \\, \text{mol}^{-1}.
+$$
+
+In general
+
+$$
+\Delta_r H^\ominus = \sum_{\text{Products}} \nu H_m^\ominus - \sum_{\text{Reactants}} \nu H_m^\ominus
+$$
+
+where in each case the molar enthalpies of the species are multiplied by their (dimensionless and positive) stoichiometric coefficients, $\nu$.
+
+
+---
 # Hess's law
 
-If a reaction is carried out in a series of steps, $\Delta H$ for the overall reaction equals the **sum** of the enthalpy changes for the **individual steps**. 
-The overall enthalpy change for the process is independent of the number of steps and independent of the path by which the reaction is carried out.
-
-This law is a consequence of the fact that enthalpy is a state function. 
-We can therefore calculate $\Delta H$ for any process as long as we find a route for which $\Delta H$ is known for each step. 
-This means that a relatively small number of experimental measurements can be used to calculate $\Delta H$ for a vast number of reactions.
+Standard reaction enthalpies can be combined to obtain the value for another reaction. This application of the First Law is called **Hess’s law**:
+**The standard reaction enthalpy is the sum of the values for the individual reactions into which the overall reaction may be divided.**
+The individual steps need not be realizable in practice: they
+may be ‘hypothetical’ reactions, the only requirement being
+that their chemical equations should balance. The thermodynamic basis of the law is the path-independence of the value of $\Delta_r H^\ominus$. The importance of Hess’s law is that information about a reaction of interest, which may be difficult to determine directly, can be assembled from information on other
+reactions.
 
 **Example:**
 
-:::matrix {cols="50/25/25"}
-[[0,0]] {font-size: 80%;}
+The standard reaction enthalpy for the hydrogenation of propene,
+
 $$
-\begin{array}{lrcll}
-& \ce{CH4(g) + 2O2(g)} & \longrightarrow & \ce{CO2(g) + 2H2O(g)} & \Delta H = -802 \text{ kJ} \\\\
-\text{(Add)} & \ce{2H2O(g)} & \longrightarrow & \ce{2H2O(l)} & \Delta H = -88 \text{ kJ} \\\\
+\ce{CH2=CHCH3 (g) + H2 (g)} \longrightarrow \ce{CH3CH2CH3 (g)}
+$$
+is $-124 \\, \text{kJ} \\, \text{mol}^{-1}$. The standard reaction enthalpy for the combustion of propane 
+
+$$
+\ce{CH3CH2CH3 (g) + 5 O2 (g)} \longrightarrow \ce{3CO2 (g) + 4H2O (l)}
+$$
+is $-2220 \\, \text{kJ} \\, \text{mol}^{-1}$. The standard reaction enthalpy for the formation of water,
+
+$$
+\ce{H2 (g) + \frac{1}{2} O2 (g) \longrightarrow H2O (l)}
+$$
+is $-286 \\, \text{kJ} \\, \text{mol}^{-1}$. Calculate the standard enthalpy of combustion of propene.
+
+
+---
+
+| Reaction | $\Delta_\text{r}H^\ominus/(\text{kJ mol}^{-1})$ |
+|:--|--:|
+| $\text{C}_3\text{H}_6(\text{g}) + \text{H}_2(\text{g}) \to \text{C}_3\text{H}_8(\text{g})$ | $-124$ |
+| $\text{C}_3\text{H}_8(\text{g}) + 5\\,\text{O}_2(\text{g}) \to 3\\,\text{CO}_2(\text{g}) + 4\\,\text{H}_2\text{O}(\text{l})$ | $-2220$ |
+| $\text{H}_2\text{O}(\text{l}) \to \text{H}_2(\text{g}) + \tfrac{1}{2}\\,\text{O}_2(\text{g})$ | $+286$ |
+| $\text{C}_3\text{H}_6(\text{g}) + \tfrac{9}{2}\\,\text{O}_2(\text{g}) \to 3\\,\text{CO}_2(\text{g}) + 3\\,\text{H}_2\text{O}(\text{l})$ | $-2058$ |
+
+$$
+\begin{aligned}
+\ce{C3H6 + H2} &\ce{-> C3H8} \\\\
+\ce{C3H8 + 5 O2} &\ce{-> 3 CO2 + 4 H2O} \\\\
+\ce{H2O} &\ce{-> H2 + 1/2 O2} \\\\
 \hline
-& \ce{CH4(g) + 2O2(g) + 2H2O(g)} & \longrightarrow & \ce{CO2(g) + 2H2O(l) + 2H2O(g)} & \\\\
-& & & & \Delta H = -890 \text{ kJ}
-\end{array}
+\ce{C3H6 + H2 + C3H8 + 5 O2 + H2O} &\ce{-> C3H8 + 3 CO2 + 4 H2O + H2 + 1/2 O2} \\\\
+\ce{C3H6 + 9/2 O2} &\ce{-> 3 CO2 + 3 H2O}
+\end{aligned}
 $$
-
-The net equation is
-$$
-\ce{CH4(g) + 2O2(g) -> CO2(g) + 2H2O(l)} \qquad \Delta H = -890 \text{ kJ}
-$$
-[[0,1]]
-![](./lecture_02_basics_of_thermodynamics/images/slide_10_img_21.png)
-[[0,2]]
-![](./lecture_02_basics_of_thermodynamics/images/slide_10_img_22.png)
-:::
-
-
-Hess's law provides a useful means of **calculating** energy changes that are difficult to **measure** directly.
 
 ---
 # Hess's law
@@ -885,4 +1214,34 @@ $$
 
 ![](./lecture_02_basics_of_thermodynamics/images/slide_28_img_66.png) {width=90}
 ![](./lecture_02_basics_of_thermodynamics/images/slide_28_img_65.png) {width=70}
+
+---
+:::titlepage
+[[title]]
+HOMEWORK
+:::
+
+---
+**Problem 1.** Calculate $\Delta H$ for the process 
+$$
+\ce{N2(g) + 2O2(g) -> 2NO2(g)}
+$$
+given the following information:
+$$
+\ce{N2(g) + O2(g) -> 2NO(g)} \quad \Delta H = 180.5 \text{ kJ}
+$$
+$$
+\ce{NO(g) + \frac{1}{2}O2(g) -> NO2(g)} \quad \Delta H = -57.06 \text{ kJ}
+$$
+
+**Problem 2.** Calculate the lattice enthalpy of $\ce{CaO}$ from the following data:
+
+|  | $\Delta H/(\text{kJ mol}^{-1})$ |
+| --- | --- |
+| Sublimation of $\ce{Ca(s)}$ | $+178$ |
+| Ionization of $\ce{Ca(g)}$ to $\ce{Ca^{2+}(g)}$ | $+1735$ |
+| Dissociation of $\ce{\frac{1}{2}O2(g)}$ | $+249$ |
+| Electron attachment to $\ce{O(g)}$ | $-141$ |
+| Electron attachment to $\ce{O^-(g)}$| $+844$ |
+| Formation of $\ce{CaO(s)}$ from $\ce{Ca(s)}$ and $\ce{\frac{1}{2}O2(g)}$ | $-635$ |
 
