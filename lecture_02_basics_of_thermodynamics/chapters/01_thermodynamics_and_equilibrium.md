@@ -202,27 +202,6 @@ the starting point of the theory of stochastic differential equations.
 * uses multivariable calculus to establish useful relations between the thermodynamic functions
 * key concepts: isolated system, thermodynamic equilibrium, quasistatic process, reversible process
 
-## 3 Laws of Thermodynamics
-
-**Zeroth law:** If two systems are each in thermal equilibrium with a third, they are also in thermal equilibrium with each other.
-$$
-T \text{ is a state variable}
-$$
-
-**First law:** In a process without transfer of matter, the change in internal energy, $\Delta U$ of a thermodynamic system is equal to the energy gained as heat, Q minus the thermodynamic work A, done by the system on its surroundings.
-$$
-\Delta U = \Delta Q - A
-$$
-
-**Second law:** Heat does not spontaneously flow from a colder body to a hotter body.
-$$
-\text{For a reversible process:} \qquad dS = \frac{\delta Q}{T}
-$$
-
-**Third law:** As the temperature of a system approaches absolute zero, all processes cease and the entropy of the system approaches a minimum value.
-$$
-S(T = 0 \text{ K}) = 0
-$$
 
 
 ---
@@ -234,11 +213,11 @@ $$
 ![](./lecture_02_basics_of_thermodynamics/images/slide_5_img_13.png)
 [[0,0:2]]
 - $\mathbf{P}$, $\mathbf{T}$, $\mathbf{V}$ - pressure, temperature, volume
-- $\mathbf{U}$ - internal energy
-- $\mathbf{S}$ - entropy
-- $\mathbf{H}$ - enthalpy
-- $\mathbf{G}$ - Gibbs free energy
-- $\mathbf{F}$ - Helmholtz free energy
+- $\mathbf{U}$ --- internal energy
+- $\mathbf{S}$ --- entropy
+- $\mathbf{H}$ --- enthalpy
+- $\mathbf{G}$ --- Gibbs free energy
+- $\mathbf{F}$ --- Helmholtz free energy
 
 $ \color{red}{\xcancel{\color{black}{Q}}}$ Heat is not a state function (no *heat fluid*)
 [[1,0:3]]
@@ -362,6 +341,116 @@ $$
 E \neq E_A + E_B
 $$
 (long-range interactions, self-gravitating systems with negative heat capacity) and becomes ambiguous for small systems.
+
+---
+
+:::matrix {cols="33/33/33"}
+[[0,0]]
+![](./lecture_02_basics_of_thermodynamics/termoscope_1.png){width=50%}
+
+Principle of operation of a
+thermoscope.
+
+[[0,1]]
+![](/lecture_02_basics_of_thermodynamics/Galileo_thermo.png){width=55% center}
+
+Thermoscope, 
+non-sealed
+
+[[0,2]]
+![](./lecture_02_basics_of_thermodynamics/florentce_thermo.png){width=60% center}
+
+Thermometer,
+sealed, thermometric liquid - alcohol.
+:::
+
+:::matrix {cols="33/33/33"}
+[[0,0]]
+![Pasted Image](./lecture_02_basics_of_thermodynamics/air_thermometer.png){width=35% }
+
+Early unsealed air thermometer design (1690) 
+
+[[0,1]]
+![Pasted Image](/lecture_02_basics_of_thermodynamics/multi_scale_thermo.png){width=55%}
+
+Thermometer with 18 scales (1754) 
+
+
+[[0,2]]
+![](./lecture_02_basics_of_thermodynamics/pt_thermometer.png){width=55%}
+
+Sensing element of a modern standard platinum resistance thermometer
+:::
+
+---
+
+![](./lecture_02_basics_of_thermodynamics/T-scales.png){float:right; width=25% }
+
+**The Fahrenheit scale.** Daniel Fahrenheit (1686–1736) was born in Danzig but lived mainly in the Netherlands and worked as an instrument maker. He used mercury as his thermometric liquid. His scale (he claimed) had three fixed points: human body temperature (which he defined as $96^\circ$), an intermediate point (a mixture of ice and water) at $32^\circ$ ($96-32=64=2^6$) and a lower point which he obscurely defined as the temperature of a solution of brine made from equal parts of ice, water and salt (sea-salt or ammonium chloride) defined as $0^\circ$. However, it is unlikely that the lower point was in any way reliable and only the first two points were usable fixed points. 
+
+After Fahrenheit’s death, the scale was redefined in terms of two reproducible fixed points: the melting point of ice ($32^\circ\mathrm{F}$) and the boiling point of water ($212^\circ \\, \mathrm{F}$), separated by $180$ degrees. The relation to the Celsius scale is
+$$
+t_{\mathrm{F}} = \frac{9}{5}t_{\mathrm{C}}+32.
+$$
+
+**The Réaumur scale.** René-Antoine Réaumur (1683–1757) was a French scientist. His original thermometers used alcohol “spirit of wine” as the thermometric liquid. He proposed a scale, the lower fixed point being the freezing point of water at $0^\circ\\, \mathrm{Ré}$. The upper fixed point description was very confused, but most people believed that he was saying that $80^\circ\\, \mathrm{Ré}$ was the boiling point of water. He took the volume of the alcohol at the freezing point of water as $1000$ units, with each degree corresponding to an expansion of one thousandth of that volume. His alcohol (diluted with water) expanded to about $1080$ units at the upper point, hence $80^\circ$.
+
+$$
+t_{\mathrm{Ré}} = \frac{4}{5} t_C.
+$$
+
+**The Celsius (Centigrade) scale.** Anders Celsius was a Swedish astronomer. He used mercury in his thermometers. He used two fixed points and an inverted scale with the melting point of ice (snow) set to be $100^\circ{\mathrm{C}}$ and boiling water set to be $0^\circ{\mathrm{C}}$ ⁰C. This scale was reversed quite early on –reputedly by Swedish botanist Carolus Linnaeus. 
+
+
+
+---
+
+# A gas thermometer
+
+![](./lecture_02_basics_of_thermodynamics/gas_thermometer.png){float:right; width=20% center}
+
+A gas thermometer is a bulb of gas at constant volume whose pressure is proportional to $T$. The non-ideality of the gas is removed by extrapolating to zero pressure, after which the reading no longer depends on the choice of gas and coincides with thermodynamic temperature.
+
+For an ideal gas,
+$$
+PV = nRT.
+$$
+
+If the volume is kept constant and the amount of gas $n$ does not change, then
+$$
+P \propto T.
+$$
+
+The pressure is directly proportional to the absolute temperature. This is the basis of the constant-volume gas thermometer, the most common type. A constant-pressure version ($V \propto T$) is also possible, but volume is harder to measure accurately, so it is used less often.
+
+Since 1954 the **Kelvin scale** has been defined by a single fixed point, the triple point of water, $T_\text{tp} = 273.15$ K. (Since 2019 the kelvin has been defined through the Boltzmann constant, but numerically the scale is the same.)
+
+Place the bulb in a water triple-point cell and measure the pressure $P_\text{tp}$.
+Place the bulb in the system of interest and measure the pressure $P$.
+Since $P \propto T$,
+$$T = 273.15\ \mathrm{K}\cdot\frac{P}{P_\text{tp}}.$$
+
+---
+
+The main subtlety: a real gas is not ideal. A real gas obeys the virial equation:
+
+$$PV_m = RT\left(1 + \frac{B(T)}{V_m} + \frac{C(T)}{V_m^2} + \dots\right),$$
+
+where $B(T)$, the second virial coefficient, accounts for interactions between pairs of molecules. As a result, thermometers filled with different gases ($\ce{He, N2, H2}$), or with different amounts of gas, give slightly different values of $T$.
+
+**The solution:** reduce the amount of gas. Repeat the measurement at progressively lower $P_\text{tp}$ (by pumping gas out) and plot “measured $T$ versus $P_\text{tp}$”. The points lie on straight lines, and on extrapolation to $P_\text{tp} \to 0$ all gases converge to a single point:
+
+$$T = 273.15\ \mathrm{K}\cdot\lim_{P_\text{tp}\to 0}\frac{P}{P_\text{tp}}.$$
+
+In the limit of infinite dilution every gas becomes ideal, so the result does not depend on the substance. This ideal-gas temperature scale coincides with the thermodynamic Kelvin scale (as can be proved with a Carnot cycle using an ideal gas as the working substance).
+
+
+**Historical role**
+- **Amontons (around 1700)**: the pressure of air increases with temperature. By extrapolating to zero pressure he made the first estimate of “absolute cold”.
+- **Charles, Gay-Lussac (around 1800)**: all gases have the same expansion coefficient, about $1/273$ per degree.
+- **Regnault (1840s)**: precision gas thermometers; he showed small differences between gases.
+- **Kelvin (1848)**: defined the absolute scale thermodynamically and showed that the gas scale agrees closely with it.
+
 
 ---
 
@@ -653,7 +742,7 @@ $$
 
 ![](./lecture_02_basics_of_thermodynamics/plimsoll.png){float: right; width=20% center}
 
-Changes in enthalpy are normally reported for processes taking place under a set of standard conditions. The standard enthalpy change, $\Delta H^\ominus$ ($\ominus$ - Plimsoll line symbol) is the change in enthalpy for a process in which the initial and final substances are in their standard states:
+Changes in enthalpy are normally reported for processes taking place under a set of standard conditions. The standard enthalpy change, $\Delta H^\ominus$ ($\ominus$ - [Plimsoll](https://en.wikipedia.org/wiki/Load_line_(watercraft)) line symbol) is the change in enthalpy for a process in which the initial and final substances are in their standard states:
 
 **The standard state of a substance at a specified temperature is its pure form at $1 \text{bar}$.**
 
@@ -832,15 +921,7 @@ $$
 $$
 
 ---
-# Hess's law
 
-The formation of $\ce{CO2(g)}$ from its elements can be thought of as occurring in two steps, which sum to the overall reaction, as described by Hess's law. 
-The horizontal blue lines represent enthalpies. 
-For an exothermic process, the products are at lower enthalpy than are the reactants.
-
-![](./lecture_02_basics_of_thermodynamics/images/slide_11_img_23.png)
-
----
 # Enthalpy and Alkenes
 
 :::matrix {cols="40/60"}
@@ -883,6 +964,58 @@ $$
 \ce{ClF(g) + F2 -> ClF3(g)} & \Delta H = -139.2 \text{ kJ}
 \end{array}
 $$
+
+---
+# Differential scanning calorimeter
+
+![](./lecture_02_basics_of_thermodynamics/DSC.png){float: right; width=25% center}
+
+
+A **differential scanning calorimeter** (DSC) measures the energy transferred as heat to or from a sample at constant pressure during a physical or chemical change. The term ‘differential’ refers to the fact that measurements on a sample are compared to those on a reference material that does not undergo a physical or chemical change during the analysis.
+The term ‘scanning’ refers to the fact that the temperatures of the sample and reference material are increased, or scanned, during the analysis.
+
+
+A DSC consists of two small compartments that are heated electrically at a constant rate:
+$$
+T = T_0 + \alpha t,
+$$
+where $\alpha$ is *scan rate*. A computer controls the electrical power supply that maintains the same temperature in the sample and reference compartments throughout the analysis.
+
+If no physical or chemical change occurs in the sample at temperature $T$, the heat transferred to the sample is written as 
+$$
+Q_P = C_P \Delta T
+$$
+where $\Delta T = \alpha \Delta t$.
+If a chemical or physical process takes place, the energy required to be transferred as heat to attain the same change in temperature of the sample as the control is $Q_P + Q_{P, \mathrm{ex}}$.
+The quantity $Q\_{P,\mathrm{ex}}$ is interpreted in terms of an apparent change in the heat capacity at constant pressure, from $C\_P$ to $C\_P+C\_{P,\mathrm{ex}}$ of the sample during the temperature scan:
+$$
+C_{P,\text{ex}} = \frac{Q\_{P,\mathrm{ex}}}{\Delta T} = \frac{Q\_{P,\mathrm{ex}}}{\alpha t} = \frac{\mathcal{P}\_{\mathrm{ex}}}{\alpha}
+$$
+where $\mathcal{P}\_{\mathrm{ex}}=Q\_{P,\mathrm{ex}}/t$ is the excess electrical power necessary to
+equalize the temperature of the sample and reference compartments. A DSC trace, also called a thermogram, consists of a
+plot of $C\_{P,\mathrm{ex}}$ against $T$.
+
+---
+:::matrix{cols=50/50 width="100%"}
+[[0, 0]]
+![](./lecture_02_basics_of_thermodynamics/DSC_ubi.png){width="100%"}
+
+[[1, 0]] 
+A thermogram for the protein ubiquitin at $\mathrm{pH} = 2.45$. The protein retains its native structure up to about $45^\circ\mathrm{C}$ and then undergoes an endothermic conformational change.
+
+[[0, 1]]
+![youtube](Y2Nb0LVYykE) {width="100%"}
+DSC of the solid sample under an inert $\ce{N2}$ atmosphere.
+:::
+
+The enthalpy change associated with the process is 
+$$
+\Delta H = \int_{T_1}^{T_2} C\_{P,\mathrm{ex}} \\, dT
+$$
+where $T_1$ and $T_2$ are, respectively, the temperatures at which the process begins and ends. This relation shows that the enthalpy
+change is equal to the area under the plot of $C\_{P,\mathrm{ex}}$ against $T$.
+
+
 
 ---
 # Entropy ($S$)
