@@ -13,67 +13,41 @@
 - Membrane Biophysics
 - ...
 
+---
+# The kinetic theory of gases
+
+![](./lecture_02_basics_of_thermodynamics/molecules.gif){float: right; width=20% center}
+
+
+In the kinetic theory of gases (which is sometimes called the **kinetic-molecular theory**, KMT) it is assumed that the only contribution to the energy of the gas is from the kinetic energies of the molecules. 
+
+- The gas consists of very small particles. This smallness of their size is such that the sum of the volume of the individual gas molecules is negligible compared to the volume of the container of the gas. This is equivalent to stating that the average distance separating the gas particles is large compared to their size, and that the elapsed time during a collision between particles and the container's wall is negligible when compared to the time between successive collisions.
+- The number of particles is so large that a statistical treatment of the problem is well justified. This assumption is sometimes referred to as the **thermodynamic limit**.
+- The rapidly moving particles constantly collide among themselves and with the walls of the container, and all these collisions are perfectly elastic.
+- Interactions (i.e. collisions) between particles are strictly binary and uncorrelated, meaning that there are no three-body (or higher) interactions, and the particles have no memory.
+Except during collisions, the interactions among molecules are negligible. They exert no other forces on one another.
+
+As a simplifying assumption, the particles are usually assumed to have the same mass as one another; however, the theory can be generalized to a mass distribution, with each mass type contributing to the gas properties independently of one another. Many of the model's predictions are the same whether or not collisions between particles are included, so they are often neglected as a simplifying assumption in derivations.
 
 ---
-# Statistical mechanics and kinetic theory
 
-:::matrix {cols="80/20"}
-[[0,0]]
-- assumes molecular (classical or quantum) composition of matter microstates
-- uses probability distributions to cope with huge number equations of motion
-- calculates measurable parameters as statistical / quantum mechanical averages
+# Fundamental equation of the kinetic theory of gases $pV=\frac{1}{3}nR\\, v_{\text{rms}}^2$
+From the very economical assumptions of the kinetic model, it is possible to derive an expression that relates the pressure and volume of a gas to the mean speed with which the molecules are moving.
 
-**Maxwell–Boltzmann distribution:**
+A molecule of mass $m$ hitting a wall perpendicular to the $x$-axis transfers momentum $2mv_x$, where $v_x$ is the $x$-component of the *mean speed*. In a cube of side $L$ it returns to the same wall after time $2L/v_x$, so the average force it exerts is $F=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$.
+![](./lecture_02_basics_of_thermodynamics/images/gas_pressure.png){float: right; width: 450px; margin: 0 0 10px 15px;}
+
+Summing over $N$ molecules and dividing by the wall area $L^2$:
 $$
-\begin{array}{ll}
-\text{Maxwell–Boltzmann distribution of speeds} &
-  f(v) = 4\pi \left( \dfrac{M}{2\pi RT} \right)^{3/2} v^{2} \mathrm{e}^{-Mv^{2}/2RT} \cr
-\text{Root-mean-square speed} &
-  v_{\mathrm{rms}} = \sqrt{\langle v^2 \rangle} =  \left( 3RT/M \right)^{1/2} \cr
-\text{Mean speed} &
-  v_{\mathrm{mean}} = \langle v \rangle = \left( 8RT/\pi M \right)^{1/2} \cr
-\text{Most probable speed} &
-  v_{\mathrm{mp}} = \left( 2RT/M \right)^{1/2} \cr
-\text{Mean relative speed} &
-  v_{\mathrm{rel}} = \left( 8kT/\pi\mu \right)^{1/2}, \quad \mu = m_{\mathrm{A}} m_{\mathrm{B}} / (m_{\mathrm{A}} + m_{\mathrm{B}}) \cr
-  \text{Collision frequency} &
-  z=\sigma v_{\text{rel}} \\,  p/kT \cr
-  \text{Mean free path} & 
-  \lambda = kT/\sigma p
-\end{array}
+p = \frac{Nm\langle v_x^2 \rangle}{V}.
 $$
+By isotropy, $\langle v_x^2 \rangle=\frac{1}{3}\langle v^2 \rangle=\frac{1}{3}v_{\text{rms}}^2$, hence
+$$
+pV=\frac{1}{3}Nm\\, v_{\text{rms}}^2=\frac{1}{3}nR\\, v_{\text{rms}}^2,
+$$
+since the total mass is $Nm = nM$ ($M$ - molar mass, $n$ - amount of substance in moles).
 
-Under normal conditions, a typical gas molecule moves at about $500\\,\text{m/s}$ and undergoes about $10^{9}$–$10^{10}$ collisions per second, so its mean free path is of the order of $10^{-7}\\,\text{m}$ ($\sim 0.1\\,\mu\text{m}$).
-
-[[0,1]]
-![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_1.png){width=150%}
-![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_2.png) {width="150%"}
-:::
-
----
-<iframe src="./lecture_02_basics_of_thermodynamics/demos/maxwell-speeds.html" width="100%" height="850px" style="border:1px solid #ccc; border-radius: 8px;"></iframe>
-
----
-# Experimental verification of the Maxwell speed distribution
-**Stern (1920)** A beam of silver atoms, evaporated from a heated platinum wire, was deposited on a rotating cylinder. Slower atoms were displaced further by the rotation, and the shift of the deposit gave the mean speed. The result agreed with kinetic theory, but the precision was too low to test the shape of the distribution.
-
-**Lammert (1929)** Lammert worked in Stern's lab (Hamburg). The first mechanical velocity selector: two toothed discs on a common shaft, offset by a small angle, transmitted only atoms with a given speed. Varying the rotation rate, Lammert measured the speed distribution of a mercury beam and found qualitative agreement with Maxwell's law.
-
-**Zartman and Ko (1930–1931)** Zartman (at Berkeley) used a technique similar to Stern's, but with higher resolution and with bismuth atoms.
-
-**Miller and Kusch (1955)** A rotating cylinder with helical grooves acted as a high-resolution velocity selector. Measurements on potassium and thallium beams confirmed the Maxwell distribution to within about $1\\%$.
-
-:::matrix{cols=25/25/25/25}
-[[0, 0]] 
-![](./lecture_02_basics_of_thermodynamics/images/stern_experiment.png){width=100%}
-[[0, 1]] 
-![](./lecture_02_basics_of_thermodynamics/images/lammert.png){width=100%}
-[[0, 2]]
-![](./lecture_02_basics_of_thermodynamics/images/miller_kusch.png){width=100%}
-[[0, 3]]
-![](./lecture_02_basics_of_thermodynamics/images/miller_kusch_result.png){width=100%}
-
-:::
+This equation is one of the key results of the kinetic model. It will be shown that the right-hand side is equal to $nRT$, thus giving the perfect gas equation.
 
 ---
 # Boltzmann distribution
@@ -125,32 +99,172 @@ $$
 
 ---
 
-# Fundamental equation of the kinetic theory of gases $pV=\frac{1}{3}nR\\, v_{\text{rms}}^2$
-**Assumptions**
 
-- The gas consists of a large number of identical molecules in random motion.
-- The molecules are point particles: their own volume is negligible compared with the volume of the container.
-- There are no forces between molecules except during collisions.
-- Collisions with the walls and with each other are perfectly elastic.
-- The motion is isotropic: no direction is preferred.
-- Classical mechanics applies.
+# The Maxwell distribution of speeds
 
-**Derivation**
+In a gas the speeds of individual molecules span a wide range,
+and the collisions in the gas ensure that their speeds are ceaselessly changing. Before a collision, a molecule may be travelling rapidly, but after a collision it may be accelerated to a higher speed, only to be slowed again by the next collision. 
 
-A molecule of mass $m$ hitting a wall perpendicular to the $x$-axis transfers momentum $2mv_x$. In a cube of side $L$ it returns to the same wall after time $2L/v_x$, so the average force it exerts is $F=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$.
-![](./lecture_02_basics_of_thermodynamics/images/gas_pressure.png){float: right; width: 450px; margin: 0 0 10px 15px;}
+**Don't get confused:**
+$$
+\begin{aligned}
+&{\bf{v}} &&- \text{velocity},\\\\
+&{\bf{v}} = (v_x, v_y, v_z) &&- \text{components of velocity}, \\\\
+&v=|\bf{v}| &&- \text{speed = modulus of velocity}.
+\end{aligned}
+$$
 
-Summing over $N$ molecules and dividing by the wall area $L^2$:
+
+The fraction of molecules that have speeds in the range $v$ to $v + dv$ is given by $f(v) dv $, where $f(v)$ is called the **distribution of speeds**. To do this we calculate the **distribution of velocities** $f({\bf{v}})$ first.
+
+![](./lecture_02_basics_of_thermodynamics/velocity_space.png){float:right; width=25% center}
+
+The Boltzmann distribution implies that the fraction of molecules with velocity components $v_x$, $v_y$, and $v_z$ is proportional to an exponential function of their kinetic energy $\epsilon$ : $f({\bf{v}})=Ke^{-\epsilon/kT}$, where $K$ is a constant of proportionality. The kinetic energy is simply the sum on the contributions from the motion along $x$, $y$, and $z$:
 $$
-p = \frac{Nm\langle v_x^2 \rangle}{V}.
+\epsilon = \frac{1}{2}mv_x^2+\frac{1}{2}mv_y^2+\frac{1}{2}mv_z^2.
 $$
-By isotropy, $\langle v_x^2 \rangle=\frac{1}{3}\langle v^2 \rangle=\frac{1}{3}v_{\text{rms}}^2$, hence
 $$
-pV=\frac{1}{3}Nm\\, v_{\text{rms}}^2=\frac{1}{3}nR\\, v_{\text{rms}}^2,
+f({\bf{v}})=Ke^{-\epsilon/kT} = Ke^{-\left(\frac{1}{2}mv_x^2+\frac{1}{2}mv_y^2+\frac{1}{2}mv_z^2\right)/kT} = Ke^{-\frac{1}{2}mv_x^2/kT}e^{-\frac{1}{2}mv_y^2/kT}e^{-\frac{1}{2}mv_z^2/kT} = f(v_x)f(v_y)f(v_z)
 $$
-since the total mass is $Nm = nM$ ($M$ - molar mass, $n$ - amount of substance in moles).
- 
+where $f(v_i)=K_ie^{-\frac{1}{2}mv_i^2/kT}$.
+
 ---
+To evaluate the constant $K_x$, note that a molecule must have a
+velocity component somewhere in the range $-\infty < v_x  \infty$, so
+integration of the distribution over the full range of possible
+values of $v_x$ must give a total probability of $1$:
+
+
+$$
+\begin{aligned}
+\int_{-\infty}^{\infty} f(v_x)\\, dv_x &= 1 \qquad\rightarrow \qquad K_x = \left( \frac{m}{2 \pi kT} \right)^{1/2} \\\\
+f(v_x) &= \left( \frac{m}{2 \pi kT}  \right)^{1/2} e^{-\frac{1}{2}mv_x^2/kT} \\\\
+f({\bf{v}}) &= \left( \frac{m}{2 \pi kT} \right)^{3/2} e^{-\left(\frac{1}{2}mv_x^2+\frac{1}{2}mv_y^2+\frac{1}{2}mv_z^2\right)/kT} =
+\left( \frac{m}{2 \pi kT} \right)^{3/2} e^{-\frac{1}{2}mv^2/kT}
+\end{aligned}
+$$
+
+
+The probability that a molecule has a velocity in the range
+$v_x$ to $v_x+dv_x$, $v_y$ to $v_y+dv_y$, $v_z$ to $v_z+dv_z$ is
+$$
+f({\bf{v}}) \\, dv_x dv_ydv_z = \left( \frac{m}{2 \pi kT} \right)^{3/2} e^{-\frac{1}{2}mv^2/kT} dv_xdv_ydv_z.
+$$
+![](./lecture_02_basics_of_thermodynamics/velocity_sphere.png){float: right; width=25% }
+
+To evaluate the probability that a molecule has a speed in the range $v$ to $v + dv_x$ regardless of direction, think of the three
+velocity components as defining three coordinates in ‘velocity
+space’.
+In ordinary space points that lie at a distance between
+$r$ and $r+dr$ from the centre are contained in a spherical shell
+of thickness $dr$ and radius $r$. The volume of this shell is the
+product of its surface area, $4πr^2$, and its thickness $dr$, and is
+therefore $4πr^2 dr$. Similarly, the analogous volume in velocity
+space is the volume of a shell of radius $v$ and thickness $dv$,
+namely $4πv^2 dv$.
+Because $f(v)$ depends only on $v^22$, and has the same value everywhere in a shell of radius $v$, the total probability of the molecules possessing a speed in the range $v$ to $v + dv$ is the product of the $f(v)$ and the volume of the shell of radius v and thickness $dv$.
+$$
+f(v)=4 \pi v^2 \left( \frac{m}{2 \pi kT} \right)^{3/2} e^{-\frac{1}{2}mv^2/kT}=4 \pi \left( \frac{m}{2 \pi kT} \right)^{3/2} v^2 e^{-\frac{1}{2}mv^2/kT}.
+$$
+
+---
+
+![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_2.png) {float:right; ; width="25%"}
+
+
+The molar gas constant $R$ is related to Boltzmann’s constant
+$k$ by $R = N_A k$, where $N_A$ is Avogadro’s constant. It follows that
+$m/k = mN_A/R = M/R$, where $M$ is the molar mass. 
+$$
+f(v)=4 \pi \left( \frac{M}{2 \pi RT} \right)^{3/2} v^2 e^{-\frac{1}{2}Mv^2/RT}.
+$$
+
+For students familiar with multivariable calculus, the switch from $f(\mathbf{v})$ to $f(v)$ can be viewed as a consequence of changing to spherical coordinates in velocity space and subsequent integration over angle variables.
+
+$$
+\begin{aligned}
+(v_x, v_y, v_z) & \rightarrow (v, \phi, \theta),\\\\
+dv_x \\, dv_y \\, d v_z &= \frac{\partial (v_x, v_y, v_z)}{\partial(v, \phi,\theta)} dv \\, d\phi \\, d\theta, \\\\
+dv_x \\, dv_y \\, d v_z &= v^2 \sin{\theta} \\,dv \\, d\phi \\, d\theta, \\\\
+f({\bf{v}})dv_x \\, dv_y \\, d v_z &= v^2 \\, \sin{\theta} \\, f\left({\bf{v}}(v, \phi, \theta)\right) \\, dv \\, d\phi \\, d\theta, \\\\
+f(v)  &= \int_0^{2\pi} d\phi  \int_0^{\pi} \sin{\theta} \\, d\theta \\, v^2 \\, f(v, \phi, \theta), \\\\
+f(v)  &= 4\pi \\, v^2 f(v, \phi, \theta). \\\\
+\end{aligned}
+$$
+
+
+---
+
+<iframe src="./lecture_02_basics_of_thermodynamics/demos/maxwell-speeds.html" width="100%" height="850px" style="border:1px solid #ccc; border-radius: 8px;"></iframe>
+
+---
+
+With speed distribution we can calculate mean value of any function of $v$. For example
+$$
+\begin{aligned}
+\langle v\rangle &= \int vf(v)\\, dv \\\\
+\langle v^2 \rangle &= \int v^2f(v)\\, dv  
+\end{aligned}
+$$
+After integration we get
+
+$$
+\begin{array}{ll}
+\text{Root-mean-square speed} &
+  v_{\mathrm{rms}} = \sqrt{\langle v^2 \rangle} =  \left( 3RT/M \right)^{1/2} \cr
+\text{Mean speed} &
+  v_{\mathrm{mean}} = \langle v \rangle = \left( 8RT/\pi M \right)^{1/2} \cr
+\end{array}
+$$
+
+By finding the argmaximum of the speed distribution function we get the most probable speed:
+
+$$
+\begin{array}{ll}
+\text{Most probable speed} &
+  v_{\mathrm{mp}} = \left( 2RT/M \right)^{1/2} \cr
+\end{array}{ll}
+$$
+
+It's also possible calculate
+$$
+\begin{array}{ll}
+\text{Mean relative speed} &
+  v_{\mathrm{rel}} = \left( 8kT/\pi\mu \right)^{1/2}, \quad \mu = m_{\mathrm{A}} m_{\mathrm{B}} / (m_{\mathrm{A}} + m_{\mathrm{B}}) \cr
+  \text{Collision frequency} &
+  z=\sigma v_{\text{rel}} \\,  p/kT \cr
+  \text{Mean free path} & 
+  \lambda = kT/\sigma p
+\end{array}
+$$  
+Under normal conditions, a typical gas molecule moves at about $500\\,\text{m/s}$ and undergoes about $10^{9}$–$10^{10}$ collisions per second, so its mean free path is of the order of $10^{-7}\\,\text{m}$ ($\sim 0.1\\,\mu\text{m}$).
+
+
+
+---
+# Experimental verification of the Maxwell speed distribution
+**Stern (1920)** A beam of silver atoms, evaporated from a heated platinum wire, was deposited on a rotating cylinder. Slower atoms were displaced further by the rotation, and the shift of the deposit gave the mean speed. The result agreed with kinetic theory, but the precision was too low to test the shape of the distribution.
+
+**Lammert (1929)** Lammert worked in Stern's lab (Hamburg). The first mechanical velocity selector: two toothed discs on a common shaft, offset by a small angle, transmitted only atoms with a given speed. Varying the rotation rate, Lammert measured the speed distribution of a mercury beam and found qualitative agreement with Maxwell's law.
+
+**Zartman and Ko (1930–1931)** Zartman (at Berkeley) used a technique similar to Stern's, but with higher resolution and with bismuth atoms.
+
+**Miller and Kusch (1955)** A rotating cylinder with helical grooves acted as a high-resolution velocity selector. Measurements on potassium and thallium beams confirmed the Maxwell distribution to within about $1\\%$.
+
+:::matrix{cols=25/25/25/25}
+[[0, 0]] 
+![](./lecture_02_basics_of_thermodynamics/images/stern_experiment.png){width=100%}
+[[0, 1]] 
+![](./lecture_02_basics_of_thermodynamics/images/lammert.png){width=100%}
+[[0, 2]]
+![](./lecture_02_basics_of_thermodynamics/images/miller_kusch.png){width=100%}
+[[0, 3]]
+![](./lecture_02_basics_of_thermodynamics/images/miller_kusch_result.png){width=100%}
+
+:::
+
+---
+
 # Brownian motion
 
 ![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_4.png){float: right; width: 250px; margin: 0 0 10px 15px;}
@@ -368,7 +482,7 @@ sealed, thermometric liquid - alcohol.
 [[0,0]]
 ![Pasted Image](./lecture_02_basics_of_thermodynamics/air_thermometer.png){width=35% }
 
-Early unsealed air thermometer design (1690) 
+Gas thermometer by Amonton, unsealed design (1690) 
 
 [[0,1]]
 ![Pasted Image](/lecture_02_basics_of_thermodynamics/multi_scale_thermo.png){width=55%}
@@ -552,15 +666,7 @@ The Ice calorimeter described by J.C. Maxwell
 ![youtube](RJXq92dzAWA) {width="80%" left="10%"}
 
 ---
-# Explanation of Thermodynamic Quantities: $\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ$
 
-| Term | Name | Explanation |
-| :--- | :--- | :--- |
-| $\color{#279B61}{\Delta G^\circ}$ | <span style="color: #279B61; font-weight: bold;">Gibbs free-energy change</span> | Represents the difference in energy between products and reactants. A negative $\Delta G^\circ$ indicates an **exergonic** reaction that proceeds spontaneously with a favorable equilibrium constant. Conversely, a positive $\Delta G^\circ$ denotes an **endergonic** reaction, which is nonspontaneous and has an unfavorable equilibrium constant. |
-| $\color{#D91E76}{\Delta H^\circ}$ | <span style="color: #D91E76; font-weight: bold;">Enthalpy change</span> | The overall heat associated with a reaction, reflecting the net difference in bond strengths between newly formed bonds and those broken. A negative $\Delta H^\circ$ signifies an **exothermic** process where heat is released. A positive $\Delta H^\circ$ signifies an **endothermic** process where heat is absorbed. |
-| $\color{#2B8CBE}{\Delta S^\circ}$ | <span style="color: #2B8CBE; font-weight: bold;">Entropy change</span> | The shift in the system's molecular disorder or randomness resulting from a reaction. A negative $\Delta S^\circ$ means the system becomes less random; a positive $\Delta S^\circ$ indicates an increase in molecular randomness. |
-
----
 # Enthalpy ($H$)
 
 The change in internal energy is not equal to the energy transferred as heat when the system is free to change its volume,
