@@ -1,22 +1,220 @@
 
 
-# Statistical mechanics + Thermodynamics = POWER !!!
 
-- Chemical thermodynamics
-- Chemical kinetics
-- Colloid and Surface Chemistry
-- Materials Science and Solid-State Chemistry
-- Quantum Chemistry and Molecular Modeling
-- Enzymatic Catalysis
-- Protein Thermodynamics
-- Biomolecular Thermodynamics in the Cell
-- Membrane Biophysics
-- ...
+# The perfect gas
+
+The properties of gases were among the first to be established quantitatively (largely during the seventeenth and eighteenth centuries) when the technological requirements of travel in
+balloons stimulated their investigation.
+
+The **physical state** of a sample of a substance, its physical condition, is defined by its physical properties. Two samples of the same substance that have the same physical properties are said to be ‘in the same state’. The **variables of state**, the variables needed to specify the state of a system, are the amount of substance it contains, $n$; the volume it occupies, $V$; the pressure, $P$; and the temperature, $T$.
+
+Suppose a sample is divided into smaller samples. If a property of the original sample has a value that is equal to the sum of its values in all the smaller samples, then it is said to be an
+**extensive** property. If a property retains the same value as in the original sample for all the smaller samples, then it is said to be **intensive**. 
+
+- Amount ($n$), mass ($m$), and volume ($V$) are examples of extensive properties.
+- Temperature ($T$) and pressure ($P$) are examples of intensive properties. The value of a property $X$ divided by the amount $n$ gives the molar value of that property $X_m$: that is, $X_m = X/n$. All molar properties are intensive, whereas $X$ and $n$ are both extensive.
+The mass density, $ρ = m/V$, is also intensive.
+
+Although in principle the state of a pure substance is specified by giving the values of $n, V, p$, and $T$, it has been established experimentally that it is sufficient to specify only **three** of these variables because doing so fixes the value of the fourth variable. 
+The general form of an **equation of state** is
+$$
+P = f(T, V, n).
+$$
+
+Each substance is described by its own equation of state, but the explicit form of the equation is known in only a few special cases. One very important example is the equation of state of a
+**‘perfect gas’**, which has the form 
+$$
+P = nRT/V,
+$$
+where $R$ is a constant independent of the identity of the gas.
+
+---
+
+The equation of state of a perfect gas was established by combining a series of empirical laws that arose from experimental observations. These laws can be summarized as
+
+| Law | Formula | Conditions |
+|---|---|---|
+| Boyle's law (Mariotte) | $pV = \text{constant}$ | at constant $n, T$ |
+| Charles's law (Amonton / Gay-Lussac) | $V = \text{constant} \times T$ | at constant $n, p$ |
+| Charles's law (Amonton / Gay-Lussac) | $p = \text{constant} \times T$ | at constant $n, V$ |
+| Avogadro's principle | $V = \text{constant} \times n$ | at constant $p, T$ |
+
+- Boyle’s and Charles’s laws are strictly true only in the limit that the pressure goes to zero ($p \to 0$): they are examples of a **limiting law**, a law that is strictly true only in a certain limit.
+However, these laws are found to be reasonably reliable at normal pressures.
+- Avogadro’s *principle* is so-called because it supposes that the system consists of molecules whereas a *law* is strictly a summary of observations and independent of any assumed model.
+- The empirical observations summarized by Boyle’s and Charles’s laws and Avogadro’s principle can be combined into a single expression:
+$$
+p \\, V = \mathrm{constant} \times n T.
+$$
+The $\mathrm{constant}$ of proportionality, which is found experimentally to be the same for all gases, is denoted $R = 8.314 \\, \mathrm{J} / \mathrm{mol}\\, \mathrm{K})$ and called the (molar) **gas constant**.
+
+---
+
+![](./lecture_02_basics_of_thermodynamics/images/ideal_gas.png){width=100% center}
+
+---
+
+# Dalton’s law
+
+When dealing with gaseous mixtures, it is often necessary to know the contribution that each component makes to the total pressure of the sample. The **partial pressure**, $P_J$, of a gas $J$ in a mixture (any gas, not just a perfect gas), is defined as
+$$
+P_J = x_j P,
+$$
+where $x_J$ is the **mole fraction** of the component $J$, the amount of $J$ expressed as a fraction of the total amount of molecules, $n$, in the sample:
+$$
+\begin{aligned}
+x_j &= \frac{n_j}{n}, \\\\
+\sum n_j = n \quad & \rightarrow \quad \sum x_j = 1, \\\\
+\sum P_j &= P \sum x_j = P. \\\\
+\end{aligned}
+$$
+
+![](./lecture_02_basics_of_thermodynamics/images/Dalton_law.png){float:right; width=30% center}
+
+For both real and perfect gases **the sum of the partial pressures is equal to the total pressure.** 
+
+
+When all the gases are perfect, the partial pressure as $P_J = x_j P$ is also the pressure that each gas would exert if it occupied the same container alone at the same temperature.
+That identification was the basis of the original formulation of Dalton’s law:
+
+
+**The pressure exerted by a mixture of gases is the sum of the pressures that each one would exert if it occupied the container alone.**
+
+This law is valid only for mixtures of perfect gases, so it is **not** used to define partial pressure. 
+
+---
+**Example:**
+
+The mass percentage composition of dry air at sea level is approximately $\ce{N2}: 75.5; \ce{O2}: 23.2; \ce{Ar}: 1.3$. What is the partial pressure of each component when the total pressure is $1.20 \\, \mathrm{atm}$?
+
+**Solution:**
+
+Partial pressures are defined by
+$$
+P_J = x_j P,
+$$
+To use the equation, first calculate the mole fractions of the components by using 
+$$
+x_j = \frac{n_j}{n}
+$$
+and the fact that the amount of atoms or molecules $J$ of molar mass $M_J$ in a sample of mass $m_J$ is $n_J = m_J/M_J$. The mole fractions are independent of the total mass of the sample, so choose the latter to be exactly $100 \\, \textrm{g}$ (which makes the conversion from mass percentages very straightforward). Thus, the mass of $\ce{N2}$ present is $75.5$ per cent of $100 \\, \textrm{g}$, which is $75.5 \\, \textrm{g}$.
+
+The amounts of each type of atom or molecule present in $100  \\, \textrm{g}$ of air respectively, are
+$$
+\begin{align}
+n(\mathrm{N_2}) &= \frac{75.5\ \mathrm{g}}{28.02\ \mathrm{g\\,mol^{-1}}} = \frac{75.5}{28.02}\ \mathrm{mol} = 2.69\ \mathrm{mol} \\\\
+n(\mathrm{O_2}) &= \frac{23.2\ \mathrm{g}}{32.00\ \mathrm{g\\,mol^{-1}}} = \frac{23.2}{32.00}\ \mathrm{mol} = 0.725\ \mathrm{mol} \\\\
+n(\mathrm{Ar})  &= \frac{1.3\ \mathrm{g}}{39.95\ \mathrm{g\\,mol^{-1}}} = \frac{1.3}{39.95}\ \mathrm{mol} = 0.033\ \mathrm{mol}
+\end{align}
+$$
+
+---
+The total is $3.45 \\, \mathrm{mol}$. The mole fractions are obtained by dividing each of the above amounts by $3.45 \\, \mathrm{mol}$ and the partial pressures are then obtained by multiplying the mole fraction by the total pressure ($1.20 \\, \mathrm{atm}$):
+
+|  | $\mathrm{N_2}$ | $\mathrm{O_2}$ | $\mathrm{Ar}$ |
+|---|---|---|---|
+| Mole fraction | 0.780 | 0.210 | 0.0096 |
+| Partial pressure/atm | 0.936 | 0.252 | 0.012 |
+
+---
+# Real gases
+
+![](./lecture_02_basics_of_thermodynamics/images/interaction.png){float:right; width=40% center}
+
+
+Real gases do not obey the perfect gas law exactly except in the limit of $p \to 0$. Deviations from the law are particularly significant at high pressures and low temperatures, especially when a gas is on the point of condensing to liquid.
+
+Real gases show deviations from the perfect gas law because molecules interact with one another. 
+- **Repulsive** forces are significant only when molecules are almost in contact; they are short-range interactions.
+Therefore, repulsions can be expected to be important only when the average separation of the molecules is small (high pressure).
+- **Attractive** intermolecular forces are effective over a longer range than repulsive forces: they are important when the molecules are moderately close together but not necessarily touching.
+
+![](./lecture_02_basics_of_thermodynamics/images/co_state.png){float:right; width=40% center}
+
+Consider experimental isotherms for carbon dioxide at several temperatures.
+- At low pressures, when the sample occupies a large volume, the molecules are so far apart for most of the time that the intermolecular forces play no significant role, and the gas behaves virtually perfectly.
+- At lower temperatures, such as $20^\circ \\, \mathrm{C}$, $\ce{CO2}$ behaves in a dramatically different way from a perfect gas. At $C$ the piston suddenly slides in without any further rise in pressure: this stage is represented by the horizontal line $CDE$. Examination of the contents of the vessel shows that just to the left of $C$ a liquid appears, and that there is a sharply defined surface separating the gas and liquid phases. 
+
+---
+
+The pressure corresponding when both liquid and vapour are present in equilibrium, is called **the vapour pressure** of the liquid at the temperature of the experiment.
+- At $E$, the sample is entirely liquid and the piston rests on its surface. Any further reduction of volume requires the exertion of considerable pressure, as is indicated by the sharply rising line to the left of $E$. Even a small reduction of volume from $E$ to
+$F$ requires a great increase in pressure. The liquid is much more incompressible than the gas.
+- There is a temperature, called the **critical temperature**, $T_c$, which is the highest temperature at which condensation can take place. For $\ce{CO2}$ this temperature is $31.04^\circ \\, \textrm{C}$. At $T_c$ a surface separating two phases does not appear
+and the two volumes have merged to a single point, the critical point of the gas. The pressure and molar volume at the critical point are called the critical pressure, $P_c$, and critical molar volume, $V_c$, of the substance. At and above $T_c$, the sample has a single phase which occupies the entire volume of the container (**supercritical ﬂuid**). The liquid phase of a substance does not form above the critical temperature. For example, because $T_c$
+of oxygen is $155\\, \textrm{K}$ it follows that above this temperature it is impossible to produce liquid oxygen by compression alone. To liquefy oxygen the temperature must first be lowered to below $155 \\, \textrm{K}$; then isothermal compression will cause liquefaction.
+
+:::matrix{cols="50/50"}
+[[0,0]]
+![youtube](GemthMqZ84s) {width="80%" left="10%"}
+
+[[0,1]]
+![](./lecture_02_basics_of_thermodynamics/images/co.png){width=80% center}
+
+:::
+
+---
+
+![](./lecture_02_basics_of_thermodynamics/images/real_gases.png){float:right; width=40% center}
+
+
+the compression factor, $Z$, the ratio of the measured
+molar volume of a gas, $V_m = V/n$, to the molar volume of a perfect gas, $V^\circ_m$, at the same pressure and temperature:
+$$
+Z = \frac{V_m}{V^\circ_m}
+$$
+Because the molar volume of a perfect gas is equal to 
+$$
+V^\circ_m = \frac{RT}{P}
+$$
+we can write 
+$$
+PV_m = RTZ.
+$$
+Because for a perfect gas $Z = 1$ under all conditions, deviation of $Z$ from $1$ is a measure of departure from perfect behaviour.
+- At very low pressures, all the gases shown have $Z \approx 1$ and behave
+nearly perfectly.
+- At high pressures, all the gases have $Z > 1$,
+signifying that they have a larger molar volume than a perfect gas. Repulsive forces are now dominant.
+- At intermediate
+pressures, most gases have $Z < 1$, indicating that the attractive forces are reducing the molar volume relative to that of a
+perfect gas.
+
+
+At large molar volumes and high temperatures the real-gas isotherms do not diﬀer greatly from perfect-gas isotherms. The small differences suggest that the perfect gas law $PV_m = RT$ is in fact the first term of the expansion(**virial equation
+of state**).
+
+---
+
+$$
+\begin{aligned}
+PV_m &= RT (1+B'p+C' p^2+\cdots) \\\\
+PV_m &= RT \left(1+\frac{B}{V_m}+\frac{C}{V^2_m}+\cdots\right)
+\end{aligned}
+$$
+
+The coefficients $B, C, \cdots$ the values of which *depend on the temperature*, are the second, third… **virial coefficients**.
+
+Conclusions may be drawn from the virial equations of state only by inserting specific values of the coefficients. It is often useful to have a broader, if less precise, view of all gases, such as that provided by an approximate equation of state. 
+
+| Gas model | Equation |
+|---|---|
+| Perfect gas | $p = \dfrac{nRT}{V}$ |
+| van der Waals | $p = \dfrac{nRT}{V - nb} - \dfrac{n^2 a}{V^2}$ |
+| Berthelot | $p = \dfrac{nRT}{V - nb} - \dfrac{n^2 a}{T V^2}$ |
+| Dieterici | $p = \dfrac{nRT\\,e^{-na/RTV}}{V - nb}$ |
+
+The constant $a$ represents the strength of attractive interactions and
+$b$ - the repulsive interactions.
+They are characteristic of each gas and taken to be independent of the temperature. Although $a$ and $b$ are not precisely defined molecular properties, they correlate with 
+physical properties that reﬂect the strength of intermolecular
+interactions, such as critical temperature, vapour pressure, and
+enthalpy of vaporization. 
 
 ---
 # The kinetic theory of gases
 
-![](./lecture_02_basics_of_thermodynamics/molecules.gif){float: right; width=20% center}
+![](./lecture_02_basics_of_thermodynamics/images/molecules.gif){float: right; width=20% center}
 
 
 In the kinetic theory of gases (which is sometimes called the **kinetic-molecular theory**, KMT) it is assumed that the only contribution to the energy of the gas is from the kinetic energies of the molecules. 
@@ -117,7 +315,7 @@ $$
 
 The fraction of molecules that have speeds in the range $v$ to $v + dv$ is given by $f(v) dv $, where $f(v)$ is called the **distribution of speeds**. To do this we calculate the **distribution of velocities** $f({\bf{v}})$ first.
 
-![](./lecture_02_basics_of_thermodynamics/velocity_space.png){float:right; width=25% center}
+![](./lecture_02_basics_of_thermodynamics/images/velocity_space.png){float:right; width=25% center}
 
 The Boltzmann distribution implies that the fraction of molecules with velocity components $v_x$, $v_y$, and $v_z$ is proportional to an exponential function of their kinetic energy $\epsilon$ : $f({\bf{v}})=Ke^{-\epsilon/kT}$, where $K$ is a constant of proportionality. The kinetic energy is simply the sum on the contributions from the motion along $x$, $y$, and $z$:
 $$
@@ -150,19 +348,14 @@ $v_x$ to $v_x+dv_x$, $v_y$ to $v_y+dv_y$, $v_z$ to $v_z+dv_z$ is
 $$
 f({\bf{v}}) \\, dv_x dv_ydv_z = \left( \frac{m}{2 \pi kT} \right)^{3/2} e^{-\frac{1}{2}mv^2/kT} dv_xdv_ydv_z.
 $$
-![](./lecture_02_basics_of_thermodynamics/velocity_sphere.png){float: right; width=25% }
+![](./lecture_02_basics_of_thermodynamics/images/velocity_sphere.png){float: right; width=25% }
 
 To evaluate the probability that a molecule has a speed in the range $v$ to $v + dv_x$ regardless of direction, think of the three
 velocity components as defining three coordinates in ‘velocity
 space’.
-In ordinary space points that lie at a distance between
-$r$ and $r+dr$ from the centre are contained in a spherical shell
-of thickness $dr$ and radius $r$. The volume of this shell is the
-product of its surface area, $4πr^2$, and its thickness $dr$, and is
-therefore $4πr^2 dr$. Similarly, the analogous volume in velocity
-space is the volume of a shell of radius $v$ and thickness $dv$,
-namely $4πv^2 dv$.
-Because $f(v)$ depends only on $v^22$, and has the same value everywhere in a shell of radius $v$, the total probability of the molecules possessing a speed in the range $v$ to $v + dv$ is the product of the $f(v)$ and the volume of the shell of radius v and thickness $dv$.
+In ordinary space points that lie at a distance between $r$ and $r+dr$ from the centre are contained in a spherical shell of thickness $dr$ and radius $r$. The volume of this shell is the
+product of its surface area, $4\pi r^2$, and its thickness $dr$, and is therefore $4πr^2 dr$. Similarly, the analogous volume in velocity space is the volume of a shell of radius $v$ and thickness $dv$, namely $4\pi v^2 dv$.
+Because $f(v)$ depends only on $v^22$, and has the same value everywhere in a shell of radius $v$, the total probability of the molecules possessing a speed in the range $v$ to $v + dv$ is the product of the $f(v)$ and the volume of the shell of radius $v$ and thickness $dv$.
 $$
 f(v)=4 \pi v^2 \left( \frac{m}{2 \pi kT} \right)^{3/2} e^{-\frac{1}{2}mv^2/kT}=4 \pi \left( \frac{m}{2 \pi kT} \right)^{3/2} v^2 e^{-\frac{1}{2}mv^2/kT}.
 $$
@@ -172,9 +365,7 @@ $$
 ![](./lecture_02_basics_of_thermodynamics/images/slide_3_img_2.png) {float:right; ; width="25%"}
 
 
-The molar gas constant $R$ is related to Boltzmann’s constant
-$k$ by $R = N_A k$, where $N_A$ is Avogadro’s constant. It follows that
-$m/k = mN_A/R = M/R$, where $M$ is the molar mass. 
+The molar gas constant $R$ is related to Boltzmann’s constant $k$ by $R = N_A k$, where $N_A$ is Avogadro’s constant. It follows that $m/k = mN_A/R = M/R$, where $M$ is the molar mass. 
 $$
 f(v)=4 \pi \left( \frac{M}{2 \pi RT} \right)^{3/2} v^2 e^{-\frac{1}{2}Mv^2/RT}.
 $$
@@ -240,6 +431,11 @@ $$
 Under normal conditions, a typical gas molecule moves at about $500\\,\text{m/s}$ and undergoes about $10^{9}$–$10^{10}$ collisions per second, so its mean free path is of the order of $10^{-7}\\,\text{m}$ ($\sim 0.1\\,\mu\text{m}$).
 
 
+---
+
+<br><br><br>
+
+![](./lecture_02_basics_of_thermodynamics/images/maxwell.gif) {width="75%"}
 
 ---
 # Experimental verification of the Maxwell speed distribution
@@ -340,12 +536,12 @@ You don’t need all of them: for a homogeneous system in thermodynamic equilibr
 When property is **extensive** (proportional to the size of the homogeneous system) we can define specific or molar quantity. 
 [[2,0:2]]
 Ex:<br>
-* **specific enthalpy** $h = H/m$<br>
+* **specific enthalpy** $H_m = H/m$<br>
 * **standard molar enthalpy** $H^\circ = H/n$ at $p = 1 \text{ atm}$
 
 $\mathbf{V, U, S, H, G, F}$ - extensive properties $\rightarrow$ $\mathbf{V^\circ, U^\circ, S^\circ, H^\circ, G^\circ, F^\circ}$
 [[2,2]]
-**Standard conditions** for Gibbs free energy are a temperature of $25^\circ$ C ($298$ K) and a pressure of $1$ atm (or $100$ kPa) for gases, with $1$ M concentration for all aqueous solutions. Designated with $^\circ$.
+**Standard conditions** for Gibbs free energy are a temperature of $25^\circ \\, \mathrm{C}$  ($298\\, \mathrm{K}$) and a pressure of $1$ atm (or $100\\, \mathrm{kPa}$) for gases, with $1 \\, \mathrm{M}$ concentration for all aqueous solutions. Designated with $^\circ$.
 :::
 
 ---
@@ -429,7 +625,7 @@ matter with its surroundings.
 [[0, 0]]
 ![](./lecture_02_basics_of_thermodynamics/images/vacuum_flask.png){width=25% center}
 [[0, 1]]
-![](/lecture_02_basics_of_thermodynamics/images/palladium.png){width=80% center}
+![](./lecture_02_basics_of_thermodynamics/images/palladium.png){width=80% center}
 :::
 
 ---
@@ -460,19 +656,19 @@ $$
 
 :::matrix {cols="33/33/33"}
 [[0,0]]
-![](./lecture_02_basics_of_thermodynamics/termoscope_1.png){width=50%}
+![](./lecture_02_basics_of_thermodynamics/images/termoscope_1.png){width=50%}
 
 Principle of operation of a
 thermoscope.
 
 [[0,1]]
-![](/lecture_02_basics_of_thermodynamics/Galileo_thermo.png){width=55% center}
+![](./lecture_02_basics_of_thermodynamics/images/Galileo_thermo.png){width=55% center}
 
 Thermoscope, 
 non-sealed
 
 [[0,2]]
-![](./lecture_02_basics_of_thermodynamics/florentce_thermo.png){width=60% center}
+![](./lecture_02_basics_of_thermodynamics/images/florentce_thermo.png){width=60% center}
 
 Thermometer,
 sealed, thermometric liquid - alcohol.
@@ -480,25 +676,25 @@ sealed, thermometric liquid - alcohol.
 
 :::matrix {cols="33/33/33"}
 [[0,0]]
-![Pasted Image](./lecture_02_basics_of_thermodynamics/air_thermometer.png){width=35% }
+![Pasted Image](./lecture_02_basics_of_thermodynamics/images/air_thermometer.png){width=35% }
 
 Gas thermometer by Amonton, unsealed design (1690) 
 
 [[0,1]]
-![Pasted Image](/lecture_02_basics_of_thermodynamics/multi_scale_thermo.png){width=55%}
+![Pasted Image](./lecture_02_basics_of_thermodynamics/images/multi_scale_thermo.png){width=55%}
 
 Thermometer with 18 scales (1754) 
 
 
 [[0,2]]
-![](./lecture_02_basics_of_thermodynamics/pt_thermometer.png){width=55%}
+![](./lecture_02_basics_of_thermodynamics/images/pt_thermometer.png){width=55%}
 
 Sensing element of a modern standard platinum resistance thermometer
 :::
 
 ---
 
-![](./lecture_02_basics_of_thermodynamics/T-scales.png){float:right; width=25% }
+![](./lecture_02_basics_of_thermodynamics/images/T-scales.png){float:right; width=25% }
 
 **The Fahrenheit scale.** Daniel Fahrenheit (1686–1736) was born in Danzig but lived mainly in the Netherlands and worked as an instrument maker. He used mercury as his thermometric liquid. His scale (he claimed) had three fixed points: human body temperature (which he defined as $96^\circ$), an intermediate point (a mixture of ice and water) at $32^\circ$ ($96-32=64=2^6$) and a lower point which he obscurely defined as the temperature of a solution of brine made from equal parts of ice, water and salt (sea-salt or ammonium chloride) defined as $0^\circ$. However, it is unlikely that the lower point was in any way reliable and only the first two points were usable fixed points. 
 
@@ -521,7 +717,7 @@ $$
 
 # A gas thermometer
 
-![](./lecture_02_basics_of_thermodynamics/gas_thermometer.png){float:right; width=20% center}
+![](./lecture_02_basics_of_thermodynamics/images/gas_thermometer.png){float:right; width=20% center}
 
 A gas thermometer is a bulb of gas at constant volume whose pressure is proportional to $T$. The non-ideality of the gas is removed by extrapolating to zero pressure, after which the reading no longer depends on the choice of gas and coincides with thermodynamic temperature.
 
@@ -571,9 +767,7 @@ In the limit of infinite dilution every gas becomes ideal, so the result does no
 # First Law of Thermodynamics
 
 
-In thermodynamics, the total energy of a system is called its
-internal energy, $U$. The internal energy is the total kinetic and
-potential energy of the constituents (the atoms, ions, or molecules) of the system. It does not include the kinetic energy arising from the motion of the system as a whole, such as its kinetic energy as it accompanies the Earth on its orbit around the Sun.
+In thermodynamics, the total energy of a system is called its internal energy, $U$. The internal energy is the total kinetic and potential energy of the constituents (the atoms, ions, or molecules) of the system. It does not include the kinetic energy arising from the motion of the system as a whole, such as its kinetic energy as it accompanies the Earth on its orbit around the Sun.
 
 It has been found experimentally that:
 - the internal energy of a closed system may be changed either by doing work on the system or by heating it.
@@ -621,7 +815,7 @@ From the 1842 paper *Remarks on the Forces of Inanimate Nature*  by J.R. Mayer i
 [[1,0]]
 ![](./lecture_02_basics_of_thermodynamics/images/joule_paddle_scheme.png){width=60% center}
 [[1,1]]
-![](/lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
+![](./lecture_02_basics_of_thermodynamics/images/joule_paddle.png){width=60% center}
 [[1,2]]
 ![](./lecture_02_basics_of_thermodynamics/images/joules_tombstone.png){width=55% center}
 foot-pounds ($1.36 \\, \text{J}$) to raise the temperature of pound of water by $1 \text{F}$ (BTU)
@@ -765,7 +959,7 @@ also be small, so $\alpha_V^2/\kappa_T$ might be large (example: lead). That is,
 
 ---
 
-![](./lecture_02_basics_of_thermodynamics/entalpy_plot.png){float:left; width=40% center}
+![](./lecture_02_basics_of_thermodynamics/images/entalpy_plot.png){float:left; width=40% center}
 <br><br><br>
 The enthalpy of a substance increases as its temperature is
 raised. The reason is the same as for the internal energy: molecules are excited to states of higher energy so their total energy increases.
@@ -776,7 +970,7 @@ of a system plotted against temperature (at constant pressure). For most substan
 
 
 <br><br>
-![](./lecture_02_basics_of_thermodynamics/C_P_coeffs.png){float: right; width=30% center}
+![](./lecture_02_basics_of_thermodynamics/images/C_P_coeffs.png){float: right; width=30% center}
 
 The variation of heat capacity with temperature can sometimes be ignored if the temperature range is small; this is an excellent approximation for a monatomic perfect gas (for
 instance, one of the noble gases at low pressure). However, when it is necessary to take the variation into account for other substances, a convenient approximate empirical
@@ -820,8 +1014,7 @@ heat is called **exothermic**, and one that absorbs energy - **endothermic**. Be
 decrease in the enthalpy of a system, it follows that 
 - an exothermic process at constant pressure is one for which $ΔH < 0$; such
 a process is **exenthalpic**.
-- an absorption of
-heat from the surroundings at constant pressure results in an
+- an absorption of heat from the surroundings at constant pressure results in an
 increase in enthalpy, an endothermic process at constant pressure has $\Delta H > 0$; such a process is **endenthalpic**.
 
 :::matrix {cols="30/30/30"}
@@ -846,7 +1039,7 @@ $$
 ---
 # Standard enthalpy of transition
 
-![](./lecture_02_basics_of_thermodynamics/plimsoll.png){float: right; width=20% center}
+![](./lecture_02_basics_of_thermodynamics/images/plimsoll.png){float: right; width=20% center}
 
 Changes in enthalpy are normally reported for processes taking place under a set of standard conditions. The standard enthalpy change, $\Delta H^\ominus$ ($\ominus$ - [Plimsoll](https://en.wikipedia.org/wiki/Load_line_(watercraft)) line symbol) is the change in enthalpy for a process in which the initial and final substances are in their standard states:
 
@@ -905,7 +1098,7 @@ $$
 
 or as occurring in two steps, first fusion (melting) and then vaporization of the resulting liquid:
 
-![](./lecture_02_basics_of_thermodynamics/entalpy_subl.png){float: right; width=25% center}
+![](./lecture_02_basics_of_thermodynamics/images/entalpy_subl.png){float: right; width=25% center}
 
 $$
 \begin{aligned}
@@ -927,7 +1120,7 @@ $$
 
 It follows that, because all enthalpies of fusion are positive, the enthalpy of sublimation of a substance is greater than its enthalpy of vaporization (at a given temperature).
 
-![](./lecture_02_basics_of_thermodynamics/enthalpy_reverse.png){float: right; width=28% center}
+![](./lecture_02_basics_of_thermodynamics/images/enthalpy_reverse.png){float: right; width=28% center}
 
 Another consequence of $H$ being a state function is that the
 standard enthalpy change of a forward process is the negative of
@@ -956,9 +1149,7 @@ $$
 \text{Pure, separate reactants in their standard states} \longrightarrow \text{pure, separate products in their standard states}.
 $$
 
-Except in the case of ionic reactions in solution, the enthalpy
-changes accompanying mixing and separation are insignifcant
-in comparison with the contribution from the reaction itself.
+Except in the case of ionic reactions in solution, the enthalpy changes accompanying mixing and separation are insignifcant in comparison with the contribution from the reaction itself.
 For the combustion of methane, the standard value refers to the reaction in which $1 \\, \text{mol} \\, \ce{CH4}$ in the form of pure methane gas at $1 \\, \text{bar}$ reacts completely with $2\ \\, \text{mol} \\, \ce{O2}$ in the form of pure oxygen gas to produce $1 \\, \text{mol} \\, \ce{CO2}$ as pure carbon dioxide at $1 \\, \text{bar}$ and $2 \\, \text{mol} \\, \ce{H2O}$ as pure liquid water at $1 \\, \text{bar}$; the numerical value quoted is for the reaction at $298.15 \\, \text{K}$.
 
 Alternatively, the chemical equation is written and the **standard reaction enthalpy**, $\Delta_r H^\ominus$ (or ‘standard enthalpy of reaction’) reported. Thus, for the combustion of methane at $298 \\, \text{K}$, write
@@ -981,10 +1172,7 @@ where in each case the molar enthalpies of the species are multiplied by their (
 
 Standard reaction enthalpies can be combined to obtain the value for another reaction. This application of the First Law is called **Hess’s law**:
 **The standard reaction enthalpy is the sum of the values for the individual reactions into which the overall reaction may be divided.**
-The individual steps need not be realizable in practice: they
-may be ‘hypothetical’ reactions, the only requirement being
-that their chemical equations should balance. The thermodynamic basis of the law is the path-independence of the value of $\Delta_r H^\ominus$. The importance of Hess’s law is that information about a reaction of interest, which may be difficult to determine directly, can be assembled from information on other
-reactions.
+The individual steps need not be realizable in practice: they may be ‘hypothetical’ reactions, the only requirement being that their chemical equations should balance. The thermodynamic basis of the law is the path-independence of the value of $\Delta_r H^\ominus$. The importance of Hess’s law is that information about a reaction of interest, which may be difficult to determine directly, can be assembled from information on other reactions.
 
 **Example:**
 
@@ -1074,7 +1262,7 @@ $$
 ---
 # Differential scanning calorimeter
 
-![](./lecture_02_basics_of_thermodynamics/DSC.png){float: right; width=25% center}
+![](./lecture_02_basics_of_thermodynamics/images/DSC.png){float: right; width=25% center}
 
 
 A **differential scanning calorimeter** (DSC) measures the energy transferred as heat to or from a sample at constant pressure during a physical or chemical change. The term ‘differential’ refers to the fact that measurements on a sample are compared to those on a reference material that does not undergo a physical or chemical change during the analysis.
@@ -1104,7 +1292,7 @@ plot of $C\_{P,\mathrm{ex}}$ against $T$.
 ---
 :::matrix{cols=50/50 width="100%"}
 [[0, 0]]
-![](./lecture_02_basics_of_thermodynamics/DSC_ubi.png){width="100%"}
+![](./lecture_02_basics_of_thermodynamics/images/DSC_ubi.png){width="100%"}
 
 [[1, 0]] 
 A thermogram for the protein ubiquitin at $\mathrm{pH} = 2.45$. The protein retains its native structure up to about $45^\circ\mathrm{C}$ and then undergoes an endothermic conformational change.
