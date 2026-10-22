@@ -50,7 +50,7 @@ The $\mathrm{constant}$ of proportionality, which is found experimentally to be 
 
 ---
 
-![](./lecture_02_basics_of_thermodynamics/images/ideal_gas.png){width=100% center}
+![](./lecture_02_basics_of_thermodynamics/images/ideal_gas.png){width=200}
 
 ---
 
@@ -83,22 +83,26 @@ That identification was the basis of the original formulation of Dalton’s law:
 This law is valid only for mixtures of perfect gases, so it is **not** used to define partial pressure. 
 
 ---
+# Physical Manifestation of Dalton's Law
+
+![youtube](R28ILMwIKkc) {width="90%" left="5%"}
+
+---
 **Example:**
 
 The mass percentage composition of dry air at sea level is approximately $\ce{N2}: 75.5; \ce{O2}: 23.2; \ce{Ar}: 1.3$. What is the partial pressure of each component when the total pressure is $1.20 \\, \mathrm{atm}$?
 
 **Solution:**
 
-Partial pressures are defined by
-$$
-P_J = x_j P,
-$$
+Partial pressures are defined by $P_J = x_j P$.
 To use the equation, first calculate the mole fractions of the components by using 
 $$
 x_j = \frac{n_j}{n}
 $$
 and the fact that the amount of atoms or molecules $J$ of molar mass $M_J$ in a sample of mass $m_J$ is $n_J = m_J/M_J$. The mole fractions are independent of the total mass of the sample, so choose the latter to be exactly $100 \\, \textrm{g}$ (which makes the conversion from mass percentages very straightforward). Thus, the mass of $\ce{N2}$ present is $75.5$ per cent of $100 \\, \textrm{g}$, which is $75.5 \\, \textrm{g}$.
 
+:::matrix{cols=50/50}
+[[0,0]]
 The amounts of each type of atom or molecule present in $100  \\, \textrm{g}$ of air respectively, are
 $$
 \begin{align}
@@ -107,14 +111,14 @@ n(\mathrm{O_2}) &= \frac{23.2\ \mathrm{g}}{32.00\ \mathrm{g\\,mol^{-1}}} = \frac
 n(\mathrm{Ar})  &= \frac{1.3\ \mathrm{g}}{39.95\ \mathrm{g\\,mol^{-1}}} = \frac{1.3}{39.95}\ \mathrm{mol} = 0.033\ \mathrm{mol}
 \end{align}
 $$
-
----
+[[0,1]]
 The total is $3.45 \\, \mathrm{mol}$. The mole fractions are obtained by dividing each of the above amounts by $3.45 \\, \mathrm{mol}$ and the partial pressures are then obtained by multiplying the mole fraction by the total pressure ($1.20 \\, \mathrm{atm}$):
 
 |  | $\mathrm{N_2}$ | $\mathrm{O_2}$ | $\mathrm{Ar}$ |
 |---|---|---|---|
 | Mole fraction | 0.780 | 0.210 | 0.0096 |
 | Partial pressure/atm | 0.936 | 0.252 | 0.012 |
+:::
 
 ---
 # Real gases
@@ -657,40 +661,31 @@ $$
 :::matrix {cols="33/33/33"}
 [[0,0]]
 ![](./lecture_02_basics_of_thermodynamics/images/termoscope_1.png){width=50%}
-
 Principle of operation of a
 thermoscope.
-
 [[0,1]]
-![](./lecture_02_basics_of_thermodynamics/images/Galileo_thermo.png){width=55% center}
-
+![](./lecture_02_basics_of_thermodynamics/images/Galileo_thermo.png){width=54% center}
 Thermoscope, 
 non-sealed
-
 [[0,2]]
 ![](./lecture_02_basics_of_thermodynamics/images/florentce_thermo.png){width=60% center}
-
 Thermometer,
 sealed, thermometric liquid - alcohol.
-:::
-
-:::matrix {cols="33/33/33"}
-[[0,0]]
-![Pasted Image](./lecture_02_basics_of_thermodynamics/images/air_thermometer.png){width=35% }
-
+[[1,0]]
+![Pasted Image](./lecture_02_basics_of_thermodynamics/images/air_thermometer.png){width=34% }
 Gas thermometer by Amonton, unsealed design (1690) 
-
-[[0,1]]
+[[1,1]]
 ![Pasted Image](./lecture_02_basics_of_thermodynamics/images/multi_scale_thermo.png){width=55%}
-
 Thermometer with 18 scales (1754) 
-
-
-[[0,2]]
+[[1,2]]
 ![](./lecture_02_basics_of_thermodynamics/images/pt_thermometer.png){width=55%}
-
 Sensing element of a modern standard platinum resistance thermometer
 :::
+
+---
+# Homemade Termoscope
+
+![youtube](saFdPo6fDM8) {width="90%" left="5%"}
 
 ---
 
