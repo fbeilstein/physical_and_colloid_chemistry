@@ -683,7 +683,7 @@ Sensing element of a modern standard platinum resistance thermometer
 :::
 
 ---
-# Homemade Termoscope
+# Homemade Thermoscope
 
 ![youtube](saFdPo6fDM8) {width="90%" left="5%"}
 
