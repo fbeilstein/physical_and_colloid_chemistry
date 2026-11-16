@@ -1475,10 +1475,157 @@ $$
 where $T_1$ and $T_2$ are, respectively, the temperatures at which the process begins and ends. This relation shows that the enthalpy
 change is equal to the area under the plot of $C\_{P,\mathrm{ex}}$ against $T$.
 
+---
+# The Second Law of Thermodynamics
+
+![](./lecture_02_basics_of_thermodynamics/images/image_1794839798750.png){float: right; width=25% }
+
+Some processes don't occur in nature even if the classical conservation laws (conservation of energy, momentum, angular momentum) allow them to.
+
+The First Law of thermodynamics is a specific version of the law of conservation of energy. It states that energy cannot be created or destroyed—it can only change forms or transfer between a system and its surroundings. We need another law to explain why some processes do not take place in nature: 
+* Gas doesn't gather in one part of the closed volume
+* Heat flows from hot to cold, never spontaneously from cold to hot.
+* A bouncing ball comes to rest and warms the floor; a cooling floor never launches a ball.
+* Ink spreads in water; it never re-forms a drop.
+* Friction converts motion into heat, never the reverse.
+
+In other words, the laws of classical mechanics are too "loose":
+* Newton’s law $m\frac{d^2r}{dt^2} = F(r)$ is invariant under $t \to −t$. If $r(t)$ is a solution, then $r(−t)$ is also a solution.
+* Conservation laws inherit this symmetry, so they cannot pick a **direction of time**.
+
+We need an additional law: the Second Law of thermodynamics.
+
+* It need not be exact. We can accept **a statistical law**: one that says not what is impossible, but what is overwhelmingly improbable.
+* It does not forbid the reverse process; it states that the reverse process has a vanishingly **small probability**.
+* For macroscopic systems ($N \sim 10^{23}$), “improbable” is practically the same as “never”: you would not observe it during the lifetime of the Universe.
+* For small systems (a few molecules), deviations are real and observable. The law holds on average, not in every single event.
+* So the Second Law differs in kind from the conservation laws: those hold in every event, while the Second Law holds for the **overwhelming majority** of events.
 
 
 ---
+
+![](./lecture_02_basics_of_thermodynamics/images/image_1794842584200.png){float: right; width=32% }
+
+
+* The Second Law was first formulated in thermodynamics not in statistical mechanics. Several people gave different (more or less equivalent) formulations of the Second Law.
+
+* The scientists of the 19th century explored an **idealized device** (like point mass, ideal gas, incompressible liquid, black body, Turing machine) called a **heat engine**. A heat engine consists of two reservoirs, one hot (the ‘hot source’)
+and one cold (the ‘cold sink’), connected through a device (a
+‘converter’) that can convert some of the energy ﬂowing as heat
+between the two reservoirs into work. 
+* One statement of the Second Law (by Kelvin):
+
+  
+**No process is possible in which the sole result is the absorption of heat from a reservoir and its complete conversion into work.**
+
+This is a generalization of the everyday observation that a ball at rest on a surface has never been observed to leap spontaneously upwards. An upward leap of the ball would be equivalent to the spontaneous conversion of heat from the surface into the work of raising
+the ball.
+
+* Another statement of the Second Law is due to Rudolf
+Clausius:
+
+**Heat does not ﬂow spontaneously from a cool body to a hotter body.**
+![](./lecture_02_basics_of_thermodynamics/images/image_1794842637740.png){float: right; width=10%}
+
+To transfer heat to a hotter body, it is necessary to do work on the system, as in a refrigerator where a compressor circulates a cooling ﬂuid.
+
+The Clausius statement is logically equivalent to the Kelvin statement. One way to see that is to show that the two observations can be summarized by a single statement.
+First, the system and its surroundings are regarded as a single (and possibly huge) **isolated system** sometimes referred to as ‘the universe’. Energy can be transferred within this isolated system between the actual system and its surroundings, but none can enter or leave the isolated system. Then the Second Law is expressed in terms of a new state function, **the entropy, $S$**.
+
+---
+
 # Entropy ($S$)
+
+**The entropy of an isolated system increases in the course
+of a spontaneous change: $\Delta S_{\mathrm{tot}} \geq 0$**, where $S_{\mathrm{tot}} \geq 0$ is the total entropy of the overall **isolated system**.
+
+* If $S$ is the entropy of the system of interest, and $S_{\mathrm{sur}}$ the
+entropy of its surroundings, then $S_{\mathrm{tot}} = S + S_{\mathrm{sur}}$. 
+
+* It is vitally important when considering applications of the Second Law to remember that it is a statement about the total entropy of the overall isolated system (the ‘universe’), not just about the entropy of the system of interest!!
+
+* The First Law uses the internal energy to identify **permissible changes**; the Second Law uses the entropy to identify which of these permissible changes are **spontaneous**.
+
+The thermodynamic definition of entropy concentrates on the
+change in entropy, $dS$, that occurs as a result of a physical or
+chemical change (in general, as a result of a ‘process’). The definition is motivated by the idea that a change in the extent to which energy is dispersed in a disorderly way depends on how much energy is transferred as heat, not as work.
+
+The thermodynamic definition of entropy is based on the expression
+$$
+dS=\frac{dQ_{\mathrm{rev}}}{T},
+$$
+where $dQ_{\mathrm{rev}}$ is the energy transferred as heat **reversibly** to the system at the absolute temperature $T$. For a measurable change between two states $i$ and $f$:
+$$
+\Delta S= \int_i^f \frac{dQ_{\mathrm{rev}}}{T}.
+$$
+
+* In order to calculate the difference in entropy between any two states a reversible path between them is first identified.
+* At each infinitesimal stage along this path the energy supplied as heat is divided by the current temperature. All those individual infinitesimal
+changes are then added together; that is, they are integrated from the initial state to the final state.
+---
+
+* According to the definition of an entropy change, when the energy transferred as heat is expressed in joules and the temperature is in kelvins, the units of entropy are joules per kelvin $\mathrm{J} \cdot \mathrm{K}^{-1}$. Entropy is an *extensive property*.
+* Molar entropy (*intensive property*), the entropy divided by the amount of substance,$S_m = S/n$, is expressed in $\mathrm{J} \cdot \mathrm{K}^{-1} \cdot \mathrm{mol}^{-1}$. We can also standard entropy $S^\ominus$ (like we did with enthalpy $H^\ominus$).
+
+Suppose that the surroundings consist of a large reservoir so that its volume does not change no matter what happens in the much smaller system. Ten the
+energy supplied to them by heating can be identified with the change in the internal energy of the surroundings, $dU_\mathrm{sur}$.
+* The internal energy is a state function, and $dU_\mathrm{sur}$ is an exact
+differential.
+* $dU_\mathrm{sur}$ is independent of how the change is brought about and in particular it is independent of whether the process is reversible or irreversible for the system.
+* The same remarks therefore apply to $dQ_\mathrm{sur}$, to which $dU_\mathrm{sur}$ is equal.
+* Therefore, the definition $dS$ can be adapted to calculate the entropy change of the surroundings simply by deleting the constraint ‘reversible’ and writing
+$$
+dS_\mathrm{sur}=\frac{dQ_{\mathrm{sur}}}{T_{\mathrm{sur}}},
+$$
+
+Let's see how the definition of entropy is consistent with Kelvin’s and Clausius’s statements of the Second Law and unifies them.
+* In the "Kelvin cycle" the entropy of the hot source is reduced as energy leaves it as heat. The transfer of energy as work does not result in the production of entropy, so the overall result is that the entropy of the (overall isolated) system decreases. The Second Law asserts that such a process is not spontaneous, so the arrangement in the Kelvin cycle cannot produce work. 
+
+* In the Clausius version, the entropy of the cold source decreases when energy leaves it as heat, but when that heat enters the hot sink the rise in entropy is not as great (because the temperature is higher). Overall there is a decrease in entropy and so the transfer of heat from a cold source to a hot sink is not spontaneous.
+
+ 
+---
+# The statistical definition of entropy
+
+The molecular interpretation of the Second Law and the ‘statistical’ definition of entropy start from the idea, that atoms and molecules are distributed over the energy states available to them in accord with the Boltzmann distribution. It follows that as the temperature is increased, the molecules populate higher energy states.
+Boltzmann proposed that there is a link between the spread
+of molecules over the available energy states and the entropy,
+which he expressed as
+$$ 
+S = k \ln W 
+$$
+where $k$ is Boltzmann’s constant ($k = 1.381 × 10^{−23} \\, \mathrm{J} \mathrm{K}^{−1}$) and $W$ is the number of **microstates**, the number of ways in which the molecules of a system can be distributed over the energy states for a specified total energy. 
+
+**More microstates imply more disorderly distribution of matter and a greater dispersal of energy corresponds to a greater number of microstates associated with the same total energy.**
+
+* If all the molecules are in one energy state there is only one way of
+achieving this distribution, so $W = 1$ and, because $ln 1 = 0$, it
+follows that $S = 0$.
+
+![](./lecture_02_basics_of_thermodynamics/images/image_1794849259058.png){float:right; width=30% center}
+
+
+* According to the Boltzmann distribution, only the lowest energy state is occupied at $T = 0$, so it follows that $S = 0$ at $T = 0$. At higher temperatures the molecules spread out over the available energy states, $W$ increases and therefore so too does the entropy.
+
+* For a given temperature, the value of $W$ increases if the separation of energy states decreases, because more states become accessible. An example of this is the expansion of a gas confined to a container. A result of quantum theory is that the translational energy states of molecules get closer together as the container they occupy expands. The value of $W$, and hence the entropy, is therefore expected to increase as the gas expands isothermally, which is in accord with the conclusion drawn from the thermodynamic definition of entropy.
+
+* The Boltzmann definition of entropy makes it possible to calculate the absolute value of the entropy of a system, whereas the thermodynamic definition leads only to values for a change in entropy.
+
+* The Boltzmann formula cannot readily be applied to the surroundings, which are typically far too complex for $W$ to be a meaningful quantity.
+
+---
+
+![](./lecture_02_basics_of_thermodynamics/images/image_1794849629302.png){float:right; width=30% center}
+
+* The molecular interpretation of entropy helps to explain why, in the thermodynamic definition given by
+$$
+dS=\frac{dQ_{\mathrm{rev}}}{T},
+$$
+the entropy change depends inversely on the temperature. In a system at high temperature the molecules are spread out over a large number of energy states. Increasing the energy of the system by the transfer of heat makes more states accessible, but, given that very many states are already occupied, $W$ changes only slightly. In contrast, for a system at a low temperature fewer states are occupied, and so the transfer of the
+same energy results in a more significant increase in the number of accessible states, and hence a larger increase in $W$. This argument suggests that the change in entropy for a given transfer of energy as heat should be greater at low temperatures than
+at high.
+
+---
 
 :::matrix { cols="70/30" }
 [[0,0]]
