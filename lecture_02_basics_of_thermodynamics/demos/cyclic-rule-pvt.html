@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyclic Rule, αV, κT &amp; Sealed-Vessel Pressure Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+<style>
+:root {
+  --bg: #f5f7f8;
+  --panel: #ffffff;
+  --ink: #17212b;
+  --muted: #5d6b78;
+  --line: #d8dfe5;
+  --grid: #e9eef2;
+  --red: #d9480f;
+  --red-soft: rgba(217, 72, 15, 0.14);
+  --blue: #1971c2;
+  --blue-soft: rgba(25, 113, 194, 0.14);
+  --purple: #6741d9;
+  --purple-soft: rgba(103, 65, 217, 0.14);
+  --green: #0f766e;
+  --accent: #1f4e79;
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161b; --panel: #182028; --ink: #e4eaef; --muted: #93a1ad;
+    --line: #2b3640; --grid: #212b34;
+    --red: #ff7a45; --red-soft: rgba(255, 122, 69, 0.18);
+    --blue: #58a6ff; --blue-soft: rgba(88, 166, 255, 0.18);
+    --purple: #b197fc; --purple-soft: rgba(177, 151, 252, 0.18);
+    --green: #2dd4bf; --accent: #7fb2e5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161b; --panel: #182028; --ink: #e4eaef; --muted: #93a1ad;
+  --line: #2b3640; --grid: #212b34;
+  --red: #ff7a45; --red-soft: rgba(255, 122, 69, 0.18);
+  --blue: #58a6ff; --blue-soft: rgba(88, 166, 255, 0.18);
+  --purple: #b197fc; --purple-soft: rgba(177, 151, 252, 0.18);
+  --green: #2dd4bf; --accent: #7fb2e5;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 14px; line-height: 1.45;
+  padding: 18px 18px 26px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px; }
+header h1 {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.52rem; margin: 0;
+}
+header p { margin: 4px 0 0; color: var(--muted); max-width: 78ch; font-size: 13.5px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font: 500 12.5px var(--font-body); padding: 5px 11px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--panel); }
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.15fr) 305px;
+  gap: 14px;
+  align-items: start;
+}
+@media (max-width: 1020px) { .main { grid-template-columns: 1fr; } }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.panel-title { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.panel-title strong { font-family: var(--font-display); font-size: 1.02rem; font-weight: 600; }
+.panel-title small { color: var(--muted); font-size: 12px; }
+
+#canvasVessel { width: 100%; height: 455px; display: block; }
+#canvasContour { width: 100%; height: 300px; display: block; }
+#canvasCpCv { width: 100%; height: 118px; display: block; margin-top: 8px; }
+
+.controls { display: flex; flex-direction: column; gap: 13px; }
+.mode-tabs { display: flex; flex-direction: column; gap: 6px; }
+.mode-btn {
+  text-align: left; padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  font: 500 12.5px var(--font-body); display: flex; flex-direction: column; gap: 2px;
+}
+.mode-btn small { color: var(--muted); font-size: 11.5px; font-weight: 400; }
+.mode-btn[aria-pressed="true"] {
+  border-color: var(--accent); background: var(--blue-soft); font-weight: 600;
+}
+
+.ctl { display: flex; flex-direction: column; gap: 5px; }
+.ctl-head { display: flex; justify-content: space-between; align-items: baseline; }
+.ctl label { font-weight: 600; font-size: 13px; }
+.val { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+input[type="range"] { width: 100%; margin: 0; accent-color: var(--accent); }
+input[type="range"]:disabled { opacity: 0.38; cursor: not-allowed; }
+
+.stats {
+  display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+}
+.stat { background: var(--panel); padding: 7px 11px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+.stat b { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+.stat small { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.c-red { color: var(--red); }
+.c-blue { color: var(--blue); }
+.c-purple { color: var(--purple); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>The Cyclic Rule, Response Functions ($\alpha_V, \kappa_T$), &amp; Sealed-Vessel Pressure</h1>
+      <p>From total differential $dV = V\alpha_V dT - V\kappa_T dP$, locking volume ($dV = 0$) yields the Cyclic Rule: $(\partial P/\partial T)_V = -(\partial V/\partial T)_P / (\partial V/\partial P)_T = \alpha_V / \kappa_T$.</p>
+    </div>
+    <div class="chips" id="subChips" role="group" aria-label="Substances from Lecture 2 Table">
+      <button class="chip" data-sub="water" aria-pressed="true">Liquid Water</button>
+      <button class="chip" data-sub="benzene" aria-pressed="false">Liquid Benzene</button>
+      <button class="chip" data-sub="lead" aria-pressed="false">Solid Lead</button>
+      <button class="chip" data-sub="diamond" aria-pressed="false">Solid Diamond</button>
+      <button class="chip" data-sub="gas" aria-pressed="false">Ideal Gas (1 bar)</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- Left: Physical Vessel & Piston Schematic -->
+    <div class="panel">
+      <div class="panel-title">
+        <strong id="vesselTitle">Lab Vessel: Rigid Isochoric Bomb ($dV = 0$)</strong>
+        <small id="vesselSub">Thermal expansion blocked by pressure rise</small>
+      </div>
+      <canvas id="canvasVessel"></canvas>
+    </div>
+
+    <!-- Middle: Contour Map + Cp - Cv Comparison -->
+    <div class="panel">
+      <div class="panel-title">
+        <strong>Why the Minus Sign? The $V(T, P) = V_0$ Isochore Triangle</strong>
+        <small>Red step $+\alpha_V \Delta T$ canceled by Blue step $-\kappa_T \Delta P$</small>
+      </div>
+      <canvas id="canvasContour"></canvas>
+      <div class="panel-title" style="margin-top:8px; margin-bottom:2px;">
+        <strong>Mayer's Generalized Relation: $C_{P,m} - C_{V,m} = V_m T \alpha_V^2 / \kappa_T$</strong>
+        <small id="cpCvNote">Why $C_{P,m} > C_{V,m}$ even for solids like lead</small>
+      </div>
+      <canvas id="canvasCpCv"></canvas>
+    </div>
+
+    <!-- Right: Controls & Readouts -->
+    <div class="panel controls">
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-btn" data-mode="isochoric" aria-pressed="true">
+          <span>🔒 1. Sealed Rigid Bomb ($dV = 0$ · Cyclic Rule)</span>
+          <small>Heat by $\Delta T \to$ pressure spikes by $\Delta P = (\alpha_V/\kappa_T)\Delta T$</small>
+        </button>
+        <button class="mode-btn" data-mode="isobaric" aria-pressed="false">
+          <span>🔥 2. Isobaric Heating ($dP = 0$ · defines $\alpha_V$)</span>
+          <small>Heat by $\Delta T$ at constant $P \to$ volume expands by $+V\alpha_V\Delta T$</small>
+        </button>
+        <button class="mode-btn" data-mode="isothermal" aria-pressed="false">
+          <span>🗜️ 3. Isothermal Squeeze ($dT = 0$ · defines $\kappa_T$)</span>
+          <small>Squeeze by $\Delta P$ at constant $T \to$ volume shrinks by $-V\kappa_T\Delta P$</small>
+        </button>
+      </div>
+
+      <div class="ctl">
+        <div class="ctl-head">
+          <label for="slDT" class="c-red">Temperature Change $\Delta T$</label>
+          <span class="val c-red" id="valDT">+15.0 K</span>
+        </div>
+        <input id="slDT" type="range" min="-20" max="50" step="0.5" value="15">
+      </div>
+
+      <div class="ctl">
+        <div class="ctl-head">
+          <label for="slDP" class="c-blue">Applied Pressure Change $\Delta P$</label>
+          <span class="val c-blue" id="valDP">+63.5 bar</span>
+        </div>
+        <input id="slDP" type="range" min="-100" max="500" step="1" value="64" disabled>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span>Lecture 2 Response Coefficients (at $298\;\mathrm{K}$)</span>
+          <b id="statAlphaKappa">—</b>
+          <small id="statVm">—</small>
+        </div>
+        <div class="stat">
+          <span class="c-purple">Cyclic Derivative: $(\partial P/\partial T)_V = \alpha_V / \kappa_T$</span>
+          <b class="c-purple" id="statBeta">—</b>
+          <small>Pressure rise per $+1\;\mathrm{K}$ in a rigid sealed container</small>
+        </div>
+        <div class="stat">
+          <span>Resulting Volume &amp; Pressure Changes</span>
+          <b id="statResult">—</b>
+          <small id="statResultSub">—</small>
+        </div>
+        <div class="stat">
+          <span>Heat Capacity Difference ($C_{P,m} - C_{V,m}$)</span>
+          <b id="statCpDiff">—</b>
+          <small id="statCpRatio">—</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const $ = id => document.getElementById(id);
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // Exact values from Lecture 2 Table (Slide 28, line 990)
+  const SUBSTANCES = {
+    water: {
+      name: 'Liquid Water (H₂O)',
+      phase: 'Liquid',
+      alpha: 2.1e-4,      // K^-1
+      kappa: 49.6e-6,     // bar^-1
+      Vm: 18.07,          // cm^3/mol
+      Cv: 74.5,           // J/(mol·K)
+      color: '#2f7fb8'
+    },
+    benzene: {
+      name: 'Liquid Benzene (C₆H₆)',
+      phase: 'Liquid',
+      alpha: 12.4e-4,
+      kappa: 92.1e-6,
+      Vm: 89.4,
+      Cv: 92.8,
+      color: '#d97706'
+    },
+    lead: {
+      name: 'Solid Lead (Pb)',
+      phase: 'Solid',
+      alpha: 0.861e-4,
+      kappa: 2.21e-6,
+      Vm: 18.27,
+      Cv: 24.4,
+      color: '#5d6b78'
+    },
+    diamond: {
+      name: 'Solid Diamond (C)',
+      phase: 'Solid',
+      alpha: 0.030e-4,
+      kappa: 0.187e-6,
+      Vm: 3.42,
+      Cv: 6.11,
+      color: '#0ca678'
+    },
+    gas: {
+      name: 'Ideal Monatomic Gas (298 K, 1 bar)',
+      phase: 'Gas',
+      alpha: 1 / 298.15,  // 33.54e-4 K^-1
+      kappa: 1.0,         // 1e6 * 10^-6 bar^-1
+      Vm: 24789,          // cm^3/mol
+      Cv: 12.47,          // 1.5 R
+      color: '#7c3aed'
+    }
+  };
+
+  let curSub = 'water';
+  let curMode = 'isochoric'; // 'isochoric' | 'isobaric' | 'isothermal'
+
+  const slDT = $('slDT'), slDP = $('slDP');
+
+  function setupCanvas(c) {
+    const dpr = window.devicePixelRatio || 1;
+    const r = c.getBoundingClientRect();
+    c.width = Math.round(r.width * dpr);
+    c.height = Math.round(r.height * dpr);
+    const ctx = c.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w: r.width, h: r.height };
+  }
+
+  function selectSubstance(key) {
+    curSub = key;
+    document.querySelectorAll('#subChips .chip').forEach(b => {
+      b.setAttribute('aria-pressed', b.dataset.sub === key ? 'true' : 'false');
+    });
+    render();
+  }
+
+  function selectMode(mode) {
+    curMode = mode;
+    document.querySelectorAll('#modeTabs .mode-btn').forEach(b => {
+      b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false');
+    });
+    if (mode === 'isochoric') {
+      slDT.disabled = false;
+      slDP.disabled = true;
+      $('vesselTitle').innerHTML = 'Lab Vessel: Rigid Isochoric Bomb ($dV = 0$)';
+      $('vesselSub').innerHTML = 'Piston locked $\\to$ thermal expansion creates pressure surge';
+    } else if (mode === 'isobaric') {
+      slDT.disabled = false;
+      slDP.disabled = true;
+      slDP.value = 0;
+      $('vesselTitle').innerHTML = 'Lab Vessel: Isobaric Cylinder ($dP = 0$)';
+      $('vesselSub').innerHTML = 'Free piston $\\to$ measures $\\alpha_V = \\frac{1}{V}(\\partial V/\\partial T)_P$';
+    } else {
+      slDT.disabled = true;
+      slDT.value = 0;
+      slDP.disabled = false;
+      if (+slDP.value === 0) slDP.value = 120;
+      $('vesselTitle').innerHTML = 'Lab Vessel: Isothermal Press ($dT = 0$)';
+      $('vesselSub').innerHTML = 'Thermostat bath $\\to$ measures $\\kappa_T = -\\frac{1}{V}(\\partial V/\\partial P)_T$';
+    }
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([$('vesselTitle'), $('vesselSub')]);
+    }
+    render();
+  }
+
+  function drawVessel(s, dT, dP, dVrel, beta) {
+    const { ctx, w, h } = setupCanvas($('canvasVessel'));
+    ctx.clearRect(0, 0, w, h);
+
+    const ink = css('--ink'), muted = css('--muted'), line = css('--line');
+    const red = css('--red'), blue = css('--blue'), purple = css('--purple');
+
+    const cx = w * 0.5, topY = 54, botY = h - 68;
+    const cylW = Math.min(200, w * 0.54), cylH = botY - topY;
+    const leftX = cx - cylW / 2, rightX = cx + cylW / 2;
+
+    // Exaggerate visual piston displacement so small solid/liquid expansions are visible
+    const visShift = Math.max(-45, Math.min(45, dVrel * 1800));
+    const pistonY = topY + 75 - visShift;
+
+    // Substance fill inside cylinder
+    ctx.fillStyle = s.color;
+    ctx.globalAlpha = 0.28;
+    ctx.fillRect(leftX + 6, pistonY + 18, cylW - 12, botY - (pistonY + 18) - 4);
+    ctx.globalAlpha = 1;
+
+    // Temperature glow at bottom if dT != 0
+    if (Math.abs(dT) > 0.1) {
+      ctx.fillStyle = dT > 0 ? red : blue;
+      ctx.globalAlpha = Math.min(0.45, Math.abs(dT) / 50);
+      ctx.fillRect(leftX + 10, botY - 12, cylW - 20, 8);
+      ctx.globalAlpha = 1;
+    }
+
+    // Cylinder walls (thick steel)
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(leftX, topY);
+    ctx.lineTo(leftX, botY);
+    ctx.lineTo(rightX, botY);
+    ctx.lineTo(rightX, topY);
+    ctx.stroke();
+
+    // Piston block
+    ctx.fillStyle = curMode === 'isochoric' ? purple : muted;
+    ctx.fillRect(leftX + 4, pistonY, cylW - 8, 18);
+    // Piston rod
+    ctx.fillRect(cx - 7, topY - 22, 14, pistonY - (topY - 22));
+
+    // If Isochoric mode, draw heavy locking pins holding the piston fixed!
+    if (curMode === 'isochoric') {
+      ctx.fillStyle = red;
+      ctx.fillRect(leftX - 14, pistonY - 6, 26, 8);
+      ctx.fillRect(rightX - 12, pistonY - 6, 26, 8);
+      ctx.font = '600 11.5px ' + css('--font-mono');
+      ctx.textAlign = 'center';
+      ctx.fillText('🔒 LOCKED AT V = V₀ (dV = 0)', cx, topY - 28);
+    } else if (curMode === 'isobaric') {
+      ctx.fillStyle = red;
+      ctx.font = '600 11.5px ' + css('--font-mono');
+      ctx.textAlign = 'center';
+      ctx.fillText('FREE PISTON (P = 1 bar = const)', cx, topY - 28);
+    } else {
+      ctx.fillStyle = blue;
+      ctx.font = '600 11.5px ' + css('--font-mono');
+      ctx.textAlign = 'center';
+      ctx.fillText('ISOTHERMAL PRESS (T = 298 K = const)', cx, topY - 28);
+    }
+
+    // Internal arrows showing competing partial tendencies
+    const midY = (pistonY + 18 + botY) * 0.5;
+    ctx.font = '600 12px ' + css('--font-mono');
+    ctx.textAlign = 'center';
+    ctx.fillStyle = ink;
+    ctx.fillText(s.name, cx, midY - 28);
+
+    // Thermal expansion component (+αV ΔT)
+    const expPct = (s.alpha * dT * 100).toFixed(3);
+    ctx.fillStyle = red;
+    ctx.fillText(`Thermal term +αV·ΔT = ${dT >= 0 ? '+' : ''}${expPct}%`, cx, midY);
+
+    // Compressibility component (−κT ΔP)
+    const compPct = (-s.kappa * dP * 100).toFixed(3);
+    ctx.fillStyle = blue;
+    ctx.fillText(`Pressure term −κT·ΔP = ${compPct}%`, cx, midY + 22);
+
+    // Net ΔV/V
+    ctx.fillStyle = curMode === 'isochoric' ? purple : ink;
+    ctx.fillText(`Net ΔV/V = ${(dVrel * 100).toFixed(3)}%`, cx, midY + 48);
+
+    // Bottom readout bar: Pressure Gauge & Thermometer
+    ctx.font = '600 12.5px ' + css('--font-mono');
+    ctx.fillStyle = red;
+    ctx.textAlign = 'left';
+    ctx.fillText(`T = ${(298.15 + dT).toFixed(1)} K (ΔT = ${dT >= 0 ? '+' : ''}${dT.toFixed(1)} K)`, 14, h - 30);
+    ctx.fillStyle = blue;
+    ctx.fillText(`P = ${(1.0 + dP).toFixed(1)} bar (ΔP = ${dP >= 0 ? '+' : ''}${dP.toFixed(1)} bar)`, 14, h - 10);
+  }
+
+  function drawContour(s, dT, dP, beta) {
+    const { ctx, w, h } = setupCanvas($('canvasContour'));
+    ctx.clearRect(0, 0, w, h);
+
+    const pad = { l: 58, r: 20, t: 18, b: 36 };
+    const pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+
+    const tMin = -25, tMax = 55; // ΔT range
+    const pSpan = Math.max(120, Math.abs(beta * 45));
+    const pMin = -0.35 * pSpan, pMax = pSpan;
+
+    const X = dt => pad.l + pw * (dt - tMin) / (tMax - tMin);
+    const Y = dp => pad.t + ph * (1 - (dp - pMin) / (pMax - pMin));
+
+    const grid = css('--grid'), line = css('--line'), muted = css('--muted'), ink = css('--ink');
+    const red = css('--red'), blue = css('--blue'), purple = css('--purple');
+
+    // Grid
+    ctx.strokeStyle = grid;
+    ctx.lineWidth = 1;
+    ctx.font = '11px ' + css('--font-mono');
+    ctx.fillStyle = muted;
+    [-20, 0, 20, 40].forEach(tv => {
+      const px = X(tv);
+      ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, h - pad.b); ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillText((tv >= 0 ? '+' : '') + tv + ' K', px, h - pad.b + 6);
+    });
+    for (let i = 0; i <= 4; i++) {
+      const pv = pMin + (pMax - pMin) * (i / 4);
+      const py = Y(pv);
+      ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(w - pad.r, py); ctx.stroke();
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText((pv >= 0 ? '+' : '') + pv.toFixed(pv > 20 ? 0 : 1), pad.l - 6, py);
+    }
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(pad.l, pad.t, pw, ph); ctx.clip();
+
+    // Draw background constant-volume contour lines (isochores): ΔP = beta * ΔT + const
+    for (let k = -3; k <= 3; k++) {
+      const offset = k * (pSpan * 0.25);
+      ctx.strokeStyle = k === 0 ? purple : line;
+      ctx.lineWidth = k === 0 ? 2.5 : 1;
+      if (k !== 0) ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(X(tMin), Y(beta * tMin + offset));
+      ctx.lineTo(X(tMax), Y(beta * tMax + offset));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Draw the Cyclic Rule Right Triangle from (0, 0) -> (dT, 0) -> (dT, dP_isochoric)
+    const x0 = X(0), y0 = Y(0);
+    const x1 = X(dT), y1 = Y(dP);
+
+    if (curMode === 'isochoric' && Math.abs(dT) > 0.5) {
+      ctx.fillStyle = css('--purple-soft');
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y0);
+      ctx.lineTo(x1, y1);
+      ctx.closePath();
+      ctx.fill();
+
+      // Horizontal leg: +ΔT at constant P (expands volume by +V αV ΔT)
+      ctx.strokeStyle = red;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y0); ctx.stroke();
+
+      // Vertical leg: +ΔP at constant T (compresses volume back by -V κT ΔP)
+      ctx.strokeStyle = blue;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(x1, y0); ctx.lineTo(x1, y1); ctx.stroke();
+
+      ctx.font = '600 11px ' + css('--font-mono');
+      ctx.fillStyle = red;
+      ctx.textAlign = 'center';
+      ctx.fillText('1. Expand: +αV·ΔT', (x0 + x1) / 2, y0 + (dT >= 0 ? 15 : -8));
+      ctx.fillStyle = blue;
+      ctx.textAlign = dT >= 0 ? 'left' : 'right';
+      ctx.fillText('2. Squeeze back: −κT·ΔP', x1 + (dT >= 0 ? 6 : -6), (y0 + y1) / 2);
+    } else {
+      ctx.strokeStyle = curMode === 'isobaric' ? red : blue;
+      ctx.lineWidth = 2.8;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    }
+
+    // Origin & current state points
+    ctx.fillStyle = ink;
+    ctx.beginPath(); ctx.arc(x0, y0, 4.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = purple;
+    ctx.beginPath(); ctx.arc(x1, y1, 6, 0, Math.PI * 2); ctx.fill();
+
+    ctx.restore();
+
+    ctx.strokeStyle = line;
+    ctx.strokeRect(pad.l, pad.t, pw, ph);
+
+    // Labels
+    ctx.font = '600 11.5px ' + css('--font-mono');
+    ctx.fillStyle = purple;
+    ctx.textAlign = 'left';
+    ctx.fillText(`Isochore V = V₀ slope: (∂P/∂T)_V = +αV/κT = +${beta.toFixed(2)} bar/K`, pad.l + 8, pad.t + 14);
+
+    ctx.font = '11px ' + css('--font-body');
+    ctx.fillStyle = muted;
+    ctx.textAlign = 'right';
+    ctx.fillText('Temperature change ΔT (K)', w - pad.r, h - 4);
+    ctx.save();
+    ctx.translate(13, pad.t + ph / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillText('ΔP (bar)', 0, 0);
+    ctx.restore();
+  }
+
+  function drawCpCv(s, cpDiff) {
+    const { ctx, w, h } = setupCanvas($('canvasCpCv'));
+    ctx.clearRect(0, 0, w, h);
+
+    const Cp = s.Cv + cpDiff;
+    const maxC = Cp * 1.18;
+    const padL = 78, padR = 95;
+    const barW = w - padL - padR;
+
+    const ink = css('--ink'), muted = css('--muted'), blue = css('--blue'), red = css('--red');
+
+    // Cv bar
+    const wCv = barW * (s.Cv / maxC);
+    ctx.fillStyle = blue;
+    ctx.fillRect(padL, 18, wCv, 26);
+
+    // Cp bar = Cv + diff
+    const wDiff = barW * (cpDiff / maxC);
+    ctx.fillStyle = blue;
+    ctx.globalAlpha = 0.75;
+    ctx.fillRect(padL, 58, wCv, 26);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = red;
+    ctx.fillRect(padL + wCv, 58, Math.max(3, wDiff), 26);
+
+    ctx.font = '600 12px ' + css('--font-mono');
+    ctx.fillStyle = ink;
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Cv,m', padL - 8, 31);
+    ctx.fillText('Cp,m', padL - 8, 71);
+
+    ctx.textAlign = 'left';
+    ctx.fillText(`${s.Cv.toFixed(2)} J/(mol·K)`, padL + wCv + 8, 31);
+    ctx.fillStyle = red;
+    ctx.fillText(`${Cp.toFixed(2)} J/(mol·K)  (+${cpDiff.toFixed(2)})`, padL + wCv + wDiff + 8, 71);
+
+    ctx.font = '11px ' + css('--font-body');
+    ctx.fillStyle = muted;
+    ctx.fillText('Red extension = Vm·T·αV²/κT (work needed to expand against internal cohesive forces)', padL, 104);
+  }
+
+  function render() {
+    const s = SUBSTANCES[curSub];
+    const T0 = 298.15;
+    // beta = (dP/dT)_V = alpha / kappa (in bar/K)
+    const beta = s.alpha / s.kappa;
+
+    let dT = +slDT.value;
+    let dP = +slDP.value;
+
+    if (curMode === 'isochoric') {
+      dP = beta * dT;
+      slDP.value = Math.max(-100, Math.min(500, dP));
+    } else if (curMode === 'isobaric') {
+      dP = 0;
+    } else {
+      dT = 0;
+    }
+
+    const dVrel = (curMode === 'isochoric') ? 0 : (s.alpha * dT - s.kappa * dP);
+
+    // Mayer's relation: Cp,m - Cv,m = Vm * T * alpha^2 / kappa
+    // Vm in cm^3/mol = 1e-6 m^3/mol; kappa in bar^-1 = 1e-5 Pa^-1 => 1 cm^3·bar = 0.1 J
+    const cpDiff = 0.1 * s.Vm * T0 * (s.alpha * s.alpha) / s.kappa;
+    const Cp = s.Cv + cpDiff;
+
+    $('valDT').textContent = (dT >= 0 ? '+' : '') + dT.toFixed(1) + ' K';
+    $('valDP').textContent = (dP >= 0 ? '+' : '') + dP.toFixed(1) + ' bar';
+
+    $('statAlphaKappa').textContent = `αV = ${(s.alpha * 1e4).toFixed(2)}×10⁻⁴ K⁻¹  |  κT = ${(s.kappa * 1e6).toFixed(2)}×10⁻⁶ bar⁻¹`;
+    $('statVm').textContent = `Molar volume Vm = ${s.Vm} cm³/mol (${s.phase})`;
+    $('statBeta').textContent = `(∂P/∂T)_V = +${beta.toFixed(3)} bar/K`;
+
+    if (curMode === 'isochoric') {
+      $('statResult').textContent = `ΔP = ${dP >= 0 ? '+' : ''}${dP.toFixed(1)} bar  (at ΔV = 0)`;
+      $('statResultSub').textContent = `Heating sealed ${s.name} by ${dT.toFixed(1)} K generates ${Math.abs(dP).toFixed(1)} bar!`;
+    } else if (curMode === 'isobaric') {
+      $('statResult').textContent = `ΔV/V = ${(dVrel * 100 >= 0 ? '+' : '')}${(dVrel * 100).toFixed(3)}%  (at ΔP = 0)`;
+      $('statResultSub').textContent = `ΔVm = ${(s.Vm * dVrel).toFixed(4)} cm³/mol`;
+    } else {
+      $('statResult').textContent = `ΔV/V = ${(dVrel * 100 >= 0 ? '+' : '')}${(dVrel * 100).toFixed(3)}%  (at ΔT = 0)`;
+      $('statResultSub').textContent = `ΔVm = ${(s.Vm * dVrel).toFixed(4)} cm³/mol`;
+    }
+
+    $('statCpDiff').textContent = `Cp,m − Cv,m = ${cpDiff.toFixed(2)} J/(mol·K)`;
+    $('statCpRatio').textContent = `Cp,m = ${Cp.toFixed(2)} vs Cv,m = ${s.Cv.toFixed(2)} J/(mol·K) (${((cpDiff / s.Cv) * 100).toFixed(1)}% gap)`;
+
+    drawVessel(s, dT, dP, dVrel, beta);
+    drawContour(s, dT, dP, beta);
+    drawCpCv(s, cpDiff);
+  }
+
+  document.querySelectorAll('#subChips .chip').forEach(btn => {
+    btn.addEventListener('click', () => selectSubstance(btn.dataset.sub));
+  });
+  document.querySelectorAll('#modeTabs .mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectMode(btn.dataset.mode));
+  });
+  [slDT, slDP].forEach(el => el.addEventListener('input', render));
+  window.addEventListener('resize', render);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  render();
+})();
+</script>
+</body>
+</html>
+

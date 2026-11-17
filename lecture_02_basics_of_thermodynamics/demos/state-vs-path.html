@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State Functions (Exact dU) vs. Path Functions (Inexact δQ, δA)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<script>
+  window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+<style>
+:root {
+  --bg: #f5f7f8;
+  --panel: #ffffff;
+  --ink: #17212b;
+  --muted: #5d6b78;
+  --line: #d8dfe5;
+  --grid: #e9eef2;
+  --red: #d9480f;
+  --red-soft: rgba(217, 72, 15, 0.14);
+  --blue: #1971c2;
+  --blue-soft: rgba(25, 113, 194, 0.16);
+  --green: #0f766e;
+  --green-soft: rgba(15, 118, 110, 0.16);
+  --purple: #6741d9;
+  --accent: #1f4e79;
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161b; --panel: #182028; --ink: #e4eaef; --muted: #93a1ad;
+    --line: #2b3640; --grid: #212b34;
+    --red: #ff7a45; --red-soft: rgba(255, 122, 69, 0.18);
+    --blue: #58a6ff; --blue-soft: rgba(88, 166, 255, 0.20);
+    --green: #2dd4bf; --green-soft: rgba(45, 212, 191, 0.20);
+    --purple: #b197fc; --accent: #7fb2e5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161b; --panel: #182028; --ink: #e4eaef; --muted: #93a1ad;
+  --line: #2b3640; --grid: #212b34;
+  --red: #ff7a45; --red-soft: rgba(255, 122, 69, 0.18);
+  --blue: #58a6ff; --blue-soft: rgba(88, 166, 255, 0.20);
+  --green: #2dd4bf; --green-soft: rgba(45, 212, 191, 0.20);
+  --purple: #b197fc; --accent: #7fb2e5;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 14px; line-height: 1.45;
+  padding: 18px 18px 26px;
+}
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px; }
+header h1 {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.52rem; margin: 0;
+}
+header p { margin: 4px 0 0; color: var(--muted); max-width: 80ch; font-size: 13.5px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font: 500 12.5px var(--font-body); padding: 5px 11px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--panel); }
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr) 305px;
+  gap: 14px;
+  align-items: start;
+}
+@media (max-width: 1020px) { .main { grid-template-columns: 1fr; } }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.panel-title { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.panel-title strong { font-family: var(--font-display); font-size: 1.02rem; font-weight: 600; }
+.panel-title small { color: var(--muted); font-size: 12px; }
+
+#canvasPV { width: 100%; height: 460px; display: block; cursor: pointer; touch-action: none; }
+#canvasBars { width: 100%; height: 460px; display: block; }
+
+.controls { display: flex; flex-direction: column; gap: 13px; }
+.ctl { display: flex; flex-direction: column; gap: 5px; }
+.ctl-head { display: flex; justify-content: space-between; align-items: baseline; }
+.ctl label { font-weight: 600; font-size: 13px; }
+.val { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+input[type="range"] { width: 100%; margin: 0; accent-color: var(--accent); }
+
+.stats {
+  display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+}
+.stat { background: var(--panel); padding: 8px 11px; display: flex; flex-direction: column; gap: 2px; }
+.stat span { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+.stat b { font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; }
+.stat small { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.c-red { color: var(--red); }
+.c-blue { color: var(--blue); }
+.c-green { color: var(--green); }
+.c-purple { color: var(--purple); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Exact ($dU, dS$) vs. Inexact ($\delta Q, \delta A$) Differentials Explorer</h1>
+      <p>Drag the orange waypoint $M$ on the $P\text{–}V$ diagram or choose a canonical path between State $A$ and State $B$. Work $A = -\int P\,dV$ and Heat $Q$ depend strongly on the path, while State Functions $\Delta U = Q + A$ and $\Delta S = \int \delta Q_{\text{rev}}/T$ remain completely invariant!</p>
+    </div>
+    <div class="chips" id="pathChips" role="group" aria-label="Thermodynamic Paths">
+      <button class="chip" data-path="custom" aria-pressed="true">✋ Draggable Curve (Waypoint M)</button>
+      <button class="chip" data-path="upper" aria-pressed="false">Path 1: Isochoric ↑ then Isobaric →</button>
+      <button class="chip" data-path="lower" aria-pressed="false">Path 2: Isobaric → then Isochoric ↑</button>
+      <button class="chip" data-path="linear" aria-pressed="false">Path 3: Direct Straight Line</button>
+      <button class="chip" data-path="cycle" aria-pressed="false">🔄 Closed Cycle (A → M → B → A)</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- Left: Interactive P-V Diagram -->
+    <div class="panel">
+      <div class="panel-title">
+        <strong>$P\text{–}V$ State Diagram (1 mol Ideal Monatomic Gas)</strong>
+        <small>Drag waypoint M anywhere · Shaded area = expansion work $|A| = \int P\,dV$</small>
+      </div>
+      <canvas id="canvasPV"></canvas>
+    </div>
+
+    <!-- Middle: Live Bar Chart Comparing Path vs State Integrals -->
+    <div class="panel">
+      <div class="panel-title">
+        <strong>Line Integrals Along Active Path</strong>
+        <small>Notice $\Delta U$ and $\Delta S$ never move when you deform the path!</small>
+      </div>
+      <canvas id="canvasBars"></canvas>
+    </div>
+
+    <!-- Right: Controls & Exactness Test Readouts -->
+    <div class="panel controls">
+      <div class="ctl">
+        <div class="ctl-head">
+          <label for="slVM" class="c-red">Waypoint Volume $V_M$</label>
+          <span class="val c-red" id="valVM">2.20 L</span>
+        </div>
+        <input id="slVM" type="range" min="1.0" max="4.5" step="0.02" value="2.20">
+      </div>
+
+      <div class="ctl">
+        <div class="ctl-head">
+          <label for="slPM" class="c-red">Waypoint Pressure $P_M$</label>
+          <span class="val c-red" id="valPM">3.60 bar</span>
+        </div>
+        <input id="slPM" type="range" min="0.8" max="4.8" step="0.02" value="3.60">
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="c-green">State Function 1: Internal Energy $\Delta U = \int dU$</span>
+          <b class="c-green" id="statDU">—</b>
+          <small>Exact: $(\partial C_V/\partial V)_T = (\partial 0/\partial T)_V = 0$ ✓ (Path-independent)</small>
+        </div>
+        <div class="stat">
+          <span class="c-blue">Path Function 1: Work $A = -\int P\,dV = \int \delta A$</span>
+          <b class="c-blue" id="statWork">—</b>
+          <small>Inexact: $(\partial(-P)/\partial T)_V = -R/V \neq (\partial 0/\partial V)_T = 0$ ✗</small>
+        </div>
+        <div class="stat">
+          <span class="c-red">Path Function 2: Heat $Q = \int \delta Q = \Delta U - A$</span>
+          <b class="c-red" id="statHeat">—</b>
+          <small>Inexact: $(\partial C_V/\partial V)_T = 0 \neq (\partial P/\partial T)_V = R/V$ ✗</small>
+        </div>
+        <div class="stat">
+          <span class="c-purple">State Function 2: Entropy $\Delta S = \int \delta Q_{\text{rev}} / T$</span>
+          <b class="c-purple" id="statDS">—</b>
+          <small>Integrating factor $1/T$ makes $\delta Q_{\text{rev}}/T$ exact! ✓</small>
+        </div>
+        <div class="stat">
+          <span>First Law Verification ($\Delta U = Q + A$)</span>
+          <b id="statCheck">—</b>
+          <small id="statTemps">—</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const $ = id => document.getElementById(id);
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // 1 mol ideal monatomic gas: 1 L·bar = 100 J = 0.1 kJ
+  const R_J = 8.31446; // J/(mol·K)
+  const LBAR_TO_J = 100.0;
+
+  // Fixed endpoints A and B in (V [L], P [bar])
+  const stateA = { V: 1.4, P: 1.5 };
+  const stateB = { V: 4.0, P: 3.2 };
+  let wayM = { V: 2.2, P: 3.8 };
+  let curMode = 'custom'; // 'custom' | 'upper' | 'lower' | 'linear' | 'cycle'
+  let dragging = false;
+
+  const cPV = $('canvasPV'), cBars = $('canvasBars');
+  const slVM = $('slVM'), slPM = $('slPM');
+
+  function setupCanvas(c) {
+    const dpr = window.devicePixelRatio || 1;
+    const r = c.getBoundingClientRect();
+    c.width = Math.round(r.width * dpr);
+    c.height = Math.round(r.height * dpr);
+    const ctx = c.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w: r.width, h: r.height };
+  }
+
+  function selectPath(mode) {
+    curMode = mode;
+    document.querySelectorAll('#pathChips .chip').forEach(b => {
+      b.setAttribute('aria-pressed', b.dataset.path === mode ? 'true' : 'false');
+    });
+    if (mode === 'upper') {
+      wayM = { V: stateA.V, P: stateB.P };
+    } else if (mode === 'lower') {
+      wayM = { V: stateB.V, P: stateA.P };
+    } else if (mode === 'linear') {
+      wayM = { V: 0.5 * (stateA.V + stateB.V), P: 0.5 * (stateA.P + stateB.P) };
+    } else if (mode === 'custom' || mode === 'cycle') {
+      if (wayM.V === stateA.V || wayM.V === stateB.V) {
+        wayM = { V: 2.2, P: 3.8 };
+      }
+    }
+    slVM.value = wayM.V;
+    slPM.value = wayM.P;
+    render();
+  }
+
+  // Generate discretized path points [(V, P), ...]
+  function getPathPoints() {
+    const pts = [];
+    const N = 120;
+    if (curMode === 'upper' || curMode === 'lower') {
+      for (let i = 0; i <= N / 2; i++) {
+        const t = i / (N / 2);
+        pts.push({
+          V: stateA.V + (wayM.V - stateA.V) * t,
+          P: stateA.P + (wayM.P - stateA.P) * t
+        });
+      }
+      for (let i = 1; i <= N / 2; i++) {
+        const t = i / (N / 2);
+        pts.push({
+          V: wayM.V + (stateB.V - wayM.V) * t,
+          P: wayM.P + (stateB.P - wayM.P) * t
+        });
+      }
+    } else if (curMode === 'linear') {
+      for (let i = 0; i <= N; i++) {
+        const t = i / N;
+        pts.push({
+          V: stateA.V + (stateB.V - stateA.V) * t,
+          P: stateA.P + (stateB.P - stateA.P) * t
+        });
+      }
+    } else {
+      // Quadratic Bézier passing through wayM at t = 0.5:
+      // Control point C = 2*M - 0.5*(A + B)
+      const cV = 2 * wayM.V - 0.5 * (stateA.V + stateB.V);
+      const cP = 2 * wayM.P - 0.5 * (stateA.P + stateB.P);
+      for (let i = 0; i <= N; i++) {
+        const t = i / N;
+        const u = 1 - t;
+        pts.push({
+          V: u * u * stateA.V + 2 * u * t * cV + t * t * stateB.V,
+          P: u * u * stateA.P + 2 * u * t * cP + t * t * stateB.P
+        });
+      }
+      if (curMode === 'cycle') {
+        // Return from B back to A along straight line
+        for (let i = 1; i <= N / 2; i++) {
+          const t = i / (N / 2);
+          pts.push({
+            V: stateB.V + (stateA.V - stateB.V) * t,
+            P: stateB.P + (stateA.P - stateB.P) * t
+          });
+        }
+      }
+    }
+    return pts;
+  }
+
+  function integratePath(pts) {
+    let pdv_Lbar = 0;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const dV = pts[i + 1].V - pts[i].V;
+      const Pavg = 0.5 * (pts[i].P + pts[i + 1].P);
+      pdv_Lbar += Pavg * dV;
+    }
+    // Work on system (acquisitive convention of Lecture 2: dU = Q + A, A = -∫ P dV)
+    const A_J = -pdv_Lbar * LBAR_TO_J;
+
+    const first = pts[0], last = pts[pts.length - 1];
+    // For monatomic ideal gas: U = (3/2) nRT = (3/2) PV
+    const dU_J = 1.5 * (last.P * last.V - first.P * first.V) * LBAR_TO_J;
+    const Q_J = dU_J - A_J;
+
+    // Entropy change ΔS = Cv ln(T2/T1) + R ln(V2/V1) = (3/2)R ln((P2 V2)/(P1 V1)) + R ln(V2/V1)
+    const dS_JK = (curMode === 'cycle') ? 0 : (
+      1.5 * R_J * Math.log((last.P * last.V) / (first.P * first.V)) +
+      R_J * Math.log(last.V / first.V)
+    );
+
+    return { A_J, Q_J, dU_J, dS_JK };
+  }
+
+  function getPVTransform(w, h) {
+    const pad = { l: 54, r: 20, t: 18, b: 38 };
+    const pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+    const vRange = [0.8, 4.6], pRange = [0.5, 5.0];
+    const X = v => pad.l + pw * (v - vRange[0]) / (vRange[1] - vRange[0]);
+    const Y = p => pad.t + ph * (1 - (p - pRange[0]) / (pRange[1] - pRange[0]));
+    const invX = px => vRange[0] + (px - pad.l) / pw * (vRange[1] - vRange[0]);
+    const invY = py => pRange[0] + (1 - (py - pad.t) / ph) * (pRange[1] - pRange[0]);
+    return { pad, pw, ph, vRange, pRange, X, Y, invX, invY };
+  }
+
+  function drawPV(pts, res) {
+    const { ctx, w, h } = setupCanvas(cPV);
+    ctx.clearRect(0, 0, w, h);
+
+    const { pad, pw, ph, vRange, pRange, X, Y } = getPVTransform(w, h);
+    const grid = css('--grid'), line = css('--line'), muted = css('--muted'), ink = css('--ink');
+    const red = css('--red'), blue = css('--blue'), green = css('--green');
+
+    // Grid
+    ctx.strokeStyle = grid;
+    ctx.lineWidth = 1;
+    ctx.font = '11px ' + css('--font-mono');
+    ctx.fillStyle = muted;
+    [1, 2, 3, 4].forEach(vv => {
+      const px = X(vv);
+      ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, h - pad.b); ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillText(vv.toFixed(1) + ' L', px, h - pad.b + 6);
+    });
+    [1, 2, 3, 4, 5].forEach(pv => {
+      const py = Y(pv);
+      ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(w - pad.r, py); ctx.stroke();
+      ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+      ctx.fillText(pv.toFixed(1) + ' bar', pad.l - 6, py);
+    });
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(pad.l, pad.t, pw, ph); ctx.clip();
+
+    // Background constant-U (isothermal PV = const) hyperbolas
+    [2.1, 4.5, 8.0, 12.8, 17.0].forEach(pvConst => {
+      ctx.strokeStyle = green;
+      ctx.globalAlpha = 0.22;
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let k = 0; k <= 60; k++) {
+        const v = vRange[0] + (vRange[1] - vRange[0]) * (k / 60);
+        const p = pvConst / v;
+        k === 0 ? ctx.moveTo(X(v), Y(p)) : ctx.lineTo(X(v), Y(p));
+      }
+      ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+
+    // Shaded area for ∫ P dV
+    ctx.fillStyle = css('--blue-soft');
+    ctx.beginPath();
+    if (curMode === 'cycle') {
+      pts.forEach((pt, i) => i === 0 ? ctx.moveTo(X(pt.V), Y(pt.P)) : ctx.lineTo(X(pt.V), Y(pt.P)));
+      ctx.closePath();
+    } else {
+      ctx.moveTo(X(pts[0].V), Y(pRange[0]));
+      pts.forEach(pt => ctx.lineTo(X(pt.V), Y(pt.P)));
+      ctx.lineTo(X(pts[pts.length - 1].V), Y(pRange[0]));
+      ctx.closePath();
+    }
+    ctx.fill();
+
+    // Reference ghost path (straight line A -> B)
+    ctx.strokeStyle = muted;
+    ctx.globalAlpha = 0.45;
+    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(X(stateA.V), Y(stateA.P));
+    ctx.lineTo(X(stateB.V), Y(stateB.P));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+
+    // Active path curve
+    ctx.strokeStyle = blue;
+    ctx.lineWidth = 3.2;
+    ctx.beginPath();
+    pts.forEach((pt, i) => i === 0 ? ctx.moveTo(X(pt.V), Y(pt.P)) : ctx.lineTo(X(pt.V), Y(pt.P)));
+    ctx.stroke();
+
+    // Endpoints A, B and draggable waypoint M
+    const drawNode = (pt, label, bg, r) => {
+      ctx.fillStyle = bg;
+      ctx.strokeStyle = css('--panel');
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(X(pt.V), Y(pt.P), r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = ink;
+      ctx.font = '600 12px ' + css('--font-mono');
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(label, X(pt.V) + 8, Y(pt.P) - 6);
+    };
+
+    drawNode(stateA, 'State A', green, 6.5);
+    drawNode(stateB, 'State B', green, 6.5);
+    drawNode(wayM, 'Waypoint M (drag)', red, 7.5);
+
+    ctx.restore();
+
+    ctx.strokeStyle = line;
+    ctx.strokeRect(pad.l, pad.t, pw, ph);
+
+    // Axis titles
+    ctx.font = '11.5px ' + css('--font-body');
+    ctx.fillStyle = muted;
+    ctx.textAlign = 'right';
+    ctx.fillText('Volume V (L)  [dashed curves = constant U & T isotherms]', w - pad.r, h - 4);
+    ctx.save();
+    ctx.translate(14, pad.t + ph / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.fillText('Pressure P (bar)', 0, 0);
+    ctx.restore();
+  }
+
+  function drawBars(res) {
+    const { ctx, w, h } = setupCanvas(cBars);
+    ctx.clearRect(0, 0, w, h);
+
+    const pad = { l: 48, r: 16, t: 26, b: 56 };
+    const pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+    const maxJ = 3200; // Joules scale [-3200, +3200]
+    const zeroY = pad.t + ph * 0.52;
+    const scaleY = (ph * 0.45) / maxJ;
+
+    const grid = css('--grid'), line = css('--line'), muted = css('--muted'), ink = css('--ink');
+    const green = css('--green'), blue = css('--blue'), red = css('--red'), purple = css('--purple');
+
+    // Horizontal gridlines
+    ctx.font = '11px ' + css('--font-mono');
+    [-2500, -1250, 0, 1250, 2500].forEach(jv => {
+      const py = zeroY - jv * scaleY;
+      ctx.strokeStyle = jv === 0 ? ink : grid;
+      ctx.lineWidth = jv === 0 ? 1.5 : 1;
+      ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(w - pad.r, py); ctx.stroke();
+      ctx.fillStyle = muted;
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText((jv / 1000).toFixed(2) + ' kJ', pad.l - 6, py);
+    });
+
+    const items = [
+      { label: 'ΔU = ∫dU', sub: 'STATE FN', val: res.dU_J, col: green, locked: true },
+      { label: 'Q = ∫δQ', sub: 'PATH FN', val: res.Q_J, col: red, locked: false },
+      { label: 'A = ∫δA', sub: 'PATH FN', val: res.A_J, col: blue, locked: false },
+      { label: 'T₀·ΔS', sub: 'STATE FN', val: res.dS_JK * 298.15, col: purple, locked: true }
+    ];
+
+    const colW = pw / items.length;
+    const barW = Math.min(54, colW * 0.58);
+
+    items.forEach((it, idx) => {
+      const cx = pad.l + colW * (idx + 0.5);
+      const bh = it.val * scaleY;
+      const top = bh >= 0 ? zeroY - bh : zeroY;
+      const height = Math.max(2, Math.abs(bh));
+
+      ctx.fillStyle = it.col;
+      ctx.globalAlpha = it.locked ? 0.9 : 0.78;
+      ctx.fillRect(cx - barW / 2, top, barW, height);
+      ctx.globalAlpha = 1;
+
+      // Value label above/below bar
+      ctx.font = '600 11.5px ' + css('--font-mono');
+      ctx.fillStyle = it.col;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = it.val >= 0 ? 'bottom' : 'top';
+      const valStr = (it.val >= 0 ? '+' : '−') + (Math.abs(it.val) / 1000).toFixed(2) + ' kJ';
+      ctx.fillText(valStr, cx, it.val >= 0 ? top - 5 : top + height + 5);
+
+      // X-axis label
+      ctx.fillStyle = ink;
+      ctx.font = '600 12px ' + css('--font-mono');
+      ctx.textBaseline = 'top';
+      ctx.fillText(it.label, cx, h - pad.b + 10);
+
+      ctx.fillStyle = it.locked ? green : red;
+      ctx.font = '600 10px ' + css('--font-body');
+      ctx.fillText(it.locked ? '🔒 INVARIANT' : '⚡ PATH-DEPENDENT', cx, h - pad.b + 28);
+    });
+  }
+
+  function render() {
+    const pts = getPathPoints();
+    const res = integratePath(pts);
+
+    $('valVM').textContent = wayM.V.toFixed(2) + ' L';
+    $('valPM').textContent = wayM.P.toFixed(2) + ' bar';
+
+    const fmtKJ = j => (j >= 0 ? '+' : '−') + (Math.abs(j) / 1000).toFixed(3) + ' kJ';
+    $('statDU').textContent = fmtKJ(res.dU_J);
+    $('statWork').textContent = fmtKJ(res.A_J);
+    $('statHeat').textContent = fmtKJ(res.Q_J);
+    $('statDS').textContent = (res.dS_JK >= 0 ? '+' : '−') + Math.abs(res.dS_JK).toFixed(2) + ' J/K';
+    $('statCheck').textContent = `Q + A = ${fmtKJ(res.Q_J + res.A_J)} = ΔU`;
+
+    const TA = (stateA.P * stateA.V * LBAR_TO_J) / R_J;
+    const TB = (stateB.P * stateB.V * LBAR_TO_J) / R_J;
+    $('statTemps').textContent = `TA = ${TA.toFixed(0)} K  →  TB = ${TB.toFixed(0)} K`;
+
+    drawPV(pts, res);
+    drawBars(res);
+  }
+
+  // Pointer dragging on P-V diagram
+  function updateWaypointFromEvent(e) {
+    const r = cPV.getBoundingClientRect();
+    const px = e.clientX - r.left;
+    const py = e.clientY - r.top;
+    const { invX, invY } = getPVTransform(r.width, r.height);
+    wayM.V = Math.max(1.0, Math.min(4.5, invX(px)));
+    wayM.P = Math.max(0.8, Math.min(4.8, invY(py)));
+    slVM.value = wayM.V;
+    slPM.value = wayM.P;
+    if (curMode !== 'custom' && curMode !== 'cycle') {
+      curMode = 'custom';
+      document.querySelectorAll('#pathChips .chip').forEach(b => {
+        b.setAttribute('aria-pressed', b.dataset.path === 'custom' ? 'true' : 'false');
+      });
+    }
+    render();
+  }
+
+  cPV.addEventListener('pointerdown', e => {
+    dragging = true;
+    cPV.setPointerCapture(e.pointerId);
+    updateWaypointFromEvent(e);
+  });
+  cPV.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    updateWaypointFromEvent(e);
+  });
+  cPV.addEventListener('pointerup', () => { dragging = false; });
+
+  [slVM, slPM].forEach(el => {
+    el.addEventListener('input', () => {
+      wayM.V = +slVM.value;
+      wayM.P = +slPM.value;
+      if (curMode !== 'custom' && curMode !== 'cycle') {
+        curMode = 'custom';
+        document.querySelectorAll('#pathChips .chip').forEach(b => {
+          b.setAttribute('aria-pressed', b.dataset.path === 'custom' ? 'true' : 'false');
+        });
+      }
+      render();
+    });
+  });
+
+  document.querySelectorAll('#pathChips .chip').forEach(btn => {
+    btn.addEventListener('click', () => selectPath(btn.dataset.path));
+  });
+
+  window.addEventListener('resize', render);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  render();
+})();
+</script>
+</body>
+</html>
+
