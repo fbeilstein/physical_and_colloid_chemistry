@@ -95,6 +95,96 @@ The partial derivative $\partial$ is not just a bookkeeping trick for gases --- 
 :::
 
 ---
+# From Hamiltonian $\mathcal{H}$ to Macrostate: Collapsing $10^{24}$ Variables
+
+Why can $1\text{ mol}$ of gas ($N \approx 6\times 10^{23}$ molecules, $6N \approx 3.6\times 10^{24}$ positions and momenta) be described by just **2 or 3 macroscopic variables**?
+
+1. **The Microscopic Hamiltonian ($\mathcal{H} = \sum \mathbf{p}_i\cdot\dot{\mathbf{r}}_i - \mathcal{L}$):**
+   In classical mechanics, the microstate is a point $(\mathbf{r}_1, \dots, \mathbf{r}_N, \mathbf{p}_1, \dots, \mathbf{p}_N) \in \mathbb{R}^{6N}$ governed by the Hamiltonian:
+   $$
+   \mathcal{H}\bigl(\underbrace{\mathbf{r}\_1, \dots, \mathbf{r}\_N,\; \mathbf{p}\_1, \dots, \mathbf{p}\_N}\_{6N \text{ fast internal coordinates}};\\; \underbrace{V, N}\_{\text{external parameters}}\bigr) = \sum\_{i=1}^{N} \frac{\mathbf{p}\_i^2}{2m} + \sum\_{i < j} u\_{\text{pair}}(|\mathbf{r}\_i - \mathbf{r}\_j|) + \sum\_{i=1}^{N} U\_{\text{wall}}(\mathbf{r}\_i;\\, V).
+   $$
+2. **The Phase-Space Integral Collapse (Boltzmann Partition Function $Z$):**
+   Just as a 1D definite integral $\int_0^L f(x;\, \alpha)\,dx = F(\alpha, L)$ **integrates out the dummy variable $x$** and leaves a function only of $\alpha$ and $L$, thermal equilibrium integrates $e^{-\mathcal{H}/k_B T}$ over all $6N$ microscopic coordinates:
+   $$
+   Z({\color{#d9480f}T}, {\color{#1971c2}V}, {\color{#0f766e}N}) = \frac{1}{{\color{#0f766e}N!}\\,h^{3{\color{#0f766e}N}}} \underbrace{\int_{\color{#1971c2}V} d^3\mathbf{r}\_1 \cdots \int_{\color{#1971c2}V} d^3\mathbf{r}\_N \int_{-\infty}^{+\infty} d^3\mathbf{p}\_1 \cdots \int_{-\infty}^{+\infty} d^3\mathbf{p}_N}\_{\text{All } 6N \approx 10^{24} \text{ microscopic coordinates }(\mathbf{r}_i, \mathbf{p}_i)\text{ are INTEGRATED OUT!}} \\, \exp\\!\left(-\frac{\mathcal{H}(\mathbf{r}_1, \dots, \mathbf{p}_N;\\, {\color{#1971c2}V}, {\color{#0f766e}N})}{k_B {\color{#d9480f}T}}\right).
+   $$
+
+---
+# From Hamiltonian $\mathcal{H}$ to Macrostate: Collapsing $10^{24}$ Variables
+
+**What survives the integral?** Only the un-integrated parameters: ${\color{#d9480f}T}$ (from the Boltzmann factor), ${\color{#1971c2}V}$ (from the spatial integral bounds), and ${\color{#0f766e}N}$ (particle count)! The phase-space integral collapses $10^{24}$ coordinates into **one master generating function** — the Helmholtz free energy $F({\color{#d9480f}T}, {\color{#1971c2}V}, {\color{#0f766e}N}) = -k_B T\ln Z({\color{#d9480f}T}, {\color{#1971c2}V}, {\color{#0f766e}N})$.
+
+![](./lecture_02_basics_of_thermodynamics/images/addendum_hamiltonian_collapse.png){width=100% center}
+
+---
+# Why Partial Derivatives? Differentiating Under the Integral Sign
+
+Wait — the **integral** collapsed $6N$ coordinates into $Z(T, V, N)$. So **why do we then take 1st and 2nd partial derivatives of $\ln Z$ (or $F = -k_B T\ln Z$) to get $U, P, S, C_V$?**
+Because $\mathcal{H}$ sits inside the exponential $e^{-\mathcal{H}/k_B T}$ under the integral! 
+
+:::matrix {cols="50/50" gap=20px}
+[[0,0]]
+Differentiating $\ln Z$ with respect to an external parameter ($T$ or $V$) pulls the conjugate physical quantity down from the exponent and automatically computes its Boltzmann ensemble average $\langle \cdots \rangle$:
+### 1. How a Partial Derivative Computes an Average
+- **Differentiate $\ln Z$ wrt ${\color{#d9480f}T}$** $\left(\text{using }\frac{\partial}{\partial T}\left(-\frac{\mathcal{H}}{k_B T}\right) = +\frac{\mathcal{H}}{k_B T^2}\right)$:
+  $$
+  \\!\\!\\!\\!\left(\frac{\partial \ln Z}{\partial T}\right)\_{V,N}\\!\\!\\! = \frac{1}{Z}\frac{\partial Z}{\partial T} = \frac{1}{k_B T^2}\int \mathcal{H}\\,\underbrace{\frac{e^{-\mathcal{H}/k_B T}}{Z}}\_{\rho(\mathbf{r},\mathbf{p})} d^{3N}r\\,d^{3N}p =
+  $$
+  $$
+  = \frac{\langle \mathcal{H} \rangle}{k_B T^2} \Longrightarrow \quad \mathbf{U = \langle \mathcal{H} \rangle = k_B T^2\left(\frac{\partial \ln Z}{\partial T}\right)_{V,N}}.
+  $$
+- **Differentiate $\ln Z$ wrt ${\color{#1971c2}V}$** $\left(-\frac{\partial \mathcal{H}}{\partial V}\text{ is the wall force/area}\right)$:
+  $$
+  \mathbf{P = -\left\langle \frac{\partial \mathcal{H}}{\partial V}\right\rangle = k_B T\left(\frac{\partial \ln Z}{\partial V}\right)\_{T,N} = -\left(\frac{\partial F}{\partial V}\right)\_{T,N}}.
+  $$
+
+[[0,1]]
+### 2. The Complete Hierarchy: 0th, 1st & 2nd Derivatives
+
+| Order | Mathematical Object | Physical Role |
+|:---:|:---|:---|
+| **0th** *(Function)* | $F(T,V,N) = -k_B T\ln Z$<br>*(plus $G = F + PV$, $H = U + PV$)* | **Thermodynamic Potentials**<br>(master generating functions) |
+| **1st** *(Slopes)* | $S = -\left(\dfrac{\partial F}{\partial T}\right)\_{V,N}$<br>$P = -\left(\dfrac{\partial F}{\partial V}\right)\_{T,N}$<br>$\mu = +\left(\dfrac{\partial F}{\partial N}\right)\_{T,V}$ | **Equations of State**<br>(ensemble mean values $\langle \cdots \rangle$) |
+| **2nd** *(Curvatures)* | $C_V = -T\left(\dfrac{\partial^2 F}{\partial T^2}\right)\_{V,N} = \dfrac{\operatorname{Var}(\mathcal{H})}{k_B T^2}$<br>$\dfrac{1}{V\kappa_T} = \left(\dfrac{\partial^2 F}{\partial V^2}\right)\_{T,N}$ | **Response Functions & Fluctuations**<br>(variances $\langle \mathcal{H}^2\rangle - \langle\mathcal{H}\rangle^2$) |
+:::
+
+
+---
+# Counting Degrees of Freedom & The 1–2–3 Variable Rule
+
+:::matrix {cols="52/48" gap=20px}
+[[0,0]]
+### 1. Why 2 Variables for a Closed Pure Phase?
+- For a pure substance ($c=1$), **3 parameters** survive the phase-space integral: $(T, V, N)$ — giving our Equation of State $P = f(T, V, n)$.
+- Because a homogeneous phase is **extensive (scale-invariant)**, fixing the amount $n = 1\text{ mol}$ (or dividing by $n$ to use molar quantities $V_m = V/n, U_m = U/n$) eliminates the size knob $n$, leaving a **2D Equilibrium State Surface $\mathcal{M}$** ($\dim \mathcal{M} = 2$).
+
+### 2. When Does the Dimensionality Change?
+- **Mix $c$ chemical species:** $\mathcal{H}$ has $c$ distinct species sums with particle counts $N_1, \dots, N_c$ that all survive the integral $\implies Z(T, V, N_1, \dots, N_c)$ ($\mathbf{c + 1}$ intensive variables: $T, P, x_1, \dots, x_{c-1}$).
+- **Turn on external fields ($\mathbf{B}, \mathbf{E}$) or colloidal surface area $A_{\text{surf}}$:** New un-integrated parameters inside $\mathcal{H}(\dots; V, N, \mathbf{B}, A_{\text{surf}})$ survive into $Z$ ($\mathbf{+1}$ dimension per external field/interface!).
+- **Coexisting phases ($\phi \ge 2$):** Phase equilibrium ($T^{(1)}=T^{(2)}, P^{(1)}=P^{(2)}, \mu^{(1)}=\mu^{(2)}$) imposes constraints that *remove* $\phi - 1$ degrees of freedom (**Gibbs' Phase Rule:** $F = c - \phi + 2$).
+
+[[0,1]]
+### 3. The 1–2–3 Rule on the 2D State Surface $\mathcal{M}$
+For $1\text{ mol}$ of a pure single-phase substance ($\dim \mathcal{M} = 2$), we can measure many scalar observables ($P, V_m, T, U_m, H_m, S_m, G_m, F_m$):
+
+1. **Pick 1 variable (e.g. $T = T_0$):**
+   Carves out a **1D curve** on the 2D surface (an isotherm, isobar, isochore, or adiabat). *1 degree of freedom remains.*
+
+2. **Pick 2 independent variables (e.g. $(T, V_m)$ or $(T, P)$):**
+   Forms a **2D coordinate chart (grid)** on $\mathcal{M}$. You can vary both knobs independently, and every pair $(T, V_m)$ uniquely pins down the state.
+
+3. **Pick ANY 3 variables $(x, y, z)$ (e.g. $(P, V_m, T)$ or $(T, P, H_m)$):**
+   Mapping a **2D surface into 3D space** $\mathbb{R}^3$ means the 3 variables **cannot** be independent — they are forced to obey **one implicit constraint equation**:
+   $$
+   \bbox[#eef6ff, 10px, border-radius: 8px]{
+   f(x, y, z) = 0 \quad \text{(An Equation of State!)}
+   }
+   $$
+   And any triple $(x, y, z)$ linked by $f(x, y, z) = 0$ automatically obeys the **Cyclic Rule**!
+:::
+
+---
 
 # Slicing a Surface: What $\left({\partial P}/{\partial V}\right)_T$ Means Geometrically
 
@@ -232,6 +322,36 @@ Consider the enthalpy $H = U + PV$ of $1\text{ mol}$ of a monatomic ideal gas ($
   C_{P,m} = \left(\frac{\partial H_m}{\partial T}\right)_P = \left(\frac{\partial (U_m + PV_m)}{\partial T}\right)_P = \frac{3}{2}R + R = \frac{5}{2}R \approx 20.79\,\mathrm{J/(mol\,K)}.
   \end{aligned}
   $$
+
+---
+# Changing the Frozen Variable: The Subscript Bridge Formula
+
+Geometrically, why is $\left(\dfrac{\partial F}{\partial x}\right)_y$ different from $\left(\dfrac{\partial F}{\partial x}\right)_z$? Because on the 2D state surface $\mathcal{M}$, the coordinate curves $y = \text{const}$ (e.g. blue isochores $V = \text{const}$) and $z = \text{const}$ (e.g. green isobars $P = \text{const}$) **intersect at an angle**!
+Walking along $P = \text{const}$ while increasing $T$ by $1\,\mathrm{K}$ means you are stepping in a **different direction on the 2D surface** than walking along $V = \text{const}$.
+
+:::matrix {cols="52/48"}
+[[0,0]]
+
+### 1-Line Derivation of the Subscript Bridge Rule:
+Start with the total differential of any state function $F(x, y)$:
+$$
+dF = \left(\frac{\partial F}{\partial x}\right)_y dx + \left(\frac{\partial F}{\partial y}\right)_x dy.
+$$
+Now divide through by $dx$ while holding a **new variable $z$ constant**:
+$$
+\bbox[#eef6ff, 12px, border-radius: 10px]{
+\left(\frac{\partial F}{\partial x}\right)_z = \left(\frac{\partial F}{\partial x}\right)_y + \left(\frac{\partial F}{\partial y}\right)_x \left(\frac{\partial y}{\partial x}\right)_z
+}
+$$
+**Thermodynamic Example — Heating $U(T, V)$ at Constant $P$ vs. Constant $V$:**
+Set $F = U$, $x = T$, $y = V$, and new constraint $z = P$:
+$$
+\left(\frac{\partial U}{\partial T}\right)\_P = \underbrace{\left(\frac{\partial U}{\partial T}\right)\_V}\_{C_V} + \underbrace{\left(\frac{\partial U}{\partial V}\right)_T}\_{\text{internal pressure } \pi_T} \underbrace{\left(\frac{\partial V}{\partial T}\right)\_P}\_{V\alpha_V}.
+$$
+
+[[0,1]]
+![](./lecture_02_basics_of_thermodynamics/images/addendum_coordinate_grids.png){width=95% center}
+:::
 
 ---
 # Anatomy of Response Functions: $\alpha_V$ and $\kappa_T$
@@ -443,6 +563,20 @@ $$
 
 ---
 
+# The Cyclic Rule Works on ANY Triple of State Functions
+
+Because the equilibrium state surface of $1\text{ mol}$ of a pure phase is **2-dimensional**, *any* three state functions $(x, y, z)$ chosen from $\{P, V, T, U, H, S, G, F\}$ are linked by a constraint $f(x, y, z) = 0$ and obey $\left(\frac{\partial x}{\partial y}\right)_z\left(\frac{\partial y}{\partial z}\right)_x\left(\frac{\partial z}{\partial x}\right)_y = -1$:
+
+| Physical Process | Triple $(x, y, z)$ | State Relation $f(x,y,z)=0$ | Cyclic-Rule Identity & Physical Meaning |
+|:---|:---:|:---|:---|
+| **1. Sealed-Vessel Heating** | $(P, V, T)$ | Mechanical EoS $P = P(T, V)$ | $\left(\dfrac{\partial P}{\partial T}\right)_V = -\dfrac{(\partial V/\partial T)_P}{(\partial V/\partial P)_T} = \dfrac{\alpha_V}{\kappa_T}$ *(thermal pressure spike)* |
+| **2. Joule–Thomson Throttling** *(Gas Liquefaction)* | $(T, P, H)$ | Enthalpy surface $H = H(T, P)$ | $\mu_{\mathrm{JT}} = \left(\dfrac{\partial T}{\partial P}\right)_H = -\dfrac{(\partial H/\partial P)_T}{(\partial H/\partial T)_P} = -\dfrac{1}{C_P}\left(\dfrac{\partial H}{\partial P}\right)_T$ |
+| **3. Joule Free Expansion** *(Into Vacuum, $U=\text{const}$)* | $(T, V, U)$ | Caloric EoS $U = U(T, V)$ | $\mu_{\mathrm{J}} = \left(\dfrac{\partial T}{\partial V}\right)_U = -\dfrac{(\partial U/\partial V)_T}{(\partial U/\partial T)_V} = -\dfrac{1}{C_V}\left(\dfrac{\partial U}{\partial V}\right)_T$ |
+| **4. Acoustics & Sound Speed** | $(P, V, S)$ | Adiabatic EoS $P = P(V, S)$ | $\kappa_S = -\dfrac{1}{V}\left(\dfrac{\partial V}{\partial P}\right)_S = \dfrac{1}{V}\dfrac{(\partial S/\partial P)_V}{(\partial S/\partial V)_P}$ *(adiabatic compressibility)* |
+| **5. Adiabatic Compression** *(Fire Syringe / Diesel)* | $(T, P, S)$ | Entropy surface $S = S(T, P)$ | $\left(\dfrac{\partial T}{\partial P}\right)_S = -\dfrac{(\partial S/\partial P)_T}{(\partial S/\partial T)_P} = \dfrac{TV\alpha_V}{C_P}$ *(temp. rise per bar)* |
+
+---
+
 <iframe src="./lecture_02_basics_of_thermodynamics/demos/cyclic-rule-pvt.html" width="100%" height="850px" style="border:1px solid #ccc; border-radius: 8px;"></iframe>
 
 ---
@@ -543,8 +677,75 @@ $$
 | **Molar Gibbs pressure slope** | $\left(\dfrac{\partial G_m}{\partial P}\right)_T$ | $V_m = \dfrac{RT}{P} > 0$ |
 | **Molar Gibbs temp. slope** | $\left(\dfrac{\partial G_m}{\partial T}\right)_P$ | $-S_m < 0$ |
 
+
+---
+
+# Down the Rabbit Hole I: Differential Topology
+
+In modern **Differential Topology**, expressions like $dU$, $\delta Q$, and $\delta A$ are not "infinitesimally small numbers" — they are geometric objects called **Differential $1$-Forms** living in the **cotangent bundle** $T^*\mathcal{M}$:
+
+:::matrix {cols="50/50"}
+[[0,0]]
+### 1. The Exterior Derivative $d$ and Why $d^2 = 0$
+In exterior calculus, the operator $d$ turns a scalar field ($0$-form $f$) into a $1$-form $df = \frac{\partial f}{\partial x}dx + \frac{\partial f}{\partial y}dy$, and turns a $1$-form into an oriented **area $2$-form** using the antisymmetric **wedge product** ($dx \wedge dy = -dy \wedge dx$, $dx \wedge dx = 0$).
+
+Apply $d$ **twice** to any smooth state function $U(T, V)$:
+$$
+d(dU) = \left(\frac{\partial^2 U}{\partial V\\,\partial T} - \frac{\partial^2 U}{\partial T\\,\partial V}\right) dV \wedge dT = 0 \Longleftrightarrow \mathbf{d^2 = 0!}
+$$
+- **Schwarz's symmetry of mixed partials** and **Euler's exactness test** are compressed into the single topological equation $\mathbf{d^2 = 0}$!
+- By contrast, for an **inexact $1$-form** like reversible work $\delta A = -P\,dV$ or heat $\delta Q = T\,dS$, the exterior derivative does **not** vanish:
+  $$
+  d(\delta A) = -dP \wedge dV \neq 0, \qquad d(\delta Q) = dT \wedge dS \neq 0.
+  $$
+
+[[0,1]]
+### 2. Generalized Stokes' Theorem on Manifolds
+The fundamental theorem of calculus, Green's, Gauss's divergence, and Kelvin–Stokes' curl theorems are all special cases of one master equation for a $k$-form $\omega$ on a manifold $\Sigma$ with boundary $\partial \Sigma$:
+$$
+\bbox[#fff8e6, 12px, border-radius: 10px]{
+\int_{\partial \Sigma} \omega = \int_{\Sigma} d\omega
+}
+$$
+Apply Stokes' theorem to a thermodynamic heat-engine cycle $\mathcal{C} = \partial \Sigma$ bounding a 2D patch $\Sigma \subset \mathcal{M}$:
+1. **First Law ($\omega = dU$):** $\oint_{\partial \Sigma} dU = \iint_{\Sigma} d^2 U = 0$.
+2. **Carnot Area Invariance ($dU = T\,dS - P\,dV \implies d^2 U = dT\wedge dS - dP\wedge dV = 0$):**
+   $$
+   \oint_{\partial \Sigma} \delta Q_{\mathrm{rev}} = \iint_{\Sigma} dT \wedge dS = \iint_{\Sigma} dP \wedge dV = -\oint_{\partial \Sigma} \delta A_{\mathrm{rev}}.
+   $$
+   *The oriented area enclosed by ANY cycle in the $(S, T)$ plane is strictly equal to the area enclosed in the $(V, P)$ plane!*
+:::
+
+---
+# Down the Rabbit Hole II: Differential Topology
+
+Where else does this mathematical rabbit hole lead if you keep exploring?
+
+:::matrix {cols="50/50"}
+[[0,0]]
+### 2. Contact Geometry ($\dim = 2n + 1$)
+Why do thermodynamic variables always come in **conjugate pairs** $(T, S)$, $(-P, V)$, $(\mu_i, N_i)$ plus one energy $U$ — making full thermodynamic phase space **odd-dimensional** ($2n + 1 = 5$ for $(U, S, V, T, P)$)?
+- In differential topology, the First & Second Laws define the **Gibbs contact $1$-form**:
+  $$
+  \theta = dU - T\,dS + P\,dV = 0.
+  $$
+- Because $\theta \wedge (d\theta)^2 \neq 0$, thermodynamic phase space is a **Contact Manifold** (the odd-dimensional cousin of Hamiltonian symplectic manifolds!).
+- An equilibrium state surface $\mathcal{M}$ is a $2\mathrm{D}$ **Legendrian submanifold** on which $\theta|_{\mathcal{M}} = 0$, and switching from $U(S,V)$ to $G(T,P) = U - TS + PV$ is a **Legendre transformation** between contact charts!
+
+[[0,1]]
+### 3. Thermodynamic Riemannian Curvature
+Can you define **distance** and **curvature** on a thermodynamic state surface?
+- In fluctuation theory (Weinhold & Ruppeiner geometry), the matrix of **second partial derivatives** of entropy defines a **Riemannian metric tensor** $ds^2 = g_{ij}\,dX^i dX^j$:
+  $$
+  g_{ij} = -\frac{1}{k_B}\frac{\partial^2 S}{\partial X^i\,\partial X^j}.
+  $$
+- For an **ideal gas** (no intermolecular forces), the Riemann scalar curvature of state space is identically **$R = 0$ (flat Euclidean space!)**.
+- For a **real interacting gas**, $R \neq 0$ measures intermolecular attractions vs. repulsions — and **$R$ diverges to $-\infty$ right at the Critical Point $(T_c, P_c, V_c)$**, just like spacetime curvature near a black hole singularity!
+:::
+
 ---
 1. For Dieterici's gas $P = \frac{nRT\,e^{-na/RTV}}{V-nb}$, what is $\left(\frac{\partial P}{\partial T}\right)_V$?
 2. Why does $\oint dU = 0$ around a Carnot cycle while $\oint \delta A \neq 0$?
 3. Using the Cyclic Rule, prove that $\left(\frac{\partial T}{\partial P}\right)_H = -\frac{1}{C_P}\left(\frac{\partial H}{\partial P}\right)_T$ (the Joule–Thomson coefficient!).
+
 

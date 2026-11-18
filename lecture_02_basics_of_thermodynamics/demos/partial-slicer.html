@@ -190,6 +190,7 @@ input[type="range"] { width: 100%; margin: 0; cursor: pointer; }
         <label><input type="checkbox" id="chkPlanes" checked> Show translucent slicing planes</label>
         <label><input type="checkbox" id="chkTangents" checked> Show 3D partial tangent vectors</label>
         <label><input type="checkbox" id="chkTangentPlane"> <span class="badge-gold">Show Tangent Plane (total diff. $df$)</span></label>
+        <label><input type="checkbox" id="chkExtraCurves" checked> <span style="color:var(--green);">Overlay Isobar ($z=z_0$) &amp; Adiabat Curves</span></label>
       </div>
 
       <div class="stats">
@@ -330,7 +331,7 @@ input[type="range"] { width: 100%; margin: 0; cursor: pointer; }
 
   const c3d = $('canvas3d'), cX = $('canvasSliceX'), cY = $('canvasSliceY');
   const slX = $('sliderX'), slY = $('sliderY');
-  const chkPlanes = $('chkPlanes'), chkTangents = $('chkTangents'), chkTangentPlane = $('chkTangentPlane');
+  const chkPlanes = $('chkPlanes'), chkTangents = $('chkTangents'), chkTangentPlane = $('chkTangentPlane'), chkExtraCurves = $('chkExtraCurves');
 
   function setupCanvas(c) {
     const dpr = window.devicePixelRatio || 1;
@@ -533,6 +534,63 @@ input[type="range"] { width: 100%; margin: 0; cursor: pointer; }
       k === 0 ? ctx.moveTo(pr.px, pr.py) : ctx.lineTo(pr.px, pr.py);
     }
     ctx.stroke();
+
+    // Optional Extra Intersecting Coordinate Curves: Isobar (z = z0 level contour) & Adiabat (S = S0)
+    if (chkExtraCurves && chkExtraCurves.checked) {
+      const green = css('--green');
+      // 1. Level curve z(x, y) = z0 (e.g. Isobar P = P0) found by marching x and solving for y via Newton steps
+      ctx.strokeStyle = green;
+      ctx.lineWidth = 2.6;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      let startedIso = false;
+      let yGuess = y0;
+      for (let k = 0; k <= 70; k++) {
+        const x = p.xRange[0] + (p.xRange[1] - p.xRange[0]) * (k / 70);
+        // Solve p.f(x, y) = z0 near yGuess
+        let ySol = yGuess;
+        let ok = true;
+        for (let it = 0; it < 6; it++) {
+          const err = p.f(x, ySol) - z0;
+          const dy = p.dfdy(x, ySol);
+          if (Math.abs(dy) < 1e-8) { ok = false; break; }
+          ySol -= err / dy;
+        }
+        if (ok && ySol >= p.yRange[0] && ySol <= p.yRange[1] && Math.abs(p.f(x, ySol) - z0) < (p.zRange[1] - p.zRange[0]) * 0.05) {
+          yGuess = ySol;
+          const pr = project3D(norm3D(x, ySol, z0, p), w, h);
+          if (!startedIso) { ctx.moveTo(pr.px, pr.py); startedIso = true; }
+          else { ctx.lineTo(pr.px, pr.py); }
+        } else {
+          startedIso = false;
+        }
+      }
+      ctx.stroke();
+
+      // 2. Adiabat-like curve (T * V^(2/3) = const for gases, or orthogonal curve) passing through (x0, y0)
+      if (curKey === 'ideal' || curKey === 'vdw') {
+        const adConst = x0 * Math.pow(y0, 0.667);
+        ctx.strokeStyle = '#9c36b5';
+        ctx.lineWidth = 2.4;
+        ctx.setLineDash([2, 4]);
+        ctx.beginPath();
+        let startedAd = false;
+        for (let k = 0; k <= 70; k++) {
+          const y = p.yRange[0] + (p.yRange[1] - p.yRange[0]) * (k / 70);
+          const x = adConst / Math.pow(y, 0.667);
+          if (x >= p.xRange[0] && x <= p.xRange[1]) {
+            const z = p.f(x, y);
+            const pr = project3D(norm3D(x, y, z, p), w, h);
+            if (!startedAd) { ctx.moveTo(pr.px, pr.py); startedAd = true; }
+            else { ctx.lineTo(pr.px, pr.py); }
+          } else {
+            startedAd = false;
+          }
+        }
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
 
     // Optional Tangent Plane patch at (x0, y0, z0)
     const dxSpan = (p.xRange[1] - p.xRange[0]) * 0.20;
@@ -758,7 +816,7 @@ input[type="range"] { width: 100%; margin: 0; cursor: pointer; }
     btn.addEventListener('click', () => selectPreset(btn.dataset.preset));
   });
 
-  [slX, slY, chkPlanes, chkTangents, chkTangentPlane].forEach(el => {
+  [slX, slY, chkPlanes, chkTangents, chkTangentPlane, chkExtraCurves].forEach(el => {
     el.addEventListener('input', render);
   });
   window.addEventListener('resize', render);
