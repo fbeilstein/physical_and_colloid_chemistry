@@ -404,7 +404,7 @@ Multiply all three together; the derivatives cancel, leaving $(-1)^3 = \mathbf{-
 :::
 
 ---
-# Payoff of the Cyclic Rule: Sealed Vessels & $C_{P,m} - C_{V,m}$
+# Payoff of the Cyclic Rule: Sealed Vessels
 
 ### 1. Measuring the Unmeasurable in Solids & Liquids
 Suppose you want to know $\left(\dfrac{\partial P}{\partial T}\right)_V$ for **solid lead** or **liquid water** — how much pressure builds up per Kelvin if the sample is heated at strictly constant volume.
@@ -528,7 +528,7 @@ $$
 |3.| **Inversion (Reciprocal) Rule** *(same subscript $z$!)*:|$$ \left(\frac{\partial x}{\partial y}\right)_z = \frac{1}{\left(\partial y/\partial x\right)_z} $$|
 |4.| **Same-Subscript Chain Rule:**|$$    \left(\frac{\partial w}{\partial x}\right)_z = \left(\frac{\partial w}{\partial y}\right)_z \left(\frac{\partial y}{\partial x}\right)_z $$| 
 |5.|**Cyclic (Triple Product) Rule** *(note the minus sign!)*:|$$ \left(\frac{\partial x}{\partial y}\right)_z \left(\frac{\partial y}{\partial z}\right)_x \left(\frac{\partial z}{\partial x}\right)_y = -1 \implies \left(\frac{\partial P}{\partial T}\right)_V = -\frac{(\partial V/\partial T)_P}{(\partial V/\partial P)_T} $$|
-|6.| **Euler's Exactness & Maxwell Symmetry:**|$$ df = M\,dx + N\,dy \text{ is exact} \iff \left(\frac{\partial M}{\partial y}\right)_x = \left(\frac{\partial N}{\partial x}\right)_y $$|
+|6.| **Euler's Exactness & Maxwell Symmetry:**|$$ df = M\\,dx + N\\,dy \text{ is exact} \iff \left(\frac{\partial M}{\partial y}\right)_x = \left(\frac{\partial N}{\partial x}\right)_y $$|
    
 ---
 # Key Partial Derivatives in Our Lectures
@@ -547,3 +547,4 @@ $$
 1. For Dieterici's gas $P = \frac{nRT\,e^{-na/RTV}}{V-nb}$, what is $\left(\frac{\partial P}{\partial T}\right)_V$?
 2. Why does $\oint dU = 0$ around a Carnot cycle while $\oint \delta A \neq 0$?
 3. Using the Cyclic Rule, prove that $\left(\frac{\partial T}{\partial P}\right)_H = -\frac{1}{C_P}\left(\frac{\partial H}{\partial P}\right)_T$ (the Joule–Thomson coefficient!).
+
