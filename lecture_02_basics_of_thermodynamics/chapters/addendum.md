@@ -95,27 +95,38 @@ The partial derivative $\partial$ is not just a bookkeeping trick for gases --- 
 :::
 
 ---
-# From Hamiltonian $\mathcal{H}$ to Macrostate: Collapsing $10^{24}$ Variables
+# From Hamiltonian $\mathcal{H}$ & MaxEnt to Macrostate ($10^{24} \to K$)
 
-Why can $1\text{ mol}$ of gas ($N \approx 6\times 10^{23}$ molecules, $6N \approx 3.6\times 10^{24}$ positions and momenta) be described by just **2 or 3 macroscopic variables**?
+Why can $1\text{ mol}$ of gas ($N \approx 6\times 10^{23}$ molecules, $6N \approx 3.6\times 10^{24}$ phase-space coordinates $\mathbf{x} = (\mathbf{r}_1, \dots, \mathbf{p}_N) \in \Gamma$) be described by just **a handful of macroscopic variables**?
 
 1. **The Microscopic Hamiltonian ($\mathcal{H} = \sum \mathbf{p}_i\cdot\dot{\mathbf{r}}_i - \mathcal{L}$):**
-   In classical mechanics, the microstate is a point $(\mathbf{r}_1, \dots, \mathbf{r}_N, \mathbf{p}_1, \dots, \mathbf{p}_N) \in \mathbb{R}^{6N}$ governed by the Hamiltonian:
    $$
    \mathcal{H}\bigl(\underbrace{\mathbf{r}\_1, \dots, \mathbf{r}\_N,\; \mathbf{p}\_1, \dots, \mathbf{p}\_N}\_{6N \text{ fast internal coordinates}};\\; \underbrace{V, N}\_{\text{external parameters}}\bigr) = \sum\_{i=1}^{N} \frac{\mathbf{p}\_i^2}{2m} + \sum\_{i < j} u\_{\text{pair}}(|\mathbf{r}\_i - \mathbf{r}\_j|) + \sum\_{i=1}^{N} U\_{\text{wall}}(\mathbf{r}\_i;\\, V).
    $$
-2. **The Phase-Space Integral Collapse (Boltzmann Partition Function $Z$):**
-   Just as a 1D definite integral $\int_0^L f(x;\, \alpha)\,dx = F(\alpha, L)$ **integrates out the dummy variable $x$** and leaves a function only of $\alpha$ and $L$, thermal equilibrium integrates $e^{-\mathcal{H}/k_B T}$ over all $6N$ microscopic coordinates:
+2. **Jaynes' Maximum Entropy Principle (MaxEnt) & Lagrange Multipliers:**
+   A macroscopic observer cannot track $6N$ coordinates — only a small number $K \ll N$ of global **macro-observables** $\langle \hat{A}\_k(\mathbf{x})\rangle = \int\_\Gamma \hat{A}\_k(\mathbf{x})p(\mathbf{x})\\,d\mathbf{x} = a_k$ (for a simple fluid, $K = 3$: conserved energy $U$, volume $V$, particle number $N$). Maximizing the **Gibbs–Shannon entropy functional** $S[p] = -k_B \int\_\Gamma p(\mathbf{x})\ln p(\mathbf{x})\\,d\mathbf{x}$ subject to those $K$ constraints via calculus of variations introduces **exactly $K$ Lagrange multipliers** $\boldsymbol{\lambda} = (\lambda_1, \dots, \lambda_K)$:
    $$
-   Z({\color{#d9480f}T}, {\color{#1971c2}V}, {\color{#0f766e}N}) = \frac{1}{{\color{#0f766e}N!}\\,h^{3{\color{#0f766e}N}}} \underbrace{\int_{\color{#1971c2}V} d^3\mathbf{r}\_1 \cdots \int_{\color{#1971c2}V} d^3\mathbf{r}\_N \int_{-\infty}^{+\infty} d^3\mathbf{p}\_1 \cdots \int_{-\infty}^{+\infty} d^3\mathbf{p}_N}\_{\text{All } 6N \approx 10^{24} \text{ microscopic coordinates }(\mathbf{r}_i, \mathbf{p}_i)\text{ are INTEGRATED OUT!}} \\, \exp\\!\left(-\frac{\mathcal{H}(\mathbf{r}_1, \dots, \mathbf{p}_N;\\, {\color{#1971c2}V}, {\color{#0f766e}N})}{k_B {\color{#d9480f}T}}\right).
+   p(\mathbf{x}) = \frac{1}{Z(\boldsymbol{\lambda})}\exp\\!\left(-\sum\_{k=1}^{K}\lambda_k \hat{A}_k(\mathbf{x})\right), \qquad \text{where} \quad \lambda_1 = \frac{1}{k_B T},\quad \lambda_2 = \frac{P}{k_B T},\quad \lambda_3 = -\frac{\mu}{k_B T}.
    $$
+   **Physical revelation:** Intensive state variables ($T, P, \mu$) are literally the **Lagrange multipliers** conjugate to the extensive constraints ($U, V, N$), and the dimension of macroscopic control space equals the number of constraints $K$!
 
 ---
-# From Hamiltonian $\mathcal{H}$ to Macrostate: Collapsing $10^{24}$ Variables
+# Phase-Space Collapse & Large-Deviation Sharpness ($N \to \infty$)
+<span style="display: none;">
+$\def\N{\color{#0f766e}N}$
+$\def\V{\color{#1971c2}V}$
+$\def\T{\color{#d9480f}T}$
+</span>
 
-**What survives the integral?** Only the un-integrated parameters: ${\color{#d9480f}T}$ (from the Boltzmann factor), ${\color{#1971c2}V}$ (from the spatial integral bounds), and ${\color{#0f766e}N}$ (particle count)! The phase-space integral collapses $10^{24}$ coordinates into **one master generating function** — the Helmholtz free energy $F({\color{#d9480f}T}, {\color{#1971c2}V}, {\color{#0f766e}N}) = -k_B T\ln Z({\color{#d9480f}T}, {\color{#1971c2}V}, {\color{#0f766e}N})$.
+1. **Integrating Out the $6N$ Dummy Variables (Partition Function $Z$):**
+   Just as $\int_0^L f(x;\\, \alpha)\,dx = F(\alpha, L)$ eliminates the dummy variable $x$, the normalization integral $Z$ integrates out all $6N \approx 10^{24}$ positions and momenta, leaving a master function of **only the surviving parameters** $({\T}, {\V}, {\N})$:
+   $$
+   Z({\T}, {\V}, {\N}) = \frac{1}{\N !\\,h^{3\N}} \underbrace{\int\_\V d^3\mathbf{r}\_1 \cdots \int\_{V} d^3\mathbf{r}\_N \int\_{-\infty}^{+\infty} d^3\mathbf{p}\_1 \cdots \int\_{-\infty}^{+\infty} d^3\mathbf{p}_N}\_{\text{All } 6N \approx 10^{24} \text{ microscopic coordinates }(\mathbf{r}_i, \mathbf{p}_i)\text{ are INTEGRATED OUT!}} \\, \exp\\!\left(-\frac{\mathcal{H}(\mathbf{r}_1, \dots, \mathbf{p}_N;\\, {\V}, {\N})}{k_B {\T}}\right).
+   $$
+2. **Why Is the Macrostate Surface Razor-Sharp Instead of Fuzzy? (Large Deviation Theory):**
+   In the thermodynamic limit $N \to \infty$, relative fluctuations vanish as $\sigma_U / U \sim 1/\sqrt{N} \sim 10^{-12}$, and the probability of a macroscopic fluctuation off the MaxEnt surface decays as $\mathcal{P}(\text{deviation}) \sim e^{-N\Delta s / k_B} \sim e^{-10^{23}} \approx 0$!
 
-![](./lecture_02_basics_of_thermodynamics/images/addendum_hamiltonian_collapse.png){width=100% center}
+![](./lecture_02_basics_of_thermodynamics/images/addendum_hamiltonian_collapse.png){width=65 center}
 
 ---
 # Why Partial Derivatives? Differentiating Under the Integral Sign
@@ -151,21 +162,58 @@ Differentiating $\ln Z$ with respect to an external parameter ($T$ or $V$) pulls
 
 
 ---
+# Euler's Homogeneity Theorem: Why $K = 3 \implies \dim \mathcal{M} = 2$
+
+For a single-component fluid, MaxEnt gives $K = 3$ extensive constraints: $(U, V, N)$. How do partial derivatives prove rigorously that the intensive state manifold has dimension $\dim \mathcal{M} = K - 1 = \mathbf{2}$?
+
+:::matrix {cols="52/48" gap=20px}
+[[0,0]]
+### 1. Extensivity & Scaling Out $N$
+Entropy $S(U, V, N)$ is **extensive** (homogeneous of degree $1$): scaling the system size by $\alpha$ scales $S, U, V, N$ equally:
+$$
+S(\alpha U,\\, \alpha V,\\, \alpha N) = \alpha\\, S(U, V, N).
+$$
+Choosing scale factor $\alpha = 1/N$ immediately collapses the $3$ extensive variables into **$2$ intensive (molar) variables** $(U_m, V_m) = (U/N, V/N)$:
+$$
+S_m(U_m, V_m) = \frac{S(U, V, N)}{N} = S\\!\left(\frac{U}{N},\\, \frac{V}{N},\\, 1\right).
+$$
+
+[[0,1]]
+### 2. Euler's Homogeneous Function Theorem
+Differentiate $S(\alpha U, \alpha V, \alpha N) = \alpha S$ with respect to $\alpha$ using the multivariable chain rule, then set $\alpha = 1$:
+$$
+U\underbrace{\left(\frac{\partial S}{\partial U}\right)\_{V,N}}\_{1/T} + V\underbrace{\left(\frac{\partial S}{\partial V}\right)\_{U,N}}\_{P/T} + N\underbrace{\left(\frac{\partial S}{\partial N}\right)\_{U,V}}\_{-\mu/T} = S
+$$
+$$
+\Longrightarrow \quad TS = U + PV - \mu N \quad \text{(Euler's Relation)}.
+$$
+Taking the differential and subtracting $dU = T\,dS - P\,dV + \mu\,dN$ yields the **Gibbs–Duhem constraint** among the $3$ Lagrange multipliers $(T, P, \mu)$:
+$$
+S\\,dT - V\\,dP + N\\,d\mu = 0 \implies 
+$$
+$$
+\mathbf{\dim \mathcal{M} = K - 1 = 3 - 1 = 2!}
+$$
+:::
+
+---
 # Counting Degrees of Freedom & The 1–2–3 Variable Rule
 
 :::matrix {cols="52/48" gap=20px}
 [[0,0]]
-### 1. Why 2 Variables for a Closed Pure Phase?
-- For a pure substance ($c=1$), **3 parameters** survive the phase-space integral: $(T, V, N)$ — giving our Equation of State $P = f(T, V, n)$.
-- Because a homogeneous phase is **extensive (scale-invariant)**, fixing the amount $n = 1\text{ mol}$ (or dividing by $n$ to use molar quantities $V_m = V/n, U_m = U/n$) eliminates the size knob $n$, leaving a **2D Equilibrium State Surface $\mathcal{M}$** ($\dim \mathcal{M} = 2$).
-
-### 2. When Does the Dimensionality Change?
-- **Mix $c$ chemical species:** $\mathcal{H}$ has $c$ distinct species sums with particle counts $N_1, \dots, N_c$ that all survive the integral $\implies Z(T, V, N_1, \dots, N_c)$ ($\mathbf{c + 1}$ intensive variables: $T, P, x_1, \dots, x_{c-1}$).
-- **Turn on external fields ($\mathbf{B}, \mathbf{E}$) or colloidal surface area $A_{\text{surf}}$:** New un-integrated parameters inside $\mathcal{H}(\dots; V, N, \mathbf{B}, A_{\text{surf}})$ survive into $Z$ ($\mathbf{+1}$ dimension per external field/interface!).
-- **Coexisting phases ($\phi \ge 2$):** Phase equilibrium ($T^{(1)}=T^{(2)}, P^{(1)}=P^{(2)}, \mu^{(1)}=\mu^{(2)}$) imposes constraints that *remove* $\phi - 1$ degrees of freedom (**Gibbs' Phase Rule:** $F = c - \phi + 2$).
+### 1. General Formula: $\dim \mathcal{M} = K - 1$
+For a single homogeneous phase ($\phi = 1$), every new independent extensive constraint adds $+1$ to $K$, while scale invariance subtracts $1$:
+- **Pure simple fluid ($K = 3$: $U, V, N$):**
+  $\dim \mathcal{M} = 3 - 1 = \mathbf{2}$ (e.g. $(T, V_m)$ or $(T, P)$).
+- **Mix $c$ chemical species ($K = c + 2$: $U, V, N_1, \dots, N_c$):**
+  $\dim \mathcal{M} = (c + 2) - 1 = \mathbf{c + 1}$ (e.g. $T, P, x_1, \dots, x_{c-1}$).
+- **Add external fields ($\mathbf{B}, \mathbf{E}$) or colloidal surface area $A_{\text{surf}}$:**
+  Each new extensive work coordinate adds $+1$ to $K \implies \mathbf{+1}$ dimension!
+- **Coexisting phases ($\phi \ge 2$):**
+  Equilibrium across phase boundaries ($T^{(1)}=T^{(2)}, P^{(1)}=P^{(2)}, \mu_i^{(1)}=\mu_i^{(2)}$) removes $\phi - 1$ degrees of freedom (**Gibbs' Phase Rule:** $F = c - \phi + 2$).
 
 [[0,1]]
-### 3. The 1–2–3 Rule on the 2D State Surface $\mathcal{M}$
+### 2. The 1–2–3 Rule on the 2D State Surface $\mathcal{M}$
 For $1\text{ mol}$ of a pure single-phase substance ($\dim \mathcal{M} = 2$), we can measure many scalar observables ($P, V_m, T, U_m, H_m, S_m, G_m, F_m$):
 
 1. **Pick 1 variable (e.g. $T = T_0$):**
@@ -250,15 +298,15 @@ $$
 **Isochore slope ($\text{freeze } {\color{#1971c2}V, n}$, vary ${\color{#d9480f}T}$):**
 $$
 \begin{aligned}
-\left(\frac{\partial P}{\partial {\color{#d9480f}T}}\right)_{{\color{#1971c2}V,n}} &= {\color{#1971c2}\frac{nR}{V}} \cdot \frac{d}{d{\color{#d9480f}T}}({\color{#d9480f}T}) \\\\
+\left(\frac{\partial P}{\partial {\color{#d9480f}T}}\right)\_{ {\color{#1971c2}V,n}} &= {\color{#1971c2}\frac{nR}{V}} \cdot \frac{d}{d{\color{#d9480f}T}}({\color{#d9480f}T}) \\\\
 &= +\frac{nR}{V} > 0.
 \end{aligned}
 $$
 
-**Isotherm slope ($\text{freeze } {\color{#1971c2}T, n}$, vary ${\color{#d9480f}V}$):**
+**Isotherm slope ($\text{freeze }{\color{#1971c2}T, n}$, vary ${\color{#d9480f}V}$):**
 $$
 \begin{aligned}
-\left(\frac{\partial P}{\partial {\color{#d9480f}V}}\right)_{{\color{#1971c2}T,n}} &= {\color{#1971c2}nRT} \cdot \frac{d}{d{\color{#d9480f}V}}\left({\color{#d9480f}V^{-1}}\right) \\\\
+\left(\frac{\partial P}{\partial {\color{#d9480f}V}}\right)\_{ {\color{#1971c2}T,n}} &= {\color{#1971c2}nRT} \cdot \frac{d}{d{\color{#d9480f}V}}\left({\color{#d9480f}V^{-1}}\right) \\\\
 &= -\frac{nRT}{V^2} < 0.
 \end{aligned}
 $$
